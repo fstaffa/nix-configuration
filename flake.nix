@@ -6,9 +6,9 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
-      {
-        formatter = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
-        packages.stskeygen =
+
+      let
+        stskeygen =
           let
             mappings = {
               x86_64-linux = { url = "Linux_x86_64"; sha256 = "1p23ngrmd9bn318gr6vw9j6012xd6pdc5ac4lgfr8s9w73svgbcx"; };
@@ -20,29 +20,75 @@
             urlSystem = mappings.${system}.url;
 
           in
-          with import nixpkgs { system = system; };
-          stdenv.mkDerivation rec {
-            name = "stskeygen-${version}";
+            with import nixpkgs { system = system; };
+            stdenv.mkDerivation rec {
+              name = "stskeygen-${version}";
 
-            version = "2.2.10";
+              version = "2.2.10";
 
-            # https://nixos.wiki/wiki/Packaging/Binaries
-            src = pkgs.fetchurl {
-              url = "https://ce-installation-binaries.s3.us-east-1.amazonaws.com/stskeygen/${version}/stskeygen_${version}_${urlSystem}.tar.gz";
-              sha256 = mappings.${system}.sha256;
+              # https://nixos.wiki/wiki/Packaging/Binaries
+              src = pkgs.fetchurl {
+                url = "https://ce-installation-binaries.s3.us-east-1.amazonaws.com/stskeygen/${version}/stskeygen_${version}_${urlSystem}.tar.gz";
+                sha256 = mappings.${system}.sha256;
+              };
+
+              sourceRoot = ".";
+
+              installPhase = ''
+                install -m755 -D stskeygen $out/bin/stskeygen
+              '';
+
+              meta = with lib; {
+                homepage = "";
+                description = "stskeygen for cimpress aws";
+              };
             };
+        terminal-helpers = with import nixpkgs {system = system;};
+          [
+            tmux
+            thefuck
+            zoxide
+            starship
+            broot
+            fzf
+            tealdeer
+            bat
+          ];
+        gui = with import nixpkgs {system = system;};
+          [
+            flameshot
+            xclip
+          ];
+        emacs-dependencies = with import nixpkgs {system = system;};
+          [
+            ripgrep
+            fd
+            curl
+          ];
+        work = [
+          stskeygen
+        ];
+      in
+        {
+          formatter = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
+          packages.stskeygen = stskeygen;
 
-            sourceRoot = ".";
-
-            installPhase = ''
-              install -m755 -D stskeygen $out/bin/stskeygen
-            '';
-
-            meta = with lib; {
-              homepage = "";
-              description = "stskeygen for cimpress aws";
-            };
+          packages.common = with import nixpkgs {system = system;}; buildEnv {
+            name = "home-env";
+            paths = [
+              fnm
+              ripgrep
+              fd
+              tokei
+              jq
+              curl
+              aria
+              aspell
+              graphviz
+              earthly
+              shellcheck
+            ] ++ terminal-helpers ++ gui ++ work;
           };
-      }
+        }
     );
 }
