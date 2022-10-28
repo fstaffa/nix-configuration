@@ -2,11 +2,11 @@
   description = "stskeygen for cimpress aws";
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, emacs-overlay }:
     flake-utils.lib.eachDefaultSystem (system:
-
       let
         stskeygen =
           let
@@ -54,10 +54,12 @@
             tealdeer
             bat
           ];
-        gui = with import nixpkgs {system = system;};
+        gui = with import nixpkgs {system = system; overlays = [emacs-overlay.overlay];};
           [
             flameshot
             xclip
+            emacsGit
+
           ];
         emacs-dependencies = with import nixpkgs {system = system;};
           [
