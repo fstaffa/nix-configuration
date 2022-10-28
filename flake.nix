@@ -53,6 +53,7 @@
             fzf
             tealdeer
             bat
+            mcfly
           ];
         gui = with import nixpkgs {system = system; overlays = [emacs-overlay.overlay];};
           [
