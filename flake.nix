@@ -50,7 +50,7 @@
           pkgs = legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs; personal-packages = personal-packages.packages.x86_64-linux; }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
-          modules = [ ./home-manager/home.nix ];
+          modules = [ ./home-manager/hosts/iguana ];
 
         };
       };
