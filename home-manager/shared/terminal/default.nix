@@ -2,19 +2,36 @@
 
 {
 
-  programs.aria2.enable = true;
-  programs.bat.enable = true;
-  programs.mcfly.enable = true;
-  programs.mcfly.fuzzySearchFactor = 2;
-
-  programs.zoxide.enable = true;
+  programs = {
+    aria2.enable = true;
+    bat.enable = true;
+    broot = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    mcfly = {
+      enable = true;
+      fuzzySearchFactor = 2;
+      enableZshIntegration = true;
+    };
+    zoxide = {
+      enable = true;
+      options = ["--cmd j"];
+    };
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+  };
 
   home.packages = with pkgs;
     [
       tmux
       thefuck
-      starship
-      broot
       fzf
       tealdeer
     ];
