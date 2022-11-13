@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
   programs = {
     aria2.enable = true;
     bat.enable = true;

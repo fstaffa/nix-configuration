@@ -6,6 +6,7 @@
     ../../shared/emacs
     ../../shared/terminal
     ../../shared/common
+    ../../shared/alacritty
   ];
 
   home = {
