@@ -61,6 +61,13 @@
           };
         };
 
+        nixosConfigurations = {
+          vm-test = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            imports = [ ./nixos-configuration/hosts/vm-test ];
+          };
+        };
+
         formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
       };
 }
