@@ -20,7 +20,7 @@ in {
       contents = {
         user = {
           name = "Filip Staffa";
-          email = builtins.concatStringsSep "s" ["f" "taffa@cimpre" "" "" ".com"];
+          email = builtins.concatStringsSep "s" ["f" "taffa@cimpre" "" ".com"];
         };
       };
     }
