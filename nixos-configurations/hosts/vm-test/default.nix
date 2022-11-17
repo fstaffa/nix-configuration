@@ -2,7 +2,9 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      ../../shared/common
+      ../../shared/vm
       ./hardware-configuration.nix
     ];
 

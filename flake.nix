@@ -17,7 +17,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, home-manager, nixpkgs, flake-utils, emacs-overlay, personal-packages, chemacs2 }@inputs:
+  outputs = { self, home-manager, nixpkgs, flake-utils, emacs-overlay, personal-packages, chemacs2, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -64,7 +64,7 @@
         nixosConfigurations = {
           vm-test = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            imports = [ ./nixos-configuration/hosts/vm-test ];
+            modules = [ ./nixos-configurations/hosts/vm-test ];
           };
         };
 
