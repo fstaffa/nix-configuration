@@ -24,4 +24,6 @@ mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
 git clone https://github.com/fstaffa/nix-configuration.git /mnt/etc/nixos
+
+nixos-install --root /mnt --flake /mnt/etc/nixos#vm-test
 ```
