@@ -2,10 +2,10 @@
 
 {
   imports = [
+    ../../shared/common
     ../../shared/work
     ../../shared/emacs
     ../../shared/terminal
-    ../../shared/common
     ../../shared/alacritty
   ];
 

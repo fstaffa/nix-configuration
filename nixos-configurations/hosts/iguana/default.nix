@@ -9,8 +9,6 @@
 
   networking.hostName = "iguana";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -35,6 +33,10 @@
     enable = true;
   };
 
+  programs.gnupg = {
+    agent.enable = true;
+  };
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -47,6 +49,7 @@
   };
 
   services.flatpak.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   users.users.mathematician314 = {
     isNormalUser = true;

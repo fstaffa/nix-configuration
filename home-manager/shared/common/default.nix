@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     tokei
+    chezmoi
     fnm
     ripgrep
     jq

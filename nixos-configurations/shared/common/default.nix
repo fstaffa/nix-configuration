@@ -6,6 +6,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Enable networking
   networking.networkmanager.enable = true;
 

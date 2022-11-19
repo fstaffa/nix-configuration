@@ -66,6 +66,10 @@
             system = "x86_64-linux";
             modules = [ ./nixos-configurations/hosts/vm-test ];
           };
+          iguana = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [ ./nixos-configurations/hosts/iguana ];
+          };
         };
 
         formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
