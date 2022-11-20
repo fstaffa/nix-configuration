@@ -13,6 +13,7 @@
   ];
 
   home.file = {
+    "${config.xdg.configHome}/chezmoi/chezmoi.toml".source = ./chezmoi.toml;
     "${config.xdg.configHome}/zsh/.zimrc".source = ./zimrc;
   };
 

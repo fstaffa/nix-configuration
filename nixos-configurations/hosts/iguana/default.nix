@@ -4,6 +4,7 @@
   imports =
     [
       ../../shared/common
+      ../../shared/vm-host
       ./hardware-configuration.nix
     ];
 

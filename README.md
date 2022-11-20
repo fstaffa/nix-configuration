@@ -1,3 +1,11 @@
+# General
+
+### Refresh fonts
+
+``` sh
+fc-cache -f -v
+```
+
 
 # Install vm
 

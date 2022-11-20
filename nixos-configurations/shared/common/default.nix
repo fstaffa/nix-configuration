@@ -6,6 +6,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable networking
@@ -30,4 +32,11 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  users.defaultUserShell = pkgs.zsh;
+  environment.shells = with pkgs; [ zsh ];
+
+  programs.zsh = {
+    enable = true;
+  };
 }
