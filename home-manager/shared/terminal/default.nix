@@ -15,7 +15,7 @@
     };
     zoxide = {
       enable = true;
-      options = ["--cmd j"];
+      options = [ "--cmd j" ];
     };
     starship = {
       enable = true;

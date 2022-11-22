@@ -3,7 +3,7 @@
 {
 
   home.programs = with pkgs; [
-        flameshot
-        xclip
-      ];
+    flameshot
+    xclip
+  ];
 }

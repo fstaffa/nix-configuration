@@ -18,13 +18,13 @@
 
   programs.zsh = {
     initExtra = ''
-VM_FOLDER=~/data/vm
-function vm {
-  cd $VM_FOLDER
-  find $VM_FOLDER -name '*.conf' | fzf | xargs -I {} quickemu --vm {} --display spice
-  cd -
-}
-'';
+      VM_FOLDER=~/data/vm
+      function vm {
+        cd $VM_FOLDER
+        find $VM_FOLDER -name '*.conf' | fzf | xargs -I {} quickemu --vm {} --display spice
+        cd -
+      }
+    '';
   };
 
 }
