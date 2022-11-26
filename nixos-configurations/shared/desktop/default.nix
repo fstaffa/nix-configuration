@@ -36,4 +36,12 @@
       enableSSHSupport = true;
     };
   };
+
+  services.opensnitch = {
+    enable = false;
+    settings = {
+      DefaultAction = "deny";
+      DefaultDuration = "15m";
+    };
+  };
 }
