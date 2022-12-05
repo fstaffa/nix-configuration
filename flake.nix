@@ -1,7 +1,7 @@
 {
   description = "Home manager configuration";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
 
@@ -17,7 +17,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, home-manager, nixpkgs, flake-utils, emacs-overlay, personal-packages, chemacs2, ... }@inputs:
+  outputs = { self, home-manager, nixpkgs, flake-utils, emacs-overlay
+    , personal-packages, chemacs2, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -26,8 +27,7 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
-    in
-    rec {
+    in rec {
       # Devshell for bootstrapping
       # Accessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (system: {
@@ -48,13 +48,15 @@
           # Instead, you should set nixpkgs configs here
           # (https://nixos.org/manual/nixpkgs/stable/#idm140737322551056)
           config.allowUnfree = true;
-        }
-      );
+        });
 
       homeConfigurations = {
         "mathematician314@iguana" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages.x86_64-linux;
-          extraSpecialArgs = { inherit inputs; personal-packages = personal-packages.packages.x86_64-linux; }; # Pass flake inputs to our config
+          extraSpecialArgs = {
+            inherit inputs;
+            personal-packages = personal-packages.packages.x86_64-linux;
+          }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/iguana ];
 
@@ -72,6 +74,7 @@
         };
       };
 
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
+      formatter =
+        forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
     };
 }

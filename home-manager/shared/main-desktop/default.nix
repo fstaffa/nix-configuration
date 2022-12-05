@@ -9,4 +9,7 @@
     jetbrains.webstorm
     jetbrains.rider
   ];
+
+  services.syncthing.enable = true;
+  services.opensnitch-ui.enable = true;
 }

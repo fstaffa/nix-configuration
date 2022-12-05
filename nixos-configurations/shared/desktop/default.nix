@@ -1,10 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./flatpak.nix
-    ];
+  imports = [ ./flatpak.nix ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -26,9 +23,7 @@
     xkbVariant = "";
   };
 
-  programs.steam = {
-    enable = true;
-  };
+  programs.steam = { enable = true; };
 
   programs.gnupg = {
     agent = {
