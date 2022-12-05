@@ -6,9 +6,19 @@
   programs.dconf.enable = true;
 
   users.users.mathematician314 = {
-    extraGroups = [ "libvirtd" ];
-    packages = with pkgs; [
-      quickemu
-    ];
+    extraGroups = [ "libvirtd" "docker" ];
+    packages = with pkgs; [ quickemu ];
+  };
+
+  # podman
+  virtualisation.podman = {
+    enable = false;
+    dockerSocket.enable = true;
+  };
+
+  # docker
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
   };
 }

@@ -28,7 +28,7 @@
     LC_NUMERIC = "cs_CZ.utf8";
     LC_PAPER = "cs_CZ.utf8";
     LC_TELEPHONE = "cs_CZ.utf8";
-    LC_TIME = "cs_CZ.utf8";
+    LC_TIME = "en_DK.utf8";
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -36,7 +36,5 @@
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
 
-  programs.zsh = {
-    enable = true;
-  };
+  programs.zsh = { enable = true; };
 }

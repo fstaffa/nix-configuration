@@ -13,7 +13,7 @@ let
 in {
 
   imports = [ ../../modules/aws ../../modules/project ];
-  home.packages = [ personal-packages.stskeygen ];
+  home.packages = [ personal-packages.stskeygen pkgs.docker-compose ];
 
   home.file = { "${workZshPath}".source = ./work.zsh; };
 
