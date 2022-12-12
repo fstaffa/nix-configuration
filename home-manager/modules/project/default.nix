@@ -12,6 +12,13 @@ let
     };
   };
 
+  repositoryConfig = {
+    options = {
+      repositoryUrl = mkOption { type = types.str; };
+      folder = mkOption { type = types.str; };
+    };
+  };
+
   environments = {
     prd = 0;
     stg = 1;
@@ -28,8 +35,15 @@ in {
           options = {
             #repositoryUrl = mkOption { type = types.str; };
             #folder = mkOption { type = types.str; };
-            rds = mkOption { type = types.nullOr (types.submodule rdsConfig); };
+            rds = mkOption {
+              type = types.nullOr (types.submodule rdsConfig);
+              default = null;
+            };
             type = mkOption { type = types.enum [ "planning" ]; };
+            repository = mkOption {
+              type = types.nullOr (types.submodule repositoryConfig);
+              default = null;
+            };
           };
         });
       };
@@ -48,7 +62,8 @@ in {
             host.port = 5432;
           }];
         };
-      }) cfg.projects) // oldSet) { } (attrNames environments)) //
+      }) (filterAttrs (name: value: value.rds != null) cfg.projects)) // oldSet)
+      { } (attrNames environments)) //
 
       {
         rds-all = {
@@ -57,5 +72,20 @@ in {
           extraOptions = { RequestTTY = "no"; };
         };
       };
+
+    home.activation = (mapAttrs' (name: value:
+      let
+        destination =
+          "${config.home.homeDirectory}/data/cimpress/${value.repository.folder}";
+      in {
+        name = "checkout-git-${name}";
+        value = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          if [ ! -d ${destination} ]; then
+            $DRY_RUN_CMD git clone ${value.repository.repositoryUrl} "${destination}"
+          fi
+        '';
+
+      }) (filterAttrs (name: value: value.repository != null) cfg.projects));
+
   };
 }
