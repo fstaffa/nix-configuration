@@ -19,9 +19,7 @@
     "${config.xdg.configHome}/zsh/.zimrc".source = ./zimrc;
   };
 
-  home.shellAliases = {
-    gs = "git status";
-  };
+  home.shellAliases = { gs = "git status"; };
 
   programs = {
     direnv = {
@@ -29,45 +27,41 @@
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
-    git =
-      let
-        githubGitConfig = {
-          user = {
-            name = "Filip Staffa";
-            email = "294522+fstaffa@users.noreply.github.com";
-            signingKey = "2F542A51673EB578";
-          };
-          commit = {
-            gpgSign = true;
-          };
+    git = let
+      githubGitConfig = {
+        user = {
+          name = "Filip Staffa";
+          email = "294522+fstaffa@users.noreply.github.com";
+          signingKey = "2F542A51673EB578";
         };
-      in
-      {
-        enable = true;
-        extraConfig = {
-          pull.ff = "only";
-          core.editor = "vim";
-          init.defaultBranch = "master";
-          gitlab.user = "fstaffa";
-          "gitlab.gitlab.com/api" = { user = "fstaffa"; };
-          user = {
-            name = "Filip Staffa";
-            email = "294522+fstaffa@users.noreply.github.com";
-          };
-        };
-
-        includes = [
-          {
-            condition = "gitdir:~/data/personal/";
-            contents = githubGitConfig;
-          }
-          {
-            condition = "gitdir:~/.local/share/chezmoi/";
-            contents = githubGitConfig;
-          }
-        ];
-
+        commit = { gpgSign = true; };
       };
+    in {
+      enable = true;
+      extraConfig = {
+        pull.ff = "only";
+        core.editor = "vim";
+        init.defaultBranch = "master";
+        gitlab.user = "fstaffa";
+        "gitlab.gitlab.com/api" = { user = "fstaffa"; };
+        user = {
+          name = "Filip Staffa";
+          email = "294522+fstaffa@users.noreply.github.com";
+        };
+      };
+
+      includes = [
+        {
+          condition = "gitdir:~/data/personal/";
+          contents = githubGitConfig;
+        }
+        {
+          condition = "gitdir:~/.local/share/chezmoi/";
+          contents = githubGitConfig;
+        }
+      ];
+
+    };
     gpg = {
       enable = true;
       publicKeys = [{
@@ -76,12 +70,12 @@
       }];
     };
 
-
     zsh = {
       enable = true;
       dotDir = ".config/zsh";
-      envExtra = "ZDOTDIR=~/.config/zsh
-      XDG_CACHE_HOME=~/.cache";
+      envExtra = ''
+        ZDOTDIR=~/.config/zsh
+              XDG_CACHE_HOME=~/.cache'';
       initExtraFirst = ''
         # ZIM setup
 
@@ -108,12 +102,6 @@
         then
           eval "$(fnm env --use-on-cd)"
         fi
-
-        export PYENV_ROOT=''${XDG_CACHE_HOME}/pyenv
-        export PATH="$PYENV_ROOT/bin:$PATH"
-        eval "$(pyenv init --path)"
-
-        if command -v pyenv >/dev/null; then eval "$(pyenv init -)"; fi
 
         function set_aws_keys {
           export AWS_ACCESS_KEY_ID=$1
