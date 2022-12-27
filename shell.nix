@@ -13,5 +13,12 @@ in import nixpkgs { inherit system overlays; }, ... }:
 pkgs.mkShell {
   # Enable experimental features without having to specify the argument
   NIX_CONFIG = "experimental-features = nix-command flakes";
-  nativeBuildInputs = with pkgs; [ nix home-manager git nixfmt rnix-lsp ];
+  nativeBuildInputs = with pkgs; [
+    nix
+    home-manager
+    git
+    nixfmt
+    rnix-lsp
+    nodePackages_latest.vscode-langservers-extracted
+  ];
 }
