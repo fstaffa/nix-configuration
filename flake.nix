@@ -5,6 +5,8 @@
     flake-utils.url = "github:numtide/flake-utils";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
 
+    darwin.url = "github:lnl7/nix-darwin/master";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
     personal-packages.url = "github:fstaffa/nix-packages";
 
     chemacs2 = {
@@ -17,7 +19,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, home-manager, nixpkgs, flake-utils, emacs-overlay
+  outputs = { self, home-manager, darwin, nixpkgs, flake-utils, emacs-overlay
     , personal-packages, chemacs2, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
@@ -61,6 +63,15 @@
           modules = [ ./home-manager/hosts/iguana ];
 
         };
+        "fstaffa@work" = home-manager.lib.homeManagerConfiguration {
+          pkgs = legacyPackages.aarch64-darwin;
+          extraSpecialArgs = {
+            inherit inputs;
+            personal-packages = personal-packages.packages.aarch64-darwin;
+          }; # Pass flake inputs to our config
+          # > Our main home-manager configuration file <
+          modules = [ ./home-manager/hosts/macbook-work ];
+        };
       };
 
       nixosConfigurations = {
@@ -71,6 +82,13 @@
         iguana = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [ ./nixos-configurations/hosts/iguana ];
+        };
+      };
+
+      darwinConfigurations = {
+        "macbook-work" = darwin.lib.darwinSystem {
+          modules = [ ./darwin-configurations/hosts/macbook-work ];
+          system = "aarch64-darwin";
         };
       };
 

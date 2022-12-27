@@ -8,12 +8,18 @@
     ../../shared/terminal
     ../../shared/alacritty
     ../../shared/main-desktop
+    ../../modules/gpg-personal
   ];
 
   home = {
     username = "mathematician314";
     homeDirectory = "/home/mathematician314";
     stateVersion = "22.05";
+  };
+
+  programs.gpg-personal = {
+    enable = true;
+    cardId = 4157425;
   };
 
   programs.zsh = {

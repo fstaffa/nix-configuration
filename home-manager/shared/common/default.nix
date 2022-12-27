@@ -62,13 +62,6 @@
       ];
 
     };
-    gpg = {
-      enable = true;
-      publicKeys = [{
-        source = ./gpg/personal-key.txt;
-        trust = "ultimate";
-      }];
-    };
 
     zsh = {
       enable = true;

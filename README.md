@@ -6,6 +6,16 @@
 fc-cache -f -v
 ```
 
+# Install macos
+
+``` sh
+nix build ".#darwinConfigurations.work-mac.system"
+
+printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf 
+/System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t
+
+./result/sw/bin/darwin-rebuild switch --flake ".#macbook-work"
+```
 
 # Install vm
 
