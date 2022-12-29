@@ -22,6 +22,7 @@ in {
     accounts = {
       planning = {
         profile = "logisticsquotingplanning";
+        createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
           hostname = "i-0a7b7c8625f0271a7";

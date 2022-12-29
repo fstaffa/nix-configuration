@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.programs.aws;
-  tomlFormat = pkgs.formats.toml { };
+  tomlFormat = pkgs.formats.ini { };
 
 in {
   options.programs.aws = {
@@ -54,13 +54,13 @@ in {
 
     home.file."${config.home.homeDirectory}/.aws/config".source =
       tomlFormat.generate "aws-config" ((mapAttrs' (name: value: {
-        name = value.profile;
+        name = "profile ${value.profile}";
         value = { region = value.region; };
       }) cfg.accounts) // (mapAttrs' (name: value: {
         name = if value.createAdminProfile then
-          "${value.profile}@admin"
+          "profile ${value.profile}@admin"
         else
-          value.profile; # noop for non admin
+          "profile ${value.profile}"; # noop for non admin
         value = { region = value.region; };
       }) cfg.accounts));
   };
