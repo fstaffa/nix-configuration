@@ -21,6 +21,7 @@ in
       (("default" . ((user-emacs-directory . "${doomDir}")
              (env . (("DOOMDIR" . "${doomConfiguration}"))))))
     '';
+    ".authinfo.gpg".source = ./.authinfo.gpg;
   };
 
   home.activation = {
