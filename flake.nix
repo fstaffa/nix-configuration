@@ -63,6 +63,17 @@
           modules = [ ./home-manager/hosts/iguana ];
 
         };
+        "mathematician314@iguana-manjaro" =
+          home-manager.lib.homeManagerConfiguration {
+            pkgs = legacyPackages.x86_64-linux;
+            extraSpecialArgs = {
+              inherit inputs;
+              personal-packages = personal-packages.packages.x86_64-linux;
+            }; # Pass flake inputs to our config
+            # > Our main home-manager configuration file <
+            modules = [ ./home-manager/hosts/iguana-manjaro ];
+
+          };
         "fstaffa@work" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages.aarch64-darwin;
           extraSpecialArgs = {
