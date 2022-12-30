@@ -25,32 +25,54 @@ in {
               };
             };
           };
+          hosts = mkOption {
+            type = types.attrsOf types.string;
+            default = { };
+          };
         };
       });
     };
   };
 
-  config = let sshKey = "~/.ssh/id_rsa_yubikey.pub";
-  in mkIf cfg.enable {
-    home.packages = [ pkgs.awscli2 pkgs.ssm-session-manager-plugin ];
-
-    programs.ssh.matchBlocks = (mapAttrs' (name: value:
+  config = let
+    sshKey = "~/.ssh/id_rsa_yubikey.pub";
+    convertAccount = (name: value:
       let
         usedProfile = if value.createAdminProfile then
           "${value.profile}@admin"
         else
           value.profile;
-      in {
-        name = "bastion-${name}";
-        value = {
-          host = "bastion-${name} rds-${name}*";
-          hostname = value.bastion.hostname;
+
+        proxyCommand = ''
+          sh -c "aws ec2-instance-connect send-ssh-public-key --profile ${usedProfile} --instance-os-user ec2-user --ssh-public-key file://${sshKey} --instance-id %h;''
+          + ''
+            aws ssm start-session --profile ${usedProfile} --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+        commonValues = {
           identityFile = sshKey;
           user = "ec2-user";
-          proxyCommand = ''
-            sh -c "aws ec2-instance-connect send-ssh-public-key --profile ${usedProfile} --region ${value.region} --instance-os-user ec2-user --ssh-public-key file://${sshKey} --availability-zone ${value.bastion.availabilityZone} --instance-id %h; aws ssm start-session --profile ${usedProfile} --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+          inherit proxyCommand;
         };
-      }) cfg.accounts);
+        bastion = {
+          name = "bastion-${name}";
+          value = {
+            host = "bastion-${name} rds-${name}*";
+            hostname = value.bastion.hostname;
+          } // commonValues;
+        };
+        hosts = mapAttrsToList (name: value: {
+          name = name;
+          value = {
+            host = name;
+            hostname = value;
+          } // commonValues;
+        }) value.hosts;
+      in hosts ++ [ bastion ]);
+    bastions =
+      listToAttrs (flatten (mapAttrsToList convertAccount cfg.accounts));
+  in mkIf cfg.enable {
+    home.packages = [ pkgs.awscli2 pkgs.ssm-session-manager-plugin ];
+
+    programs.ssh.matchBlocks = bastions;
 
     home.file."${config.home.homeDirectory}/.aws/config".source =
       iniFormat.generate "aws-config" ((mapAttrs' (name: value: {

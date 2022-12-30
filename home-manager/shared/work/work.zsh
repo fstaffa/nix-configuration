@@ -16,7 +16,7 @@ function aws-sapidus {
     _stskeygen_helper sapidus
 }
 
-AWS_PROFILE=logisticsquotingplanning@admin
+AWS_PROFILE="logisticsquotingplanning@admin"
 
 function bastion_key {
     SSH_KEY_FILE=~/.ssh/bastion_connect
