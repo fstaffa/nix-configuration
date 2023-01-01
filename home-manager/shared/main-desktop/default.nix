@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     zoom-us
+    brave
     slack
     postman
     jetbrains.datagrip

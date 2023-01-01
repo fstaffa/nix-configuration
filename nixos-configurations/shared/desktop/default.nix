@@ -39,4 +39,7 @@
       DefaultDuration = "15m";
     };
   };
+
+  # ergodox
+  services.udev.packages = with pkgs; [ zsa-udev-rules ];
 }
