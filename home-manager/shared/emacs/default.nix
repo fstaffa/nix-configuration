@@ -1,18 +1,28 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, pkgs-unstable, inputs, ... }:
 
 let
   doomDir = "${config.home.homeDirectory}/data/generated/doom.d/";
   doomGitUrl = "https://github.com/doomemacs/doomemacs";
   doomConfiguration = "${config.home.homeDirectory}/data/personal/doom.d";
   doomConfigurationUrl = "git@github.com:fstaffa/dotdoom.git";
-in
-{
+in {
   home.packages = with pkgs; [
-    aspell
+    python3 # treemacs
+    (aspellWithDicts (ds: with ds; [ en ]))
     ripgrep
     fd
     curl
-    emacsGit
+    emacs29
+
+    # needed for emacs-sqllite
+    gcc
+
+    nodejs
+    # Typescript
+    nodePackages.typescript
+    nodePackages.typescript-language-server
+
+    pkgs-unstable.terraform-ls
   ];
 
   home.file = {
@@ -24,16 +34,14 @@ in
     ".authinfo.gpg".source = ./.authinfo.gpg;
   };
 
-  home.activation = {
-    cloneDoom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if [ ! -d "${doomDir}" ]; then
-        $DRY_RUN_CMD git clone --depth=1 --single-branch ${doomGitUrl} "${doomDir}"
-      fi
-      if [ ! -d "${doomConfiguration}" ]; then
-        $DRY_RUN_CMD git clone ${doomConfigurationUrl} "${doomConfiguration}"
-      fi
-    '';
-  };
+  home.activation.cloneDoom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if [ ! -d "${doomDir}" ]; then
+      $DRY_RUN_CMD git clone --depth=1 --single-branch ${doomGitUrl} "${doomDir}"
+    fi
+    if [ ! -d "${doomConfiguration}" ]; then
+      $DRY_RUN_CMD git clone ${doomConfigurationUrl} "${doomConfiguration}"
+    fi
+  '';
 
   programs.zsh.initExtra = ''
     export DOOMDIR='${doomConfiguration}'

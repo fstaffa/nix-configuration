@@ -18,7 +18,7 @@ pkgs.mkShell {
     home-manager
     git
     nixfmt
-    rnix-lsp
+    nil
     nodePackages_latest.vscode-langservers-extracted
   ];
 }

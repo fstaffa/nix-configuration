@@ -2,12 +2,16 @@
   description = "Home manager configuration";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     personal-packages.url = "github:fstaffa/nix-packages";
+
+    emacs29-src.url = "github:emacs-mirror/emacs/emacs-29";
+    emacs29-src.flake = false;
 
     chemacs2 = {
       url = "github:plexus/chemacs2";
@@ -20,7 +24,7 @@
   };
 
   outputs = { self, home-manager, darwin, nixpkgs, flake-utils, emacs-overlay
-    , personal-packages, chemacs2, ... }@inputs:
+    , personal-packages, chemacs2, emacs29-src, nixpkgs-unstable, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -33,7 +37,8 @@
       # Devshell for bootstrapping
       # Accessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (system: {
-        default = nixpkgs.legacyPackages.${system}.callPackage ./shell.nix { };
+        default =
+          nixpkgs-unstable.legacyPackages.${system}.callPackage ./shell.nix { };
       });
 
       # This instantiates nixpkgs for each system listed above
@@ -44,7 +49,16 @@
         import inputs.nixpkgs {
           inherit system;
           # This adds our overlays to pkgs
-          overlays = [ emacs-overlay.overlay ];
+          overlays = [
+            emacs-overlay.overlay
+            (final: prev: {
+              emacs29 = prev.emacsGit.overrideAttrs (old: {
+                name = "emacs29";
+                version = "29.0-${inputs.emacs29-src.shortRev}";
+                src = inputs.emacs29-src;
+              });
+            })
+          ];
 
           # NOTE: Using `nixpkgs.config` in your NixOS config won't work
           # Instead, you should set nixpkgs configs here
@@ -58,6 +72,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
+            pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/iguana ];

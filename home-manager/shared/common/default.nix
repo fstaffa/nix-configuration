@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
   imports = [ ./ssh.nix ];
   home.packages = with pkgs; [
     tokei
@@ -12,7 +11,12 @@
     curl
     graphviz
     shellcheck
+    terraform
+    dotnet-sdk_7
+    omnisharp-roslyn
   ];
+
+  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_7}";
 
   home.file = {
     "${config.xdg.configHome}/chezmoi/chezmoi.toml".source = ./chezmoi.toml;
