@@ -1,3 +1,3 @@
 encryption = "gpg"
 [gpg]
-  recipient = "1E0464FD9A6A042E"
+  recipients = ["1E0464FD9A6A042E", "32AA7408226D7478"]

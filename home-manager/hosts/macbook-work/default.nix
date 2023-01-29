@@ -18,5 +18,6 @@
   programs.gpg-personal = {
     enable = true;
     cardId = 4547547;
+    #cardId = 4256693;
   };
 }

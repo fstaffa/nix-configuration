@@ -22,7 +22,7 @@ in {
 
   config = mkIf cfg.enable {
     home.file."${config.home.homeDirectory}/.ssh/id_rsa_yubikey.pub".text =
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDQjmOGBCm6yXHbUvSOjsns1uQX8yyrzgmhCrUkB9HZbZE7/C2LeNckL0EU3PwBPzmS5FszYBgnMVezpu+xMFfmt+jA4lzmidFU9cbY4vvw7lEYboHStZNu/H/uC8/HPkRvIOS9XyYCLj7z/cM2XyjLKP+Ky1L4zn/Lq6F2S1pY/VGzzuvVzHoocYX4hh2dDPwPTGpedPRgr0ko0xg2j+hfmy2L4Rh7yxn5l7wyBVPVMh1PPURbo9PwaHOrgtGj94dgVQhizr0c9qrFU4Sij3F2SebYcZWrgAoyRVCoQue9oxyOIrZQw+GE5Q75bmslxBMpvjzcDF4XhYWzzFyQZ129 cardno:${
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCr0l1uayq1GK/3xbEZw2I6dPkXYdH1Lq2+ZIZnHEgt1XkrKdyW0vFFKtevW+0eAJ5MIW6mvH7B+hcjyBrwKGxyKMZD3C3kNKaQw7VmlCNlgs6Njpobs54b3srbytKFMyReD5ydP02SU8Vb3dxD0ZTZYUUH0t+asZZmToQgEIP+m9F/4PgFU6eYRz437OOfh/bO2tYEjNwIUAqzK6lIjy2DNclIKlZ8cL2wh+sOUsNahp6cRniAs7BhjAWxD+DgVSK7NKLexM0LMlWRv8NKnuphdDmvOYrVvLCpaOD7JeJsVar18gB9RqfcPLP2R4rGPk3gcuiyE4mabIFTkXWCD1i7 cardno:${
         toString cfg.cardId
       }";
     programs.gpg = ({
