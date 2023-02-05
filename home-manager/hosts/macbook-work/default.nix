@@ -2,11 +2,11 @@
 
 {
   imports = [
+    ../../modules/gpg-personal
     ../../shared/common
+    ../../shared/terminal
     ../../shared/work
     ../../shared/emacs
-    ../../shared/terminal
-    ../../modules/gpg-personal
   ];
 
   home = {

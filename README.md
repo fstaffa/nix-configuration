@@ -1,5 +1,11 @@
 # General
 
+### Chezmoi install
+
+``` sh
+chezmoi init --source ~/.local/share/chezmoi git@github.com:fstaffa/dotfiles.git
+```
+
 ### Refresh fonts
 
 ``` sh
@@ -9,7 +15,12 @@ fc-cache -f -v
 # Install macos
 
 ``` sh
-nix build ".#darwinConfigurations.work-mac.system"
+nix shell --extra-experimental-features nix-command --extra-experimental-features flakes "nixpkgs#git"
+git clone https://github.com/fstaffa/nix-configuration.git
+home-manager switch --flake ".#fstaffa@work"
+
+
+nix build ".#darwinConfigurations.macbook-work.system"
 
 printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf 
 /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t

@@ -9,8 +9,9 @@
   networking.hostName = "raptor";
   networking.localHostName = "raptor";
 
-  homebrew = {
-    enable = true;
+  # trackpad direction
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
 
-  }
+  system.keyboard.enableKeyMapping = true;
+  system.keyboard.remapCapsLockToControl = true;
 }
