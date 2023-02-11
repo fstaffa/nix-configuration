@@ -42,6 +42,7 @@
       };
     in {
       enable = true;
+      delta.enable = true;
       extraConfig = {
         pull.ff = "only";
         core.editor = "vim";
