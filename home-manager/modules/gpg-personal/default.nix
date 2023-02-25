@@ -3,7 +3,8 @@ with lib;
 let
   x = 0;
   cfg = config.programs.gpg-personal;
-  macGpgSettings = if pkgs.stdenv.isDarwin then {
+  yubikey4Ids = [4547547];
+  macGpgSettings = if pkgs.stdenv.isDarwin && (builtins.elem cfg.cardId yubikey4Ids) then {
     scdaemonSettings = {
       reader-port = "Yubico Yubikey";
       #debug-all = true;

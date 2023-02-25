@@ -15,9 +15,13 @@
     stateVersion = "22.05";
   };
 
+  home.packages = with pkgs; [ coreutils ];
+
   programs.gpg-personal = {
     enable = true;
-    cardId = 4547547;
+    cardId = 23405290;
+    # old keychain
+    #cardId = 4547547;
     #cardId = 4256693;
   };
 }

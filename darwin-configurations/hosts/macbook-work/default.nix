@@ -22,6 +22,9 @@
   system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
   system.defaults.NSGlobalDomain.NSAutomaticQuoteSubstitutionEnabled = false;
 
+  #disable long press to accent
+  system.defaults.NSGlobalDomain.ApplePressAndHoldEnabled = false;
+
   #corresponding sliders KeyRepeat: 120, 90, 60, 30, 12, 6, 2
   system.defaults.NSGlobalDomain.KeyRepeat = 2;
   #corresponding sliders InitialKeyRepeat: 120, 94, 68, 35, 25, 15
