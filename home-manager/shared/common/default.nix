@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 
 {
   imports = [ ./ssh.nix ];
@@ -11,7 +11,7 @@
     curl
     graphviz
     shellcheck
-    terraform
+    pkgs-unstable.terraform
     dotnet-sdk_7
     omnisharp-roslyn
   ];

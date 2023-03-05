@@ -95,7 +95,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
-            pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+            pkgs-unstable = nixpkgs-unstable.legacyPackages.aarch64-darwin;
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/macbook-work ];
