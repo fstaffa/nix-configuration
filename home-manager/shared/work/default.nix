@@ -122,7 +122,7 @@ in {
         };
         type = "planning";
         rds = {
-          basePort = 15432;
+          basePort = 25432;
           prd = {
             host = "shipcalc-prd.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
           };
@@ -197,7 +197,7 @@ in {
       vltava-infrastructure = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/vltava-squad/vltava-infrastructure.git";
+            "git@gitlab.com:Cimpress-Technology/labe/vltava-infrastructure.git";
           folder = "vltava-infrastructure";
         };
       };
