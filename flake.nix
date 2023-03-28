@@ -90,7 +90,7 @@
             modules = [ ./home-manager/hosts/iguana-manjaro ];
 
           };
-        "fstaffa@work" = home-manager.lib.homeManagerConfiguration {
+        "fstaffa@raptor" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages.aarch64-darwin;
           extraSpecialArgs = {
             inherit inputs;
@@ -114,7 +114,7 @@
       };
 
       darwinConfigurations = {
-        "macbook-work" = darwin.lib.darwinSystem {
+        "raptor" = darwin.lib.darwinSystem {
           modules = [ ./darwin-configurations/hosts/macbook-work ];
           system = "aarch64-darwin";
         };
