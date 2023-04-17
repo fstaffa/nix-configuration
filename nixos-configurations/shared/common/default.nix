@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   # Bootloader.
@@ -15,6 +15,8 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Prague";
+
+  security.pki.certificateFiles = [ ../../../common/certificates/ca.pem ];
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";

@@ -9,6 +9,6 @@
       IdentitiesOnly = "yes";
       IdentityFile = "${config.home.homeDirectory}/.ssh/id_rsa_yubikey.pub";
     };
-    matchBlocks = { "komodo.local" = { }; };
+    matchBlocks = { "komodo.local" = { user = "mathematician314"; }; };
   };
 }

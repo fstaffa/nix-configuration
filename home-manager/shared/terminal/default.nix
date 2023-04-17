@@ -27,11 +27,11 @@
     };
   };
 
-  home.packages = with pkgs;
-    [
-      tmux
-      thefuck
-      fzf
-      tealdeer
-    ];
+  home.packages = with pkgs; [
+    bind # dig package
+    fzf
+    tealdeer
+    thefuck
+    tmux
+  ];
 }
