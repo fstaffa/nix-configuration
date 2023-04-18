@@ -1,13 +1,13 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [
-      ../../shared/common
-      ../../shared/desktop
-      ../../shared/vm-host
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ../../shared/common
+    ../../shared/desktop
+    ../../shared/vm-host
+    ./hardware-configuration.nix
+    ./zfs.nix
+  ];
 
   networking.hostName = "iguana";
 
@@ -26,10 +26,8 @@
     isNormalUser = true;
     description = "mathematician314";
     extraGroups = [ "networkmanager" "wheel" ];
-    hashedPassword = "$6$rounds=65536$52ozQfxuGrmWZoNo$P8rggZJwwVLeShjLdNciD.EYmsHJ3N2W82drhToZnmzdl7PXC9JzpRzEHbrr6v.6/m8VQl4erGxmSvJ6aZG0T/";
-    packages = with pkgs; [
-      firefox
-    ];
+    hashedPassword =
+      "$6$rounds=65536$52ozQfxuGrmWZoNo$P8rggZJwwVLeShjLdNciD.EYmsHJ3N2W82drhToZnmzdl7PXC9JzpRzEHbrr6v.6/m8VQl4erGxmSvJ6aZG0T/";
   };
 
   system.stateVersion = "22.05";

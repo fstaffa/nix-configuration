@@ -4,6 +4,7 @@
   home.packages = with pkgs; [
     zoom-us
     brave
+    firefox
     slack
     postman
     jetbrains.datagrip
