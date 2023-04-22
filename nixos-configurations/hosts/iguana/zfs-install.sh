@@ -81,7 +81,7 @@ zfs create \
 rpool/nixos
 
 
-for pool in $(jq -r 'keys | join(" ")' < zfs-pools.json); do
+for pool in $(jq -r 'keys | sort | join(" ")' < zfs-pools.json); do
     zfs create -o mountpoint=legacy "$pool"
     relative_pool_mount=$(jq -r ".\"$pool\".mount" < zfs-pools.json)
     absolute_pool_mount="${MNT}${relative_pool_mount}"
@@ -90,6 +90,11 @@ for pool in $(jq -r 'keys | join(" ")' < zfs-pools.json); do
         mount -t zfs "$pool" "${absolute_pool_mount}"
     fi;
 done
+
+zfs create -o mountpoint=none bpool/nixos
+zfs create -o mountpoint=legacy bpool/nixos/root
+mkdir "${MNT}"/boot
+mount -t zfs bpool/nixos/root "${MNT}"/boot
 
 # format and mount boot
 for i in ${DISK}; do
