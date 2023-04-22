@@ -11,13 +11,33 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos-root";
-    fsType = "ext4";
+    device = "rpool/system/root";
+    fsType = "zfs";
+  };
+
+  fileSystems."/var/log" = {
+    device = "rpool/system/var/log";
+    fsType = "zfs";
+  };
+
+  fileSystems."/var/lib" = {
+    device = "rpool/system/var/lib";
+    fsType = "zfs";
+  };
+
+  fileSystems."/nix" = {
+    device = "rpool/local/nix";
+    fsType = "zfs";
+  };
+
+  fileSystems."/home" = {
+    device = "rpool/user/home";
+    fsType = "zfs";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-label/BOOT";
-    fsType = "vfat";
+    device = "bpool/nixos/root";
+    fsType = "zfs";
   };
 
   # from https://unix.stackexchange.com/questions/26364/how-can-i-create-a-tmpfs-as-a-regular-non-root-user

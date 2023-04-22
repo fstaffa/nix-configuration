@@ -1,0 +1,19 @@
+{
+  "rpool/system/root": {
+    "mount": "/"
+  },
+  "rpool/system/var": {},
+  "rpool/system/var/log": {
+    "mount": "/var/log"
+  },
+  "rpool/system/var/lib": {
+    "mount": "/var/lib"
+  },
+  "rpool/local/nix": {
+    "mount": "/nix"
+  },
+  "rpool/user": {},
+  "rpool/user/home": {
+    "mount": "/home"
+  }
+}
