@@ -80,9 +80,13 @@ zfs create \
  -o mountpoint=none \
 rpool/nixos
 
-
+#create pools
 for pool in $(jq -r 'keys | sort | join(" ")' < zfs-pools.json); do
     zfs create -o mountpoint=legacy "$pool"
+done
+
+#create temporary mountpoints and mount
+for pool in $(jq -r 'to_entries | map(select(.value | has ("mount"))) | sort_by(.value.mount) | .[].key' < zfs-pools.json); do
     relative_pool_mount=$(jq -r ".\"$pool\".mount" < zfs-pools.json)
     absolute_pool_mount="${MNT}${relative_pool_mount}"
     if [ "$relative_pool_mount" != null ]; then

@@ -3,7 +3,6 @@
   "rpool/system/root": {
     "mount": "/"
   },
-  "rpool/system": {},
   "rpool/system/var": {},
   "rpool/system/var/log": {
     "mount": "/var/log"
