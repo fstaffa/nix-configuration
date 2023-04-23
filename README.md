@@ -31,8 +31,18 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 # Linux with zfs
 
 ```sh
-git clone --depth 1 --branch zfs https://github.com/fstaffa/nix-configuration.git
-cd nixos-configuration/nixos-configurations/hosts/iguana
+git clone --depth 1 https://github.com/fstaffa/nix-configuration.git
+cd nix-configuration/nixos-configurations/hosts/iguana
+
+find /dev/disk/by-id -not -name "*-part*"
+source zfs-install.sh $DISK
+
+nixos-install --root "${MNT}" --flake "${MNT}/etc/nixos#iguana"
+
+umount -Rl /mnt
+zpool export -a
+swapoff -a
+reboot
 ```
 
 # Install vm

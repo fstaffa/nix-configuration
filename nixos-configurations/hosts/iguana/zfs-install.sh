@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-if [ $# -ne 1 ] then
+if [ $# -ne 1 ]; then
     echo "Requires one argument, name of disk"
     exit 1
 fi
@@ -114,6 +114,6 @@ done
 
 mkdir -p "${MNT}"/etc
 
-git clone --depth 1 --branch zfs https://github.com/fstaffa/nix-configuration.git "${MNT}"/etc/nixos
+git clone --depth 1 https://github.com/fstaffa/nix-configuration.git "${MNT}"/etc/nixos
 
 cd "${MNT}/etc/nixos"
