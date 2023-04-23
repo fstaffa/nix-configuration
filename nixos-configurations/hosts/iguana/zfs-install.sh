@@ -1,10 +1,15 @@
 #!/usr/bin/env sh
+set -e
+
+if [ $# -ne 1 ]
+  then
+    echo "Requires one argument, name of disk"
+fi
 DISK=$1
 
 MNT=$(mktemp -d)
 SWAPSIZE=4
 RESERVE=1
-
 
 #enable nix flakes
 mkdir -p ~/.config/nix
@@ -108,3 +113,9 @@ for i in ${DISK}; do
     mkdir -p "${MNT}"/boot/efis/nixos-boot
     mount -t vfat -o iocharset=iso8859-1 "${i}"-part1 "${MNT}"/boot/efis/nixos-boot
 done
+
+mkdir -p "${MNT}"/etc
+
+git clone --depth 1 --branch zfs https://github.com/fstaffa/nix-configuration.git "${MNT}"/etc/nixos
+
+cd "${MNT}/etc/nixos"
