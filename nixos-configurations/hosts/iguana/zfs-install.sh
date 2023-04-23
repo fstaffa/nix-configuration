@@ -25,6 +25,8 @@ partition_disk () {
  mkpart rpool 5GiB -$((SWAPSIZE + RESERVE))GB \
  mkpart swap  -$((SWAPSIZE + RESERVE))GB -"${RESERVE}"GB \
  mkpart BIOS 1MiB 2MiB \
+ name 4 swap
+
  set 1 esp on \
  set 5 bios_grub on \
  set 5 legacy_boot on
@@ -103,6 +105,6 @@ mount -t zfs bpool/nixos/root "${MNT}"/boot
 # format and mount boot
 for i in ${DISK}; do
     mkfs.vfat -n EFI "${i}"-part1
-    mkdir -p "${MNT}"/boot/efis/"${i##*/}"-part1
-    mount -t vfat -o iocharset=iso8859-1 "${i}"-part1 "${MNT}"/boot/efis/"${i##*/}"-part1
+    mkdir -p "${MNT}"/boot/efis/nixos-boot
+    mount -t vfat -o iocharset=iso8859-1 "${i}"-part1 "${MNT}"/boot/efis/nixos-boot
 done

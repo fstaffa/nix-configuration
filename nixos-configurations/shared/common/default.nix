@@ -4,7 +4,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot";
+  boot.loader.efi.efiSysMountPoint = "/boot/efis/nixos-boot";
 
   boot.kernelPackages = pkgs.linuxPackages_6_1;
 
