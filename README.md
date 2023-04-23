@@ -39,7 +39,7 @@ source zfs-install.sh $DISK
 
 nixos-install --root "${MNT}" --flake "${MNT}/etc/nixos#iguana"
 
-umount -Rl /mnt
+umount -Rl "${MNT}"
 zpool export -a
 swapoff -a
 reboot
