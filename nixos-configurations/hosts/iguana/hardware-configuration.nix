@@ -40,6 +40,11 @@
     fsType = "zfs";
   };
 
+  fileSystems."/boot/efis/nixos-boot" = {
+    device = "/dev/disk/by-label/EFI";
+    fsType = "vfat";
+  };
+
   # from https://unix.stackexchange.com/questions/26364/how-can-i-create-a-tmpfs-as-a-regular-non-root-user
   # fileSystems."ramfs" = {
   #   fsType = "ramfs";
@@ -53,7 +58,7 @@
     device = "tmpfs";
   };
 
-  swapDevices = [{ device = "/dev/disk/by-label/nixos-swap"; }];
+  swapDevices = [{ device = "/dev/disk/nixos-swap"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-if [ $# -ne 1 ]
-  then
+if [ $# -ne 1 ] then
     echo "Requires one argument, name of disk"
+    exit 1
 fi
 DISK=$1
 
@@ -30,8 +30,6 @@ partition_disk () {
  mkpart rpool 5GiB -$((SWAPSIZE + RESERVE))GB \
  mkpart swap  -$((SWAPSIZE + RESERVE))GB -"${RESERVE}"GB \
  mkpart BIOS 1MiB 2MiB \
- name 4 swap
-
  set 1 esp on \
  set 5 bios_grub on \
  set 5 legacy_boot on

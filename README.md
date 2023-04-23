@@ -32,8 +32,7 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 
 ```sh
 git clone --depth 1 --branch zfs https://github.com/fstaffa/nix-configuration.git
-cd nixos-configurations/hosts/iguana
- ppc
+cd nixos-configuration/nixos-configurations/hosts/iguana
 ```
 
 # Install vm
