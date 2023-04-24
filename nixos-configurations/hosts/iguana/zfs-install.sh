@@ -1,10 +1,15 @@
 #!/usr/bin/env sh
+set -e
+
+if [ $# -ne 1 ]; then
+    echo "Requires one argument, name of disk"
+    exit 1
+fi
 DISK=$1
 
 MNT=$(mktemp -d)
 SWAPSIZE=4
 RESERVE=1
-
 
 #enable nix flakes
 mkdir -p ~/.config/nix
@@ -36,6 +41,8 @@ partition_disk () {
 for i in ${DISK}; do
    partition_disk "${i}"
 done
+
+mkswap "/dev/disk/by-partlabel/swap"
 
 # shellcheck disable=SC2046
 zpool create \
@@ -80,9 +87,13 @@ zfs create \
  -o mountpoint=none \
 rpool/nixos
 
-
-for pool in $(jq -r 'keys | join(" ")' < zfs-pools.json); do
+#create pools
+for pool in $(jq -r 'keys | sort | join(" ")' < zfs-pools.json); do
     zfs create -o mountpoint=legacy "$pool"
+done
+
+#create temporary mountpoints and mount
+for pool in $(jq -r 'to_entries | map(select(.value | has ("mount"))) | sort_by(.value.mount) | .[].key' < zfs-pools.json); do
     relative_pool_mount=$(jq -r ".\"$pool\".mount" < zfs-pools.json)
     absolute_pool_mount="${MNT}${relative_pool_mount}"
     if [ "$relative_pool_mount" != null ]; then
@@ -91,9 +102,20 @@ for pool in $(jq -r 'keys | join(" ")' < zfs-pools.json); do
     fi;
 done
 
+zfs create -o mountpoint=none bpool/nixos
+zfs create -o mountpoint=legacy bpool/nixos/root
+mkdir "${MNT}"/boot
+mount -t zfs bpool/nixos/root "${MNT}"/boot
+
 # format and mount boot
 for i in ${DISK}; do
     mkfs.vfat -n EFI "${i}"-part1
-    mkdir -p "${MNT}"/boot/efis/"${i##*/}"-part1
-    mount -t vfat -o iocharset=iso8859-1 "${i}"-part1 "${MNT}"/boot/efis/"${i##*/}"-part1
+    mkdir -p "${MNT}"/boot/efis/nixos-boot
+    mount -t vfat -o iocharset=iso8859-1 "${i}"-part1 "${MNT}"/boot/efis/nixos-boot
 done
+
+mkdir -p "${MNT}"/etc
+
+git clone --depth 1 https://github.com/fstaffa/nix-configuration.git "${MNT}"/etc/nixos
+
+cd "${MNT}/etc/nixos"

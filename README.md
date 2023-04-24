@@ -28,6 +28,23 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 ./result/sw/bin/darwin-rebuild switch --flake ".#macbook-work"
 ```
 
+# Linux with zfs
+
+```sh
+git clone --depth 1 https://github.com/fstaffa/nix-configuration.git
+cd nix-configuration/nixos-configurations/hosts/iguana
+
+find /dev/disk/by-id -not -name "*-part*"
+source zfs-install.sh $DISK
+
+nixos-install --root "${MNT}" --flake "${MNT}/etc/nixos#iguana"
+
+umount -Rl "${MNT}"
+zpool export -a
+swapoff -a
+reboot
+```
+
 # Install vm
 
 ```sh

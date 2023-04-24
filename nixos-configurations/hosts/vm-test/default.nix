@@ -2,11 +2,7 @@
 
 {
   imports =
-    [
-      ../../shared/common
-      ../../shared/vm
-      ./hardware-configuration.nix
-    ];
+    [ ../../shared/common ../../shared/vm ./hardware-configuration.nix ];
 
   networking.hostName = "nixos";
 
@@ -16,6 +12,7 @@
   # Enable the KDE Plasma Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  environment.plasma5.excludePackages = with pkgs.libsForQt5; [ elisa okular ];
 
   # Configure keymap in X11
   services.xserver = {
@@ -42,10 +39,7 @@
     description = "filip";
     extraGroups = [ "networkmanager" "wheel" ];
     hashedPassword = "";
-    packages = with pkgs; [
-      firefox
-      kate
-    ];
+    packages = with pkgs; [ firefox kate ];
   };
 
   system.stateVersion = "22.05";

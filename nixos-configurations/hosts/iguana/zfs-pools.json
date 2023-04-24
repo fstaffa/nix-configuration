@@ -1,4 +1,5 @@
 {
+  "rpool/system": {},
   "rpool/system/root": {
     "mount": "/"
   },
@@ -9,6 +10,7 @@
   "rpool/system/var/lib": {
     "mount": "/var/lib"
   },
+  "rpool/local": {},
   "rpool/local/nix": {
     "mount": "/nix"
   },
