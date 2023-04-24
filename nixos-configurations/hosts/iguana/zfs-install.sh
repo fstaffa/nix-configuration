@@ -42,6 +42,8 @@ for i in ${DISK}; do
    partition_disk "${i}"
 done
 
+mkswap "/dev/disk/by-partlabel/swap"
+
 # shellcheck disable=SC2046
 zpool create \
     -o compatibility=grub2 \
