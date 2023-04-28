@@ -276,6 +276,13 @@ in {
           folder = "boxman-service";
         };
       };
+      ci-tools = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/praguematic/ci-tools.git";
+          folder = "ci-tools";
+        };
+      };
     };
   };
 }
