@@ -25,6 +25,9 @@ in {
     nodePackages.prettier
 
     pkgs-unstable.terraform-ls
+
+    # html mode formatting
+    html-tidy
   ];
 
   home.file = {

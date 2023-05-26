@@ -92,7 +92,7 @@ in {
         type = "planning";
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/vltava-squad/ccm-next.git";
+            "git@gitlab.com:Cimpress-Technology/labe/ccm-next.git";
           folder = "ccm";
         };
         rds = {
@@ -155,7 +155,7 @@ in {
       picky = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/vltava-squad/pickups-aggregation-service.git";
+            "git@gitlab.com:Cimpress-Technology/labe/pickups-aggregation-service.git";
           folder = "picky";
         };
       };
@@ -190,8 +190,8 @@ in {
       shiprec = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/qp/shipping-recommendation.git";
-          folder = "shiprec";
+            "git@gitlab.com:Cimpress-Technology/labe/planning-event-processor.git";
+          folder = "planning-event-processor";
         };
       };
       vltava-infrastructure = {
