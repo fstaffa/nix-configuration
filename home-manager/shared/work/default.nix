@@ -28,7 +28,7 @@ in {
           hostname = "i-023acaf88ec144041";
           availabilityZone = "eu-west-1a";
         };
-        hosts = { gitlab-runner-labe = "i-0ae2002a47d91f33d"; };
+        hosts = { gitlab-runner-labe = "i-0fbdbaeb4fc5b9839"; };
       };
       sapidus = {
         profile = "sapidus";
