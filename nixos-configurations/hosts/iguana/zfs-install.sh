@@ -30,8 +30,8 @@ partition_disk () {
  mkpart swap  -$((SWAPSIZE + RESERVE))GB -"${RESERVE}"GB \
  mkpart BIOS 1MiB 2MiB \
  set 1 esp on \
- set 5 bios_grub on \
- set 5 legacy_boot on
+ set 4 bios_grub on \
+ set 4 legacy_boot on
 
  partprobe "${disk}"
  udevadm settle
