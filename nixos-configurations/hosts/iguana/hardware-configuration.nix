@@ -36,11 +36,6 @@
   };
 
   fileSystems."/boot" = {
-    device = "bpool/nixos/root";
-    fsType = "zfs";
-  };
-
-  fileSystems."/boot/efis/nixos-boot" = {
     device = "/dev/disk/by-label/EFI";
     fsType = "vfat";
   };
