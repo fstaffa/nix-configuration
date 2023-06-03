@@ -84,10 +84,7 @@ done
 
 zfs create -o refreservation=200G -o mountpoint=none rpool/reserved
 
-zfs create -o mountpoint=none bpool/nixos
-zfs create -o mountpoint=legacy bpool/nixos/root
 mkdir "${MNT}"/boot
-mount -t zfs bpool/nixos/root "${MNT}"/boot
 
 # format and mount boot
 for i in ${DISK}; do
