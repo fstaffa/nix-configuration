@@ -1,5 +1,23 @@
 # General
 
+### Apply home manager
+
+```sh
+nix-shell -p home-manager
+nix-shell -p git
+cd $(mktemp -d)
+git clone --depth 1 https://github.com/fstaffa/nix-configuration.git
+home-manager switch --flake "."
+```
+
+### Try gpg
+
+after install, gpg has problem using yubikey and this unblocks it
+
+```sh
+echo "test" | gpg --clearsign
+```
+
 ### Chezmoi install
 
 ```sh
