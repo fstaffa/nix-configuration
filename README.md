@@ -38,12 +38,12 @@ git clone https://github.com/fstaffa/nix-configuration.git
 home-manager switch --flake ".#raptor"
 
 
-nix build ".#darwinConfigurations.macbook-work.system"
+nix build ".#darwinConfigurations.raptor.system"
 
 printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t
 
-./result/sw/bin/darwin-rebuild switch --flake ".#macbook-work"
+./result/sw/bin/darwin-rebuild switch --flake ".#raptor"
 ```
 
 # Linux with zfs

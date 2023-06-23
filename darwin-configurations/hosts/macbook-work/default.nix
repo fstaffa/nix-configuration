@@ -2,6 +2,7 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   security.pki.certificateFiles = [ ../../../common/certificates/ca.pem ];
 
   services.nix-daemon.enable = true;

@@ -19,7 +19,7 @@
     };
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -36,10 +36,13 @@
     in rec {
       # Devshell for bootstrapping
       # Accessible through 'nix develop' or 'nix-shell' (legacy)
-      devShells = forAllSystems (system: {
-        default =
-          nixpkgs-unstable.legacyPackages.${system}.callPackage ./shell.nix { };
-      });
+      devShells = forAllSystems (system:
+        let
+          pkgs = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in { default = pkgs.callPackage ./shell.nix { }; });
 
       # This instantiates nixpkgs for each system listed above
       # Allowing you to add overlays and configure it (e.g. allowUnfree)
