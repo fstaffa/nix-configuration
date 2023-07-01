@@ -33,9 +33,10 @@ fc-cache -f -v
 # Install macos
 
 ```sh
-nix shell --extra-experimental-features nix-command --extra-experimental-features flakes "nixpkgs#git"
 cd $(mktemp -d)
 git clone https://github.com/fstaffa/nix-configuration.git
+cd nix-configuration
+nix develop --extra-experimental-features 'nix-command flakes'
 nix shell --extra-experimental-features nix-command --extra-experimental-features flakes "nixpkgs#home-manager"
 home-manager switch --flake ".#raptor" --extra-experimental-features "flakes nix-command"
 
