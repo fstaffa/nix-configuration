@@ -47,6 +47,13 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 
 ./result/sw/bin/darwin-rebuild switch --flake ".#fstaffa@raptor"
 ```
+## Download apps
+```sh
+cd $(mktemp -d)
+curl --location "https://download.mozilla.org/?product=firefox-latest-ssl&os=osx&lang=en-US" --output Firefox.dmg
+curl --location "https://dl.pstmn.io/download/latest/osx_arm64" --output Postman.zip
+open .
+```
 
 # Linux with zfs
 
