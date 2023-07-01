@@ -34,8 +34,10 @@ fc-cache -f -v
 
 ```sh
 nix shell --extra-experimental-features nix-command --extra-experimental-features flakes "nixpkgs#git"
+cd $(mktemp -d)
 git clone https://github.com/fstaffa/nix-configuration.git
-home-manager switch --flake ".#raptor"
+nix shell --extra-experimental-features nix-command --extra-experimental-features flakes "nixpkgs#home-manager"
+home-manager switch --flake ".#raptor" --extra-experimental-features "flakes nix-command"
 
 
 nix build ".#darwinConfigurations.raptor.system"
