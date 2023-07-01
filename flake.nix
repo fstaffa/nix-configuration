@@ -38,7 +38,7 @@
       # Accessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (system:
         let
-          pkgs = import nixpkgs-unstable {
+          pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
           };
@@ -93,7 +93,7 @@
             modules = [ ./home-manager/hosts/iguana-manjaro ];
 
           };
-        "fstaffa@raptor" = home-manager.lib.homeManagerConfiguration {
+        "raptor" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages.aarch64-darwin;
           extraSpecialArgs = {
             inherit inputs;
