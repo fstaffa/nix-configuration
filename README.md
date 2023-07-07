@@ -30,12 +30,20 @@ chezmoi init --source ~/.local/share/chezmoi git@github.com:fstaffa/dotfiles.git
 fc-cache -f -v
 ```
 
+on macos
+
+```sh
+open ~/.local/share/fonts
+```
+
 # Install macos
 
 ```sh
-nix shell --extra-experimental-features nix-command --extra-experimental-features flakes "nixpkgs#git"
+cd $(mktemp -d)
 git clone https://github.com/fstaffa/nix-configuration.git
-home-manager switch --flake ".#raptor"
+cd nix-configuration
+nix develop --extra-experimental-features 'nix-command flakes'
+home-manager switch --flake ".#raptor" --extra-experimental-features "flakes nix-command"
 
 
 nix build ".#darwinConfigurations.raptor.system"
@@ -45,6 +53,24 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 
 ./result/sw/bin/darwin-rebuild switch --flake ".#raptor"
 ```
+
+## Download apps
+
+```sh
+cd $(mktemp -d)
+curl --location "https://github.com/syncthing/syncthing-macos/releases/download/v1.23.5-1/Syncthing-1.23.5-1.dmg" --output syncthing.dmg
+curl --location "https://download.mozilla.org/?product=firefox-latest-ssl&os=osx&lang=en-US" --output Firefox.dmg
+curl --location "https://dl.pstmn.io/download/latest/osx_arm64" --output Postman.zip
+curl --location "https://laptop-updates.brave.com/latest/osx" --output Brave.dmg
+curl --location "https://zoom.us/client/5.15.2.19786/zoomusInstallerFull.pkg?archType=arm64" --output zoom.pkg
+open .
+```
+
+## Settings
+
+- touch id in settings -> touch id
+- login to office and install - https://www.office.com/
+- install slack
 
 # Linux with zfs
 
@@ -91,3 +117,7 @@ git clone https://github.com/fstaffa/nix-configuration.git /mnt/etc/nixos
 
 nixos-install --root /mnt --flake /mnt/etc/nixos#vm-test
 ```
+
+# After install
+
+- Firefox install bitwarden, enable sync, in ublock origin -> settings enable cloud sync and download settings

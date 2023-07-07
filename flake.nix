@@ -38,7 +38,7 @@
       # Accessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (system:
         let
-          pkgs = import nixpkgs-unstable {
+          pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
           };
