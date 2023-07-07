@@ -93,7 +93,7 @@
             modules = [ ./home-manager/hosts/iguana-manjaro ];
 
           };
-        "raptor" = home-manager.lib.homeManagerConfiguration {
+        "fstaffa@raptor" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages.aarch64-darwin;
           extraSpecialArgs = {
             inherit inputs;
