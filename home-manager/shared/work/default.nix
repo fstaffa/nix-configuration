@@ -3,13 +3,6 @@
 let
   workZshPath = "${config.xdg.configHome}/zsh/work/work.zsh";
   workZshSecrets = "${config.xdg.configHome}/zsh/work/secrets.zsh";
-  gitClone = { repositoryUrl, folder }:
-    let destination = "${config.home.homeDirectory}/data/cimpress/${folder}";
-    in lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if [ ! -d ${destination} ]; then
-        $DRY_RUN_CMD git clone ${repositoryUrl} "${destination}"
-      fi
-    '';
 in {
 
   imports = [ ../../modules/aws ../../modules/project ];
@@ -178,6 +171,13 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/Sapidus/Quoter-Publisher.git";
           folder = "quoter-publisher";
+        };
+      };
+      renovate-bot = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/labe/renovate-bot.git";
+          folder = "renovate-bot";
         };
       };
       shippping-options = {
