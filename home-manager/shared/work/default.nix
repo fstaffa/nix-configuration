@@ -159,6 +159,19 @@ in {
           folder = "planning-api";
         };
       };
+      planning-event-processor = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/labe/planning-event-processor.git";
+          folder = "planning-event-processor";
+        };
+        type = "planning";
+        rds = {
+          basePort = 35432;
+          prd = { host = "pep-prd.caweq0ojnzgj.eu-west-1.rds.amazonaws.com"; };
+          stg = { host = "pep-stg.caweq0ojnzgj.eu-west-1.rds.amazonaws.com"; };
+        };
+      };
       pup-scraper-service = {
         repository = {
           repositoryUrl =
