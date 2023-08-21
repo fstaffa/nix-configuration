@@ -10,8 +10,8 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     personal-packages.url = "github:fstaffa/nix-packages";
 
-    emacs29-src.url = "github:emacs-mirror/emacs/emacs-29";
-    emacs29-src.flake = false;
+    emacs30-src.url = "github:emacs-mirror/emacs";
+    emacs30-src.flake = false;
 
     chemacs2 = {
       url = "github:plexus/chemacs2";
@@ -24,7 +24,7 @@
   };
 
   outputs = { self, home-manager, darwin, nixpkgs, flake-utils, emacs-overlay
-    , personal-packages, chemacs2, emacs29-src, nixpkgs-unstable, ... }@inputs:
+    , personal-packages, chemacs2, emacs30-src, nixpkgs-unstable, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -55,10 +55,10 @@
           overlays = [
             emacs-overlay.overlay
             (final: prev: {
-              emacs29 = prev.emacsGit.overrideAttrs (old: {
-                name = "emacs29";
-                version = "29.0-${inputs.emacs29-src.shortRev}";
-                src = inputs.emacs29-src;
+              emacs30 = prev.emacsGit.overrideAttrs (old: {
+                name = "emacs30";
+                version = "30.0-${inputs.emacs30-src.shortRev}";
+                src = inputs.emacs30-src;
               });
             })
           ];

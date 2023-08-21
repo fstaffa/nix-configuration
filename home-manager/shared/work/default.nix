@@ -155,7 +155,7 @@ in {
       planning-api = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/planning-api-service.git";
+            "git@gitlab.com:Cimpress-Technology/labe/planning-api-service.git";
           folder = "planning-api";
         };
       };
@@ -170,13 +170,6 @@ in {
           basePort = 35432;
           prd = { host = "pep-prd.caweq0ojnzgj.eu-west-1.rds.amazonaws.com"; };
           stg = { host = "pep-stg.caweq0ojnzgj.eu-west-1.rds.amazonaws.com"; };
-        };
-      };
-      pup-scraper-service = {
-        repository = {
-          repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/pup-scraper-service.git";
-          folder = "pup-scraper-service";
         };
       };
       quoter-publisher = {
