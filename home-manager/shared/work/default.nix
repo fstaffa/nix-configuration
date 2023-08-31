@@ -244,7 +244,7 @@ in {
       packer = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/packer-service.git";
+            "git@gitlab.com:Cimpress-Technology/labe/packer-service.git";
           folder = "packer";
         };
       };
@@ -287,6 +287,13 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/praguematic/ci-tools.git";
           folder = "ci-tools";
+        };
+      };
+      gitlab-repo-creator = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/labe/infrastructure/gitlab-repo-creator.git";
+          folder = "gitlab-repo-creator";
         };
       };
     };
