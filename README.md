@@ -72,6 +72,18 @@ open .
 - login to office and install - https://www.office.com/
 - install slack
 
+## Update MacOs
+
+Add following to the end of /etc/zshrc
+
+```sh
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
+```
+
 # Linux with zfs
 
 ```sh

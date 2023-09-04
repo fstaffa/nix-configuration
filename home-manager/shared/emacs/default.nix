@@ -17,6 +17,9 @@ in {
     # needed for emacs-sqllite
     gcc
 
+    # needed for vterm
+    emacsPackages.vterm
+
     nodejs
     # Typescript
     nodePackages.typescript
