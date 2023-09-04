@@ -189,7 +189,7 @@ in {
       shippping-options = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/shipping-options-service.git";
+            "git@gitlab.com:Cimpress-Technology/labe/shipping-options-service.git";
           folder = "shippping-options";
         };
       };
@@ -294,6 +294,13 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/labe/infrastructure/gitlab-repo-creator.git";
           folder = "gitlab-repo-creator";
+        };
+      };
+      shiprec-ui = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/praguematic/shiprec-ui.git";
+          folder = "shiprec-ui";
         };
       };
     };
