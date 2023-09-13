@@ -31,6 +31,8 @@ in {
 
     # html mode formatting
     html-tidy
+
+    exercism
   ];
 
   home.file = {

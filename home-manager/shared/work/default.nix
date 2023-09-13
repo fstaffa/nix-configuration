@@ -303,6 +303,20 @@ in {
           folder = "shiprec-ui";
         };
       };
+      transit-data-comparer = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/labe/tools/TransitDataComparer.git";
+          folder = "transit-data-comparer";
+        };
+      };
+      rate-zone-maps-migrator = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/labe/tools/ratezonemapsmigrator.git";
+          folder = "rate-zone-maps-migrator";
+        };
+      };
     };
   };
 }
