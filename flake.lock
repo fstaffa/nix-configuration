@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1696360011,
-        "narHash": "sha256-HpPv27qMuPou4acXcZ8Klm7Zt0Elv9dgDvSJaomWb9Y=",
+        "lastModified": 1695114819,
+        "narHash": "sha256-/aIfbZxP39QZ8m7qX2RzQTy5PWzz2e22cCcZ+AOO7lA=",
         "owner": "lnl7",
         "repo": "nix-darwin",
-        "rev": "8b6ea26d5d2e8359d06278364f41fbc4b903b28a",
+        "rev": "afeddc412b3a3b0e7c9ef7ea5fbdf2186781d102",
         "type": "github"
       },
       "original": {
@@ -231,11 +231,11 @@
         "terraform_0_14-nixpkgs": "terraform_0_14-nixpkgs"
       },
       "locked": {
-        "lastModified": 1696810663,
-        "narHash": "sha256-V7Q6c15It2JRTX7dTpqaKTnFF2niBhWB017WNZIeFuc=",
+        "lastModified": 1689579276,
+        "narHash": "sha256-JAM/CSJhTXYDeyVrdCmJ/xH85tXm6VAoSLrdzyCV2nQ=",
         "owner": "fstaffa",
         "repo": "nix-packages",
-        "rev": "c2ae2dcc45db79f66213ccfac42653e8b18c8d0c",
+        "rev": "a407b17080b1ef33d0cd003e3aec35821423da19",
         "type": "github"
       },
       "original": {
