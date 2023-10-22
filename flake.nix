@@ -68,6 +68,12 @@
           # (https://nixos.org/manual/nixpkgs/stable/#idm140737322551056)
           config.allowUnfree = true;
         });
+      legacyPackagesUnstable = forAllSystems (system:
+        import inputs.nixpkgs {
+          inherit system;
+
+          config.allowUnfree = true;
+        });
 
       homeConfigurations = {
         "mathematician314@iguana" = home-manager.lib.homeManagerConfiguration {
@@ -75,7 +81,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+            pkgs-unstable = legacyPackagesUnstable.x86_64-linux;
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/iguana ];
@@ -87,7 +93,7 @@
             extraSpecialArgs = {
               inherit inputs;
               personal-packages = personal-packages.packages.x86_64-linux;
-              pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+              pkgs-unstable = legacyPackagesUnstable.x86_64-linux;
             }; # Pass flake inputs to our config
             # > Our main home-manager configuration file <
             modules = [ ./home-manager/hosts/iguana-manjaro ];
@@ -98,7 +104,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
-            pkgs-unstable = nixpkgs-unstable.legacyPackages.aarch64-darwin;
+            pkgs-unstable = legacyPackagesUnstable.aarch64-darwin;
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/macbook-work ];
