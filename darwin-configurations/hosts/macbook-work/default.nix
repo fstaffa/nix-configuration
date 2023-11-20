@@ -10,6 +10,15 @@
   security.pam.enableSudoTouchIdAuth = true;
 
   system.defaults.dock.autohide = true;
+  system.defaults.dock.autohide-time-modifier = 0.1;
+  system.defaults.dock.mru-spaces = false;
+  system.defaults.dock.show-recents = false;
+
+  system.defaults.finder.AppleShowAllExtensions = true;
+  system.defaults.finder.FXDefaultSearchScope = "SCcf";
+  system.defaults.finder.FXPreferredViewStyle = "Nlsv";
+  system.defaults.finder.ShowPathbar = true;
+  system.defaults.finder._FXShowPosixPathInTitle = true;
 
   networking.hostName = "raptor";
   networking.localHostName = "raptor";

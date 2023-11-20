@@ -193,13 +193,6 @@ in {
           folder = "shippping-options";
         };
       };
-      shiprec = {
-        repository = {
-          repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/planning-event-processor.git";
-          folder = "planning-event-processor";
-        };
-      };
       vltava-infrastructure = {
         repository = {
           repositoryUrl =
@@ -212,12 +205,6 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/qpzip-comparison.git";
           folder = "qpzip-comparison";
-        };
-      };
-      shipdate = {
-        repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/qp/ship-date.git";
-          folder = "shipdate";
         };
       };
       pup-widget = {
@@ -302,6 +289,13 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/tools/ratezonemapsmigrator.git";
           folder = "rate-zone-maps-migrator";
+        };
+      };
+      planning-v2 = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v2/tms/planning-v2.git";
+          folder = "planning-v2";
         };
       };
     };
