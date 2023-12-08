@@ -26,7 +26,7 @@ in {
             };
           };
           hosts = mkOption {
-            type = types.attrsOf types.string;
+            type = types.attrsOf types.str;
             default = { };
           };
         };
