@@ -6,10 +6,10 @@
     brave
     firefox
     slack
-    postman
     jetbrains.datagrip
     jetbrains.webstorm
     jetbrains.rider
+    vlc
   ];
 
   services.syncthing.enable = true;
