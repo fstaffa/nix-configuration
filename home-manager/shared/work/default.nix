@@ -200,20 +200,6 @@ in {
           folder = "vltava-infrastructure";
         };
       };
-      qpzip-comparison = {
-        repository = {
-          repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/qpzip-comparison.git";
-          folder = "qpzip-comparison";
-        };
-      };
-      pup-widget = {
-        repository = {
-          repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/pup-ui-widget.git";
-          folder = "pup-widget";
-        };
-      };
       packer = {
         repository = {
           repositoryUrl =
@@ -224,7 +210,7 @@ in {
       packer-config = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/packer-config-service.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/packer-config-service.git";
           folder = "packer-config";
         };
       };
@@ -238,7 +224,7 @@ in {
       exchange-rates = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/exchange-rates.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/exchange-rates.git";
           folder = "exchange-rates";
         };
       };
@@ -252,14 +238,14 @@ in {
       boxman-service = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/boxman-service.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/boxman-service.git";
           folder = "boxman-service";
         };
       };
       ci-tools = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/ci-tools.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/ci-tools.git";
           folder = "ci-tools";
         };
       };
@@ -273,7 +259,7 @@ in {
       shiprec-ui = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/praguematic/shiprec-ui.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/shiprec-ui.git";
           folder = "shiprec-ui";
         };
       };

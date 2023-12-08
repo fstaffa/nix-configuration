@@ -12,11 +12,11 @@
     graphviz
     shellcheck
     pkgs-unstable.terraform
-    dotnet-sdk_7
-    omnisharp-roslyn
+    dotnet-sdk_8
+    pkgs-unstable.omnisharp-roslyn
   ];
 
-  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_7}";
+  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
 
   home.file = {
     "${config.xdg.configHome}/chezmoi/chezmoi.toml".source = ./chezmoi.toml;
