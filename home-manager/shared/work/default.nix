@@ -284,6 +284,14 @@ in {
           folder = "planning-v2";
         };
       };
+      tms-security-checker = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/security/tms-security-checker.git";
+          folder = "tms-security-checker";
+        };
+
+      };
     };
   };
 }

@@ -14,6 +14,7 @@
     pkgs-unstable.terraform
     pkgs-unstable.dotnet-sdk_8
     pkgs-unstable.omnisharp-roslyn
+    pkgs-unstable.talosctl
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
