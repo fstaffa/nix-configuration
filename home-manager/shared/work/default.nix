@@ -18,10 +18,10 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-09ae4ab0d06356b66";
+          hostname = "i-01db3a833b963f950";
           availabilityZone = "eu-west-1a";
         };
-        hosts = { gitlab-runner-labe = "i-0ad5b437d03c2177b"; };
+        hosts = { gitlab-runner-labe = "i-039f4af73548537f1"; };
       };
       sapidus = {
         profile = "sapidus";
@@ -37,7 +37,7 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-0205ecb3c09a224ed";
+          hostname = "i-02f53f90733ce9cd9";
           availabilityZone = "eu-west-1a";
         };
       };
