@@ -1,20 +1,20 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  x = 0;
   cfg = config.programs.gpg-personal;
-  yubikey4Ids = [4547547];
-  macGpgSettings = if pkgs.stdenv.isDarwin && (builtins.elem cfg.cardId yubikey4Ids) then {
-    scdaemonSettings = {
-      reader-port = "Yubico Yubikey";
-      #debug-all = true;
-      #debug-level="guru";
-      disable-ccid = true;
-      #shared-access = true;
-      #log-file="/tmp/scd.log";
-    };
-  } else
-    { };
+  yubikey4Ids = [ 4547547 ];
+  macGpgSettings =
+    if pkgs.stdenv.isDarwin && (builtins.elem cfg.cardId yubikey4Ids) then {
+      scdaemonSettings = {
+        reader-port = "Yubico Yubikey";
+        #debug-all = true;
+        #debug-level="guru";
+        disable-ccid = true;
+        #shared-access = true;
+        #log-file="/tmp/scd.log";
+      };
+    } else
+      { };
 in {
   options.programs.gpg-personal = {
     enable = mkEnableOption "personal gpg config with yubikey";
@@ -27,6 +27,7 @@ in {
         toString cfg.cardId
       }";
     programs.gpg = ({
+      package = pkgs.gnupg22;
       enable = true;
       publicKeys = [{
         source = ./personal-key.txt;
