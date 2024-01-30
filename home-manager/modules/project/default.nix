@@ -39,7 +39,7 @@ in {
               type = types.nullOr (types.submodule rdsConfig);
               default = null;
             };
-            type = mkOption { type = types.enum [ "planning" ]; };
+            type = mkOption { type = types.enum [ "planning" "praguematic" ]; };
             repository = mkOption {
               type = types.nullOr (types.submodule repositoryConfig);
               default = null;

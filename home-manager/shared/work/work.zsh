@@ -39,3 +39,15 @@ function set_shipcalc_db_keys {
     export DATABASE__USER=$(echo $SECRET | jq -r '.username')
     export DATABASE__PASSWORD=$(echo $SECRET | jq -r '.password')
 }
+
+function docker-login-planning {
+    aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 244045944478.dkr.ecr.eu-west-1.amazonaws.com
+}
+
+function docker-build {
+    docker build \
+      --build-arg ctArtifactoryUrl=$CT_ARTIFACTORY_URL \
+      --build-arg ctArtifactoryUser=$CT_ARTIFACTORY_USER \
+      --build-arg ctArtifactoryApiKey=$CT_ARTIFACTORY_API_KEY \
+      -f ./Dockerfile
+}

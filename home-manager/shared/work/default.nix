@@ -241,6 +241,17 @@ in {
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/boxman-service.git";
           folder = "boxman-service";
         };
+        type = "praguematic";
+        rds = {
+          basePort = 45432;
+          prd = {
+            host =
+              "db-boxman-production.ckibexf9dpta.eu-west-1.rds.amazonaws.com";
+          };
+          stg = {
+            host = "db-boxman-staging.ckibexf9dpta.eu-west-1.rds.amazonaws.com";
+          };
+        };
       };
       ci-tools = {
         repository = {
