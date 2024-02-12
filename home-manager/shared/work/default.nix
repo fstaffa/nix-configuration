@@ -167,7 +167,7 @@ in {
         };
         type = "planning";
         rds = {
-          basePort = 35432;
+          basePort = 55432;
           prd = { host = "pep-prd.caweq0ojnzgj.eu-west-1.rds.amazonaws.com"; };
           stg = { host = "pep-stg.caweq0ojnzgj.eu-west-1.rds.amazonaws.com"; };
         };
@@ -224,7 +224,7 @@ in {
       exchange-rates = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/exchange-rates.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/exchange-rates.git";
           folder = "exchange-rates";
         };
       };
@@ -251,6 +251,13 @@ in {
           stg = {
             host = "db-boxman-staging.ckibexf9dpta.eu-west-1.rds.amazonaws.com";
           };
+        };
+      };
+      boxman-ui = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/boxman-ui.git";
+          folder = "boxman-ui";
         };
       };
       ci-tools = {
