@@ -18,6 +18,14 @@
     pkgs-unstable.argocd
     pkgs-unstable.kubernetes-helm
     pkgs-unstable.kustomize
+
+    pkgs-unstable.go
+    pkgs-unstable.gopls
+    pkgs-unstable.gotools
+    pkgs-unstable.gore
+    pkgs-unstable.goreleaser
+    pkgs-unstable.gomodifytags
+    pkgs-unstable.gotests
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";

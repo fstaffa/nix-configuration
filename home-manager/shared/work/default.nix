@@ -214,6 +214,13 @@ in {
           folder = "packer-config";
         };
       };
+      packer-ui = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/packer-config-service.git";
+          folder = "packer-ui";
+        };
+      };
       roadmap = {
         repository = {
           repositoryUrl =
