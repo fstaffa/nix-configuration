@@ -217,7 +217,7 @@ in {
       packer-ui = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/packer-config-service.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/packer-ui.git";
           folder = "packer-ui";
         };
       };
