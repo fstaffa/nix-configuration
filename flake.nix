@@ -70,7 +70,7 @@
           config.permittedInsecurePackages = [ "libgcrypt-1.8.10" ];
         });
       legacyPackagesUnstable = forAllSystems (system:
-        import inputs.nixpkgs {
+        import inputs.nixpkgs-unstable {
           inherit system;
 
           config.allowUnfree = true;
