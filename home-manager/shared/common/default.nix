@@ -26,6 +26,7 @@
     pkgs-unstable.goreleaser
     pkgs-unstable.gomodifytags
     pkgs-unstable.gotests
+    pkgs-unstable.cobra-cli
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
