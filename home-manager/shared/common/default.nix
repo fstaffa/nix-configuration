@@ -2,7 +2,7 @@
 
 {
   imports = [ ./ssh.nix ];
-  home.packages = with pkgs; [
+  home.packages = with pkgs-unstable; [
     tokei
     chezmoi
     fnm
@@ -11,22 +11,31 @@
     curl
     graphviz
     shellcheck
-    pkgs-unstable.terraform
-    pkgs-unstable.dotnet-sdk_8
-    pkgs-unstable.omnisharp-roslyn
-    pkgs-unstable.talosctl
-    pkgs-unstable.argocd
-    pkgs-unstable.kubernetes-helm
-    pkgs-unstable.kustomize
+    shfmt
 
-    pkgs-unstable.go
-    pkgs-unstable.gopls
-    pkgs-unstable.gotools
-    pkgs-unstable.gore
-    pkgs-unstable.goreleaser
-    pkgs-unstable.gomodifytags
-    pkgs-unstable.gotests
-    pkgs-unstable.cobra-cli
+    # doom emacs
+    #coreutils-prefixed
+    dockfmt
+    # doom emacs grip-mode for markdown preview
+    python311Packages.grip
+    pandoc
+
+    terraform
+    dotnet-sdk_8
+    omnisharp-roslyn
+    talosctl
+    argocd
+    kubernetes-helm
+    kustomize
+
+    go
+    gopls
+    gotools
+    gore
+    goreleaser
+    gomodifytags
+    gotests
+    cobra-cli
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";

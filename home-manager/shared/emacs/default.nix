@@ -6,7 +6,7 @@ let
   doomConfiguration = "${config.home.homeDirectory}/data/personal/doom.d";
   doomConfigurationUrl = "git@github.com:fstaffa/dotdoom.git";
 in {
-  home.packages = with pkgs; [
+  home.packages = with pkgs-unstable; [
     python3 # treemacs
     (aspellWithDicts (ds: with ds; [ en ]))
     ripgrep
