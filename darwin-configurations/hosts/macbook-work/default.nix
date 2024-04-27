@@ -38,7 +38,7 @@
   system.defaults.NSGlobalDomain.ApplePressAndHoldEnabled = false;
 
   #corresponding sliders KeyRepeat: 120, 90, 60, 30, 12, 6, 2
-  system.defaults.NSGlobalDomain.KeyRepeat = 2;
+  system.defaults.NSGlobalDomain.KeyRepeat = null;
   #corresponding sliders InitialKeyRepeat: 120, 94, 68, 35, 25, 15
-  system.defaults.NSGlobalDomain.InitialKeyRepeat = 15;
+  system.defaults.NSGlobalDomain.InitialKeyRepeat = null;
 }
