@@ -9,7 +9,7 @@ pkgs.mkShell {
     home-manager
     git
     nixfmt
-    nil
+    nixd
     nodePackages_latest.vscode-langservers-extracted
   ];
 }

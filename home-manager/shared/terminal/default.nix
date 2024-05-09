@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 
 {
   programs = {
@@ -27,9 +27,9 @@
     };
   };
 
-  home.packages = with pkgs; [
+  home.packages = with pkgs-unstable; [
     bind # dig package
-    fzf
+    ncdu
     tealdeer
     thefuck
     tmux
