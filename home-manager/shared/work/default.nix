@@ -18,10 +18,10 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-01db3a833b963f950";
+          hostname = "i-04ed7d8937fdef4f3";
           availabilityZone = "eu-west-1a";
         };
-        hosts = { gitlab-runner-labe = "i-039f4af73548537f1"; };
+        hosts = { gitlab-runner-labe = "i-0da937c3b0b864593"; };
       };
       sapidus = {
         profile = "sapidus";
@@ -37,7 +37,7 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-02f53f90733ce9cd9";
+          hostname = "i-051029b00e7f9206b";
           availabilityZone = "eu-west-1a";
         };
       };
@@ -281,18 +281,11 @@ in {
           folder = "gitlab-configuration";
         };
       };
-      shiprec-ui = {
+      planning-v2 = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/shiprec-ui.git";
-          folder = "shiprec-ui";
-        };
-      };
-      transit-data-comparer = {
-        repository = {
-          repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/tools/TransitDataComparer.git";
-          folder = "transit-data-comparer";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v2/tms/planning-v2.git";
+          folder = "planning-v2";
         };
       };
       rate-zone-maps-migrator = {
@@ -302,11 +295,25 @@ in {
           folder = "rate-zone-maps-migrator";
         };
       };
-      planning-v2 = {
+      react-platform-components = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v2/tms/planning-v2.git";
-          folder = "planning-v2";
+            "git@gitlab.com:Cimpress-Technology/internal-open-source/component-library/react-platform-components.git";
+          folder = "react-platform-components";
+        };
+      };
+      security-documentation = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/security/documentation.git";
+          folder = "security-documentation";
+        };
+      };
+      shiprec-ui = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/shiprec-ui.git";
+          folder = "shiprec-ui";
         };
       };
       tms-security-checker = {
@@ -315,7 +322,13 @@ in {
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/security/tms-security-checker.git";
           folder = "tms-security-checker";
         };
-
+      };
+      transit-data-comparer = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/tools/TransitDataComparer.git";
+          folder = "transit-data-comparer";
+        };
       };
     };
   };

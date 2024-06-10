@@ -27,7 +27,6 @@ in {
         toString cfg.cardId
       }";
     programs.gpg = ({
-      package = pkgs.gnupg22;
       enable = true;
       publicKeys = [{
         source = ./personal-key.txt;

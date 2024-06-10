@@ -35,6 +35,7 @@
     goreleaser
     gomodifytags
     gotests
+    golangci-lint
     cobra-cli
   ];
 
