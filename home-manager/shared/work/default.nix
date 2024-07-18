@@ -186,6 +186,20 @@ in {
           folder = "renovate-bot";
         };
       };
+      renovate-test-project-nodejs = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/renovate-test-project-nodejs.git";
+          folder = "renovate-test-project-nodejs";
+        };
+      };
+      renovate-test-project-dotnet = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/renovate-test-project-dotnet.git";
+          folder = "renovate-test-project-dotnet";
+        };
+      };
       shippping-options = {
         repository = {
           repositoryUrl =
