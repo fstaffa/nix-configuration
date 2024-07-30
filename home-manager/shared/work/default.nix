@@ -18,7 +18,7 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-04ed7d8937fdef4f3";
+          hostname = "i-0168143d6bc2cc748";
           availabilityZone = "eu-west-1a";
         };
         hosts = { gitlab-runner-labe = "i-0da937c3b0b864593"; };
@@ -37,7 +37,7 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-051029b00e7f9206b";
+          hostname = "i-0fefd4f0a1ae8b237";
           availabilityZone = "eu-west-1a";
         };
       };
@@ -224,7 +224,7 @@ in {
       packer-config = {
         repository = {
           repositoryUrl =
-            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/packer-config-service.git";
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/packer-config-service.git";
           folder = "packer-config";
         };
       };
@@ -286,6 +286,13 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/ci-tools.git";
           folder = "ci-tools";
+        };
+      };
+      ci-cd-components = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/infrastructure/ci-cd-components.git";
+          folder = "ci-cd-components";
         };
       };
       gitlab-configuration = {
