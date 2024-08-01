@@ -11,7 +11,7 @@
         bold_italic.family = "PragmataPro Mono";
       };
       selection.save_to_clipboard = true;
-      startup_mode = "Maximized";
+      window.startup_mode = "Maximized";
     };
   };
 }

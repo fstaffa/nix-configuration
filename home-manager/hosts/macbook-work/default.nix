@@ -15,7 +15,7 @@
     stateVersion = "22.05";
   };
 
-  home.packages = with pkgs; [ coreutils ];
+  home.packages = with pkgs; [ coreutils fnm ];
 
   programs.gpg-personal = {
     enable = true;
@@ -28,4 +28,10 @@
   # add vscode to the path
   home.sessionPath =
     [ "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ];
+  initExtraFirst = ''
+    if command -v fnm &> /dev/null
+    then
+      eval "$(fnm env --use-on-cd)"
+    fi
+  '';
 }

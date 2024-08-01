@@ -5,7 +5,6 @@
   home.packages = with pkgs-unstable; [
     tokei
     chezmoi
-    fnm
     ripgrep
     jq
     curl
@@ -126,11 +125,6 @@
         export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
         FPATH=$ZDOTDIR/completions:$FPATH
-
-        if command -v fnm &> /dev/null
-        then
-          eval "$(fnm env --use-on-cd)"
-        fi
 
         function set_aws_keys {
           export AWS_ACCESS_KEY_ID=$1
