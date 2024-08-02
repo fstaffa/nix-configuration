@@ -28,10 +28,12 @@
   # add vscode to the path
   home.sessionPath =
     [ "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ];
-  initExtraFirst = ''
-    if command -v fnm &> /dev/null
-    then
-      eval "$(fnm env --use-on-cd)"
-    fi
-  '';
+  programs.zsh = {
+    initExtraFirst = ''
+      if command -v fnm &> /dev/null
+      then
+        eval "$(fnm env --use-on-cd)"
+      fi
+    '';
+  };
 }
