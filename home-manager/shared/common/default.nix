@@ -11,6 +11,7 @@
     graphviz
     shellcheck
     shfmt
+    lsof
 
     # doom emacs
     #coreutils-prefixed

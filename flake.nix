@@ -61,6 +61,9 @@
                 src = inputs.emacs30-src;
               });
             })
+            (final: prev: {
+              burpsuite = prev.burpsuite.override (old: { proEdition = true; });
+            })
           ];
 
           # NOTE: Using `nixpkgs.config` in your NixOS config won't work

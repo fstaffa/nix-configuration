@@ -13,7 +13,8 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [ elisa ];
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -21,6 +22,7 @@
   #nvidia
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
+  hardware.nvidia = { modesetting.enable = true; };
 
   users.users.mathematician314 = {
     isNormalUser = true;
