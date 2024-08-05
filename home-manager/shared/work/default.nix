@@ -74,6 +74,13 @@ in {
           folder = "bastion-labe";
         };
       };
+      logistics-microservices-alignment = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/initiatives/engineering-alignment/microservices.git";
+          folder = "logistics-microservices-alignment";
+        };
+      };
       calendars-ui = {
         repository = {
           repositoryUrl =
