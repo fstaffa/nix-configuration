@@ -17,6 +17,7 @@ let
   unstable-packages = with pkgs-unstable; [ keymapp ];
 in {
   home.packages = stable-packages ++ unstable-packages;
+  home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
   services.syncthing.enable = true;
   services.opensnitch-ui.enable = true;
