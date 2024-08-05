@@ -37,6 +37,8 @@
     gotests
     golangci-lint
     cobra-cli
+
+    nixd
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
