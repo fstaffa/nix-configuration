@@ -68,4 +68,8 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
+  # enables support for Bluetooth
+  hardware.bluetooth.enable = true;
+  # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = true;
 }
