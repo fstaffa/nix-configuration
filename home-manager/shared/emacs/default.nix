@@ -12,7 +12,7 @@ in {
     ripgrep
     fd
     curl
-    emacs29
+    emacs29-pgtk
 
     # needed for emacs-sqllite
     gcc
@@ -27,7 +27,7 @@ in {
 
     nodePackages.prettier
 
-    pkgs-unstable.terraform-ls
+    terraform-ls
 
     # html mode formatting
     html-tidy
