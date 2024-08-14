@@ -3,12 +3,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     personal-packages.url = "github:fstaffa/nix-packages";
+    personal-packages.inputs.nixpkgs.follows = "nixpkgs";
 
     emacs30-src.url = "github:emacs-mirror/emacs";
     emacs30-src.flake = false;
@@ -23,7 +24,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, home-manager, darwin, nixpkgs, flake-utils, emacs-overlay
+  outputs = { self, home-manager, darwin, nixpkgs, emacs-overlay
     , personal-packages, chemacs2, emacs30-src, nixpkgs-unstable, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
@@ -91,18 +92,6 @@
           modules = [ ./home-manager/hosts/iguana ];
 
         };
-        "mathematician314@iguana-manjaro" =
-          home-manager.lib.homeManagerConfiguration {
-            pkgs = legacyPackages.x86_64-linux;
-            extraSpecialArgs = {
-              inherit inputs;
-              personal-packages = personal-packages.packages.x86_64-linux;
-              pkgs-unstable = legacyPackagesUnstable.x86_64-linux;
-            }; # Pass flake inputs to our config
-            # > Our main home-manager configuration file <
-            modules = [ ./home-manager/hosts/iguana-manjaro ];
-
-          };
         "fstaffa@raptor" = home-manager.lib.homeManagerConfiguration {
           pkgs = legacyPackages.aarch64-darwin;
           extraSpecialArgs = {
