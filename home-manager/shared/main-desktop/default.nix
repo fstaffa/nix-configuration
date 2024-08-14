@@ -9,12 +9,20 @@ let
     slack
     vlc
 
+  ];
+  unstable-packages = with pkgs-unstable; [
+    keymapp
+
     # Development
     jetbrains.datagrip
     jetbrains.webstorm
     jetbrains.rider
+    vscode-fhs
+
+    # video
+    obs-studio
+    v4l-utils
   ];
-  unstable-packages = with pkgs-unstable; [ keymapp ];
 in {
   home.packages = stable-packages ++ unstable-packages;
   home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
