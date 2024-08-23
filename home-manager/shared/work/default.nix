@@ -330,6 +330,13 @@ in {
           folder = "react-platform-components";
         };
       };
+      documentation = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/documentation.git";
+          folder = "documentation";
+        };
+      };
       security-documentation = {
         repository = {
           repositoryUrl =
