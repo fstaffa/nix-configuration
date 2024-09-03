@@ -22,8 +22,11 @@
 
   #nvidia
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  hardware.nvidia = { modesetting.enable = true; };
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+  };
 
   users.users.mathematician314 = {
     isNormalUser = true;

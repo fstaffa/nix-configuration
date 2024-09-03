@@ -73,7 +73,6 @@
           # Instead, you should set nixpkgs configs here
           # (https://nixos.org/manual/nixpkgs/stable/#idm140737322551056)
           config.allowUnfree = true;
-          config.permittedInsecurePackages = [ "libgcrypt-1.8.10" ];
         });
       legacyPackagesUnstable = forAllSystems (system:
         import inputs.nixpkgs-unstable {
@@ -124,7 +123,7 @@
         };
       };
 
-      formatter =
-        forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
+      formatter = forAllSystems
+        (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
     };
 }
