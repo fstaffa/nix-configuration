@@ -78,6 +78,7 @@
       delta.enable = true;
       extraConfig = {
         pull.ff = "only";
+        fetch.prune = "true";
         core.editor = "vim";
         init.defaultBranch = "master";
         gitlab.user = "fstaffa";
