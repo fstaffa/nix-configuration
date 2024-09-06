@@ -13,7 +13,7 @@
     personal-packages.url = "github:fstaffa/nix-packages";
     personal-packages.inputs.nixpkgs.follows = "nixpkgs";
 
-    emacs30-src.url = "github:emacs-mirror/emacs";
+    emacs30-src.url = "github:emacs-mirror/emacs/emacs-30";
     emacs30-src.flake = false;
 
     chemacs2 = {
@@ -56,14 +56,6 @@
           inherit system;
           # This adds our overlays to pkgs
           overlays = [
-            emacs-overlay.overlay
-            (final: prev: {
-              emacs30 = prev.emacsGit.overrideAttrs (old: {
-                name = "emacs30";
-                version = "30.0-${inputs.emacs30-src.shortRev}";
-                src = inputs.emacs30-src;
-              });
-            })
             (final: prev: {
               burpsuite = prev.burpsuite.override (old: { proEdition = true; });
             })
@@ -88,6 +80,12 @@
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
             pkgs-unstable = legacyPackagesUnstable.x86_64-linux;
+            emacs30-pgtk =
+              emacs-overlay.packages.x86_64-linux.emacs-pgtk.overrideAttrs (_: {
+                name = "emacs30";
+                version = "30.0-${inputs.emacs30-src.shortRev}";
+                src = inputs.emacs30-src;
+              });
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/iguana ];

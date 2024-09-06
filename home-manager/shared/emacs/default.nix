@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, inputs, ... }:
+{ config, lib, pkgs, pkgs-unstable, emacs30-pgtk, inputs, ... }:
 
 let
   doomDir = "${config.home.homeDirectory}/data/generated/doom.d/";
@@ -6,34 +6,34 @@ let
   doomConfiguration = "${config.home.homeDirectory}/data/personal/doom.d";
   doomConfigurationUrl = "git@github.com:fstaffa/dotdoom.git";
 in {
-  home.packages = with pkgs-unstable; [
-    python3 # treemacs
-    (aspellWithDicts (ds: with ds; [ en ]))
-    ripgrep
-    fd
-    curl
-    emacs29-pgtk
+  home.packages = with pkgs;
+    [
+      python3 # treemacs
+      (aspellWithDicts (ds: with ds; [ en ]))
+      ripgrep
+      fd
+      curl
 
-    # needed for emacs-sqllite
-    gcc
+      # needed for emacs-sqllite
+      gcc
 
-    # needed for vterm
-    emacsPackages.vterm
+      # needed for vterm
+      emacsPackages.vterm
 
-    nodejs
-    # Typescript
-    nodePackages.typescript
-    nodePackages.typescript-language-server
+      nodejs
+      # Typescript
+      nodePackages.typescript
+      nodePackages.typescript-language-server
 
-    nodePackages.prettier
+      nodePackages.prettier
 
-    terraform-ls
+      terraform-ls
 
-    # html mode formatting
-    html-tidy
+      # html mode formatting
+      html-tidy
 
-    exercism
-  ];
+      exercism
+    ] ++ [ emacs30-pgtk ];
 
   home.file = {
     ".emacs.d".source = inputs.chemacs2;
