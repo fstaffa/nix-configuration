@@ -22,6 +22,8 @@ let
     # video
     obs-studio
     v4l-utils
+
+    postman
   ];
 in {
   home.packages = stable-packages ++ unstable-packages;

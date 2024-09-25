@@ -25,6 +25,7 @@
     omnisharp-roslyn
     talosctl
     argocd
+    kubectl
     kubernetes-helm
     kustomize
 

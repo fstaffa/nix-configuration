@@ -27,6 +27,9 @@ in {
 
       nodePackages.prettier
 
+      # needed for lsp-mode
+      unzip
+
       terraform-ls
 
       # html mode formatting

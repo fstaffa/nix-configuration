@@ -21,7 +21,7 @@ in {
           hostname = "i-0168143d6bc2cc748";
           availabilityZone = "eu-west-1a";
         };
-        hosts = { gitlab-runner-labe = "i-0da937c3b0b864593"; };
+        hosts = { gitlab-runner-labe = "i-0f0582ed3374ca67b"; };
       };
       sapidus = {
         profile = "sapidus";
@@ -300,6 +300,20 @@ in {
           repositoryUrl =
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/infrastructure/ci-cd-components.git";
           folder = "ci-cd-components";
+        };
+      };
+      dojo-ts-template = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/dojo/dojo-ts-template.git";
+          folder = "dojo-ts-template";
+        };
+      };
+      dojo-cs-template = {
+        repository = {
+          repositoryUrl =
+            "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/dojo/csharp-template.git";
+          folder = "dojo-cs-template";
         };
       };
       gitlab-configuration = {
