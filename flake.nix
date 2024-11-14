@@ -97,6 +97,13 @@
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
             pkgs-unstable = legacyPackagesUnstable.aarch64-darwin;
+            emacs30-pgtk =
+              emacs-overlay.packages.aarch64-darwin.emacs-pgtk.overrideAttrs
+              (_: {
+                name = "emacs30";
+                version = "30.0-${inputs.emacs30-src.shortRev}";
+                src = inputs.emacs30-src;
+              });
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/macbook-work ];
