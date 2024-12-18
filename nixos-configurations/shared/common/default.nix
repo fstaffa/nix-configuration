@@ -14,7 +14,7 @@
   boot.loader.grub.devices = [ "/dev/nvme0n1" ];
   boot.initrd.supportedFilesystems = [ "zfs" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

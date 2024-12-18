@@ -21,7 +21,7 @@
     pandoc
 
     terraform
-    dotnet-sdk_8
+    dotnet-sdk_9
     omnisharp-roslyn
     talosctl
     argocd
@@ -42,7 +42,7 @@
     nixd
   ];
 
-  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
+  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";
   # fix for ghost characters in zsh https://github.com/ohmyzsh/ohmyzsh/issues/6985#issuecomment-412055789
   home.sessionVariables.LC_CTYPE = "en_US.UTF-8";
   home.sessionVariables.LANG = "en_US.UTF-8";
