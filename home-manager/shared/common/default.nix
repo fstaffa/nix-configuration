@@ -23,11 +23,13 @@
     terraform
     dotnet-sdk_9
     omnisharp-roslyn
-    talosctl
     argocd
     kubectl
     kubernetes-helm
     kustomize
+    kubelogin-oidc
+    talosctl
+    omnictl
 
     go
     gopls
