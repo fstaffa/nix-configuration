@@ -7,7 +7,7 @@
 
   users.users.mathematician314 = {
     extraGroups = [ "libvirtd" "docker" ];
-    packages = with pkgs; [ quickemu ];
+    packages = with pkgs; [ ];
   };
 
   # podman

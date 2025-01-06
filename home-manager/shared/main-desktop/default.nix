@@ -8,6 +8,7 @@ let
     firefox
     slack
     vlc
+    ghostty
 
   ];
   unstable-packages = with pkgs-unstable; [
