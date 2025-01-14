@@ -26,6 +26,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
   users.users.mathematician314 = {
