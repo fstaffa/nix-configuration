@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 
 {
   programs = {
@@ -27,7 +27,7 @@
     };
   };
 
-  home.packages = with pkgs-unstable; [
+  home.packages = with pkgs; [
     bind # dig package
     ncdu
     tealdeer

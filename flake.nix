@@ -3,10 +3,9 @@
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs-unstable";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs";
 
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +26,7 @@
   };
 
   outputs = { self, home-manager, darwin, nixpkgs, emacs-overlay
-    , personal-packages, chemacs2, emacs30-src, nixpkgs-unstable, ... }@inputs:
+    , personal-packages, chemacs2, emacs30-src, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -58,18 +57,24 @@
           overlays = [
             (final: prev: {
               burpsuite = prev.burpsuite.override (old: { proEdition = true; });
+              streamcontroller =
+                let rev = "7dc78a70f805f110f51403a14eb33b4b67167d2f";
+                in prev.streamcontroller.overrideAttrs (old: {
+                  inherit rev;
+                  src = prev.fetchFromGitHub {
+                    owner = "StreamController";
+                    repo = "StreamController";
+                    inherit rev;
+                    hash =
+                      "sha256-zDbj5zu4Ci6utdyUZhXc2Py0gNg8FzpLQS7jfSzKU+A=";
+                  };
+                });
             })
           ];
 
           # NOTE: Using `nixpkgs.config` in your NixOS config won't work
           # Instead, you should set nixpkgs configs here
           # (https://nixos.org/manual/nixpkgs/stable/#idm140737322551056)
-          config.allowUnfree = true;
-        });
-      legacyPackagesUnstable = forAllSystems (system:
-        import inputs.nixpkgs-unstable {
-          inherit system;
-
           config.allowUnfree = true;
         });
 
@@ -79,7 +84,6 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            pkgs-unstable = legacyPackagesUnstable.x86_64-linux;
             emacs30-pgtk =
               emacs-overlay.packages.x86_64-linux.emacs-pgtk.overrideAttrs (_: {
                 name = "emacs30";
@@ -96,7 +100,6 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
-            pkgs-unstable = legacyPackagesUnstable.aarch64-darwin;
             emacs30-pgtk =
               emacs-overlay.packages.aarch64-darwin.emacs-pgtk.overrideAttrs
               (_: {

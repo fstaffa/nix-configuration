@@ -1,8 +1,8 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [ ./ssh.nix ];
-  home.packages = with pkgs-unstable; [
+  home.packages = with pkgs; [
     tokei
     chezmoi
     ripgrep

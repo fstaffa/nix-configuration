@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, emacs30-pgtk, inputs, ... }:
+{ config, lib, pkgs, emacs30-pgtk, inputs, ... }:
 
 let
   doomDir = "${config.home.homeDirectory}/data/generated/doom.d/";

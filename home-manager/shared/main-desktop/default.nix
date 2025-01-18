@@ -1,7 +1,7 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 
-let
-  stable-packages = with pkgs; [
+{
+  home.packages = with pkgs; [
     # Applications
     brave
     burpsuite
@@ -10,8 +10,6 @@ let
     vlc
     ghostty
 
-  ];
-  unstable-packages = with pkgs-unstable; [
     keymapp
 
     # Development
@@ -23,11 +21,15 @@ let
     # video
     obs-studio
     v4l-utils
+    #video download helper
+    vdhcoapp
 
     postman
+
+    streamcontroller
+    kdotool
   ];
-in {
-  home.packages = stable-packages ++ unstable-packages;
+
   home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
   services.syncthing.enable = true;
