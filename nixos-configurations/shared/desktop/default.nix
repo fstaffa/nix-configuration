@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./flatpak.nix ];
+  imports = [ ./flatpak.nix ./squeezelite.nix ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;

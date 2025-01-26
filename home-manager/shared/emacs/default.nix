@@ -16,6 +16,9 @@ in {
 
       # needed for emacs-sqllite
       gcc
+      # vterm
+      cmake
+      libtool
 
       # needed for vterm
       emacsPackages.vterm
