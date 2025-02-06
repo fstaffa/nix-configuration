@@ -5,6 +5,7 @@
     ../../modules/gpg-personal
     ../../shared/common
     ../../shared/terminal
+    ../../shared/ghostty
     ../../shared/work
     ../../shared/emacs
   ];

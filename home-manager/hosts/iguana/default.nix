@@ -7,6 +7,7 @@
     ../../shared/emacs
     ../../shared/terminal
     ../../shared/alacritty
+    ../../shared/ghostty
     ../../shared/main-desktop
     ../../modules/gpg-personal
   ];
