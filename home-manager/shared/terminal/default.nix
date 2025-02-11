@@ -12,6 +12,7 @@
       enable = true;
       fuzzySearchFactor = 2;
       enableZshIntegration = true;
+      enableLightTheme = true;
     };
     zoxide = {
       enable = true;

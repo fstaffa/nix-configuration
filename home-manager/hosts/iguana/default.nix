@@ -24,6 +24,7 @@
   };
 
   programs.zsh = {
+    enable = true;
     initExtra = ''
       VM_FOLDER=~/data/vm
       function vm {

@@ -30,6 +30,7 @@
   };
 
   users.users.mathematician314 = {
+    uid = 1000;
     isNormalUser = true;
     description = "mathematician314";
     extraGroups = [ "networkmanager" "wheel" ];

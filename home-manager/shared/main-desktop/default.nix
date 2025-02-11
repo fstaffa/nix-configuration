@@ -8,7 +8,6 @@
     firefox
     slack
     vlc
-    ghostty
 
     keymapp
 

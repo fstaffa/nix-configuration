@@ -40,6 +40,22 @@
     fsType = "vfat";
   };
 
+  fileSystems."/mnt/music" = {
+    device = "//192.168.10.17/shared/music";
+    fsType = "cifs";
+    options = let
+      # Automount options
+      automount_opts =
+        "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+    in [
+      "${automount_opts}"
+      "credentials=/mnt/smb-secrets"
+      "uid=${toString config.users.users.mathematician314.uid}"
+      "dir_mode=0700"
+      "file_mode=0600"
+    ];
+  };
+
   # from https://unix.stackexchange.com/questions/26364/how-can-i-create-a-tmpfs-as-a-regular-non-root-user
   # fileSystems."ramfs" = {
   #   fsType = "ramfs";

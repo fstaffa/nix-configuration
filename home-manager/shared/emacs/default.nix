@@ -60,6 +60,7 @@ in {
   '';
 
   programs.zsh.initExtra = ''
+    export TERMINFO_DIRS="${doomDir}.local/straight/repos/emacs-eat/terminfo:$TERMINFO_DIRS"
     export DOOMDIR='${doomConfiguration}'
     export PATH="$PATH:${doomDir}/bin"
     export VISUAL='emacsclient -c -t'

@@ -234,6 +234,18 @@ in {
             "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/packer-config-service.git";
           folder = "packer-config";
         };
+        type = "planning";
+        rds = {
+          basePort = 50432;
+          prd = {
+            host =
+              "packer-config-production.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
+          };
+          stg = {
+            host =
+              "packer-config-staging.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
+          };
+        };
       };
       packer-ui = {
         repository = {
