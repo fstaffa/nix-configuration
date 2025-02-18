@@ -236,7 +236,7 @@ in {
         };
         type = "planning";
         rds = {
-          basePort = 50432;
+          basePort = 35432;
           prd = {
             host =
               "packer-config-production.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";

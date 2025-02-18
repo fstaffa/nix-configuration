@@ -114,6 +114,11 @@
       };
 
       nixosConfigurations = {
+        base-server-iso = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./nixos-configurations/hosts/base-server-iso ];
+
+        };
         vm-test = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [ ./nixos-configurations/hosts/vm-test ];
