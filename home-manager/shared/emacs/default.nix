@@ -19,6 +19,7 @@ in {
       # vterm
       cmake
       libtool
+      glibtool # needed on macos, which uses glibtool instead of libtool
 
       # needed for vterm
       emacsPackages.vterm
