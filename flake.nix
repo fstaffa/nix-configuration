@@ -12,8 +12,8 @@
     personal-packages.url = "github:fstaffa/nix-packages";
     personal-packages.inputs.nixpkgs.follows = "nixpkgs";
 
-    emacs30-src.url = "github:emacs-mirror/emacs/emacs-30";
-    emacs30-src.flake = false;
+    emacsNext-src.url = "github:emacs-mirror/emacs";
+    emacsNext-src.flake = false;
 
     chemacs2 = {
       url = "github:plexus/chemacs2";
@@ -26,7 +26,7 @@
   };
 
   outputs = { self, home-manager, darwin, nixpkgs, emacs-overlay
-    , personal-packages, chemacs2, emacs30-src, ... }@inputs:
+    , personal-packages, chemacs2, emacsNext-src, ... }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -84,11 +84,11 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            emacs30-pgtk =
+            emacs31-pgtk =
               emacs-overlay.packages.x86_64-linux.emacs-pgtk.overrideAttrs (_: {
-                name = "emacs30";
-                version = "30.0-${inputs.emacs30-src.shortRev}";
-                src = inputs.emacs30-src;
+                name = "emacs31";
+                version = "31.0-${inputs.emacsNext-src.shortRev}";
+                src = inputs.emacsNext-src;
               });
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
@@ -100,12 +100,12 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
-            emacs30-pgtk =
+            emacs31-pgtk =
               emacs-overlay.packages.aarch64-darwin.emacs-pgtk.overrideAttrs
               (_: {
-                name = "emacs30";
-                version = "30.0-${inputs.emacs30-src.shortRev}";
-                src = inputs.emacs30-src;
+                name = "emacs31";
+                version = "31.0-${inputs.emacsNext-src.shortRev}";
+                src = inputs.emacsNext-src;
               });
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <

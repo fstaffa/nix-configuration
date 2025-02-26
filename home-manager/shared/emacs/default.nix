@@ -1,4 +1,4 @@
-{ config, lib, pkgs, emacs30-pgtk, inputs, ... }:
+{ config, lib, pkgs, emacs31-pgtk, inputs, ... }:
 
 let
   doomDir = "${config.home.homeDirectory}/data/generated/doom.d/";
@@ -13,11 +13,14 @@ in {
       ripgrep
       fd
       curl
+      mediainfo
+      file
 
       # needed for emacs-sqllite
       gcc
       # vterm
       cmake
+      gnumake
       libtool
       glibtool # needed on macos, which uses glibtool instead of libtool
 

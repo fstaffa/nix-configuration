@@ -33,6 +33,6 @@
     ncdu
     tealdeer
     thefuck
-    tmux
+    zip
   ];
 }
