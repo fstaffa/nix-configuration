@@ -61,18 +61,39 @@
 
   home.shellAliases = { gs = "git status"; };
 
-  programs = {
+  programs = let
+    name = "Filip Staffa";
+    email = "294522+fstaffa@users.noreply.github.com";
+    signingKey = "2F542A51673EB578";
+  in {
     direnv = {
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
     };
+    jujutsu = {
+      enable = true;
+      ediff = true;
+      settings = {
+        user = {
+          inherit email;
+          inherit name;
+        };
+        ui.paginate = "never";
+        signing = {
+          sign-all = true;
+          key = signingKey;
+          backend = "gpg";
+          behavior = "own";
+        };
+      };
+    };
     git = let
       githubGitConfig = {
         user = {
-          name = "Filip Staffa";
-          email = "294522+fstaffa@users.noreply.github.com";
-          signingKey = "2F542A51673EB578";
+          inherit name;
+          inherit email;
+          inherit signingKey;
         };
         commit = { gpgSign = true; };
       };
