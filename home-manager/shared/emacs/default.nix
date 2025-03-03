@@ -43,7 +43,7 @@ in {
       html-tidy
 
       exercism
-    ] ++ [ emacs30-pgtk ];
+    ] ++ (if pkgs.stdenv.isDarwin then [ ] else [ emacs30-pgtk ]);
 
   home.file = {
     ".emacs.d".source = inputs.chemacs2;

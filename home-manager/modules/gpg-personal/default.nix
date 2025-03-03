@@ -34,7 +34,7 @@ in {
       }];
     } // macGpgSettings);
 
-    programs.zsh.initExtra = if pkgs.stdenv.isDarwin then ''
+    programs.zsh.profileExtra = if pkgs.stdenv.isDarwin then ''
       export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
     '' else
       "";
