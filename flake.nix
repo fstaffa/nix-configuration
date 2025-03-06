@@ -58,7 +58,7 @@
             (final: prev: {
               burpsuite = prev.burpsuite.override (old: { proEdition = true; });
               streamcontroller =
-                let rev = "4c9a8bf614e6a8a4f77745f4406e6ed933d819a8";
+                let rev = "de11d84afac7873044568606a8468c78d57aceda";
                 in prev.streamcontroller.overrideAttrs (old: {
                   inherit rev;
                   src = prev.fetchFromGitHub {
