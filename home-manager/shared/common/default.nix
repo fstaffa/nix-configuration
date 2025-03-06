@@ -87,7 +87,7 @@
           behavior = "own";
         };
         "--scope" = [{
-          when.repositories = [ "~/data/cimpress" ];
+          "--when".repositories = [ "~/data/cimpress" ];
           user = { email = "fstaffa@cimpress.com"; };
         }];
       };
