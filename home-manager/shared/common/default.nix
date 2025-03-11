@@ -81,11 +81,11 @@
         };
         ui.paginate = "never";
         signing = {
-          sign-all = true;
           key = signingKey;
           backend = "gpg";
-          behavior = "own";
+          behavior = "drop";
         };
+        git = { sign-on-push = true; };
         "--scope" = [{
           "--when".repositories = [ "~/data/cimpress" ];
           user = { email = "fstaffa@cimpress.com"; };
