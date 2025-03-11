@@ -58,7 +58,7 @@
             (final: prev: {
               burpsuite = prev.burpsuite.override (old: { proEdition = true; });
               streamcontroller =
-                let rev = "de11d84afac7873044568606a8468c78d57aceda";
+                let rev = "79efabee57e464da2c4f9657175819bbb4cb6856";
                 in prev.streamcontroller.overrideAttrs (old: {
                   inherit rev;
                   src = prev.fetchFromGitHub {
@@ -66,7 +66,7 @@
                     repo = "StreamController";
                     inherit rev;
                     hash =
-                      "sha256-jcosHh75hPZ+r0s+0AbbBRyw9GNyTD/XXVEDvEsvMjI=";
+                      "sha256-49VYCjfkr2TnpKSrjLP3ZUcUZPKZxeZxe68F+AnDLng=";
                   };
                 });
             })

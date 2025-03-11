@@ -83,7 +83,7 @@
         signing = {
           key = signingKey;
           backend = "gpg";
-          behavior = "drop";
+          behavior = "own";
         };
         git = { sign-on-push = true; };
         "--scope" = [{
