@@ -110,6 +110,7 @@
         core.editor = "vim";
         init.defaultBranch = "master";
         gitlab.user = "fstaffa";
+        github.user = "fstaffa";
         "gitlab.gitlab.com/api" = { user = "fstaffa"; };
         user = {
           name = "Filip Staffa";
