@@ -29,6 +29,7 @@
   };
 
   home.packages = with pkgs; [
+    aider-chat
     bind # dig package
     ncdu
     tealdeer

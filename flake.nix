@@ -23,10 +23,15 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Add streamcontroller repository
+    streamcontroller.url = "github:StreamController/StreamController";
+    streamcontroller.flake = false;
   };
 
   outputs = { self, home-manager, darwin, nixpkgs, emacs-overlay
-    , personal-packages, chemacs2, emacsNext-src, ... }@inputs:
+    , personal-packages, chemacs2, emacsNext-src, streamcontroller, ...
+    }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs [
         "aarch64-linux"
@@ -57,18 +62,11 @@
           overlays = [
             (final: prev: {
               burpsuite = prev.burpsuite.override (old: { proEdition = true; });
-              streamcontroller =
-                let rev = "79efabee57e464da2c4f9657175819bbb4cb6856";
-                in prev.streamcontroller.overrideAttrs (old: {
-                  inherit rev;
-                  src = prev.fetchFromGitHub {
-                    owner = "StreamController";
-                    repo = "StreamController";
-                    inherit rev;
-                    hash =
-                      "sha256-49VYCjfkr2TnpKSrjLP3ZUcUZPKZxeZxe68F+AnDLng=";
-                  };
-                });
+              streamcontroller = let rev = streamcontroller.rev;
+              in prev.streamcontroller.overrideAttrs (old: {
+                inherit rev;
+                src = streamcontroller;
+              });
             })
           ];
 
