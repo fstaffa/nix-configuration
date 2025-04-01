@@ -25,7 +25,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Add streamcontroller repository
-    streamcontroller.url = "github:StreamController/StreamController";
+    streamcontroller.url =
+      "github:StreamController/StreamController/de11d84afac7873044568606a8468c78d57aceda";
     streamcontroller.flake = false;
   };
 
