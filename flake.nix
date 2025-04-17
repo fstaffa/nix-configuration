@@ -26,7 +26,7 @@
 
     # Add streamcontroller repository
     streamcontroller.url =
-      "github:StreamController/StreamController/de11d84afac7873044568606a8468c78d57aceda";
+      "github:StreamController/StreamController/be88bad807d66c3595f19f778bf92904951919e8";
     streamcontroller.flake = false;
   };
 
@@ -63,11 +63,11 @@
           overlays = [
             (final: prev: {
               burpsuite = prev.burpsuite.override (old: { proEdition = true; });
-              streamcontroller = let rev = streamcontroller.rev;
-              in prev.streamcontroller.overrideAttrs (old: {
-                inherit rev;
-                src = streamcontroller;
-              });
+              # streamcontroller = let rev = streamcontroller.rev;
+              # in prev.streamcontroller.overrideAttrs (old: {
+              #   inherit rev;
+              #   src = streamcontroller;
+              # });
             })
           ];
 
