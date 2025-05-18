@@ -6,7 +6,11 @@ let
 in {
 
   imports = [ ../../modules/aws ../../modules/project ];
-  home.packages = [ personal-packages.stskeygen pkgs.docker-compose ];
+  home.packages = [
+    personal-packages.stskeygen
+    pkgs.docker-compose
+    pkgs.postgresql.pg_config
+  ];
 
   home.file = { "${workZshPath}".source = ./work.zsh; };
 
