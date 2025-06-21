@@ -137,7 +137,7 @@
       envExtra = ''
         ZDOTDIR=~/.config/zsh
               XDG_CACHE_HOME=~/.cache'';
-      initExtraFirst = ''
+      initContent = lib.mkBefore ''
         # ZIM setup
 
         ZIM_HOME=''${XDG_CACHE_HOME}/zim

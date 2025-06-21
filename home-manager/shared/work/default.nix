@@ -58,7 +58,7 @@ in {
     };
   }];
 
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     # work files
     source "${workZshPath}"
     if [ -f "${workZshSecrets}" ]; then

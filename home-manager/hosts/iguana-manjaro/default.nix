@@ -28,7 +28,7 @@
   };
 
   programs.zsh = {
-    initExtra = ''
+    initContent = ''
       VM_FOLDER=~/data/vm
       function vm {
         cd $VM_FOLDER

@@ -33,7 +33,6 @@
     bind # dig package
     ncdu
     tealdeer
-    thefuck
     zip
   ];
 }

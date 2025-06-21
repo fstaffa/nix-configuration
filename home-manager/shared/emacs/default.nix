@@ -63,7 +63,7 @@ in {
     fi
   '';
 
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     export TERMINFO_DIRS="${doomDir}.local/straight/repos/emacs-eat/terminfo:$TERMINFO_DIRS"
     export DOOMDIR='${doomConfiguration}'
     export PATH="$PATH:${doomDir}/bin"

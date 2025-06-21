@@ -30,7 +30,7 @@
   home.sessionPath =
     [ "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ];
   programs.zsh = {
-    initExtraFirst = ''
+    initContent = lib.mkBefore ''
       if command -v fnm &> /dev/null
       then
         eval "$(fnm env --use-on-cd)"
