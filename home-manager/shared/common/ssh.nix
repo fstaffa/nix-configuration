@@ -8,6 +8,8 @@
       KeepAlive = "yes";
       IdentitiesOnly = "yes";
       IdentityFile = "${config.home.homeDirectory}/.ssh/id_rsa_yubikey.pub";
+      ControlPath =
+        "${config.home.homeDirectory}/.ssh/sockets/control-%r@%h:%p";
     };
     matchBlocks = {
       "komodo.local" = {
