@@ -22,7 +22,11 @@
     variant = "";
   };
 
-  programs.steam = { enable = true; };
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
+  programs.gamescope.enable = true;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [ ];

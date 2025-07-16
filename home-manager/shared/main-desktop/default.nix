@@ -20,13 +20,13 @@
     # video
     obs-studio
     v4l-utils
-    #video download helper
-    vdhcoapp
 
     postman
 
     streamcontroller
     kdotool
+
+    davinci-resolve-studio
   ];
 
   home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
