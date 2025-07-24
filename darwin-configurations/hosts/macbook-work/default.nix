@@ -11,12 +11,14 @@
     };
     options = "--delete-older-than 30d";
   };
+  nix.enable = true;
 
   security.pki.certificateFiles = [ ../../../common/certificates/ca.pem ];
 
-  services.nix-daemon.enable = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
-  security.pam.enableSudoTouchIdAuth = true;
+  system.primaryUser = "fstaffa";
+  ids.gids.nixbld = 30000;
 
   system.defaults.dock.autohide = true;
   system.defaults.dock.autohide-time-modifier = 0.1;
@@ -50,4 +52,6 @@
   system.defaults.NSGlobalDomain.KeyRepeat = null;
   #corresponding sliders InitialKeyRepeat: 120, 94, 68, 35, 25, 15
   system.defaults.NSGlobalDomain.InitialKeyRepeat = null;
+
+  system.stateVersion = 6;
 }

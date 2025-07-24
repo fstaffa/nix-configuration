@@ -22,7 +22,9 @@
 
     terraform
     dotnet-sdk_9
+    csharpier
     omnisharp-roslyn
+
     argocd
     kubectl
     kubernetes-helm

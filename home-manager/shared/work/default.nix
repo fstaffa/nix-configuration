@@ -22,28 +22,10 @@ in {
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-002dff5f8a550d547";
+          hostname = "i-0238d5815e02dab4c";
           availabilityZone = "eu-west-1a";
         };
         hosts = { gitlab-runner-labe = "i-0fdbe87e47cfeac81"; };
-      };
-      sapidus = {
-        profile = "sapidus";
-        createAdminProfile = true;
-        region = "eu-west-1";
-        bastion = {
-          hostname = "i-0dc0a28fa2312b347";
-          availabilityZone = "eu-west-1a";
-        };
-      };
-      praguematic = {
-        profile = "praguematic";
-        createAdminProfile = true;
-        region = "eu-west-1";
-        bastion = {
-          hostname = "i-0fefd4f0a1ae8b237";
-          availabilityZone = "eu-west-1a";
-        };
       };
     };
   };
