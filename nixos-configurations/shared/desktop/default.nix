@@ -47,11 +47,6 @@
     };
   };
 
-  services.openiscsi = {
-    enable = true;
-    name = "iqn.2000-01.com.nixos:iguana";
-  };
-
   # ergodox
   services.udev.packages = with pkgs; [ zsa-udev-rules ];
 

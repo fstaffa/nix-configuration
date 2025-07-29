@@ -27,6 +27,8 @@
     kdotool
 
     davinci-resolve-studio
+
+    quickemu
   ];
 
   home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
