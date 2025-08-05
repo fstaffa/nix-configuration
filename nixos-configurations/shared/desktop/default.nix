@@ -1,7 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [ ./flatpak.nix ./squeezelite.nix ];
+  imports = [
+    ./flatpak.nix
+    ./squeezelite.nix
+  ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -65,8 +73,14 @@
   };
 
   #synthcing firewall
-  networking.firewall.allowedTCPPorts = [ 8384 22000 ];
-  networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  networking.firewall.allowedTCPPorts = [
+    8384
+    22000
+  ];
+  networking.firewall.allowedUDPPorts = [
+    22000
+    21027
+  ];
 
   # obs virtual camera
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
