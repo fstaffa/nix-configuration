@@ -15,6 +15,8 @@
     jetbrains.webstorm
     jetbrains.rider
     vscode-fhs
+    bruno
+    bruno-cli
 
     # video
     obs-studio
