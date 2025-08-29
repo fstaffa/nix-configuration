@@ -21,6 +21,7 @@
   services.printing.enable = true;
 
   hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
 
   users.users.mathematician314 = {

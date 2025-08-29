@@ -89,4 +89,19 @@
     options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
   '';
   security.polkit.enable = true;
+
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    rocmOverrideGfx = "12.0.1";
+  };
+  services.open-webui = {
+    enable = false;
+    port = 11200;
+  };
+
+  environment.systemPackages = with pkgs; [
+    rocmPackages.amdsmi
+    vulkan-tools
+  ];
 }
