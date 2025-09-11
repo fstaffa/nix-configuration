@@ -1,12 +1,21 @@
-{ config, lib, pkgs, emacs31-pgtk, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  emacs31-pgtk,
+  inputs,
+  ...
+}:
 
 let
-  doomDir = "${config.home.homeDirectory}/data/generated/doom.d/";
+  doomDir = "${config.home.homeDirectory}/.emacs.d";
   doomGitUrl = "https://github.com/doomemacs/doomemacs";
-  doomConfiguration = "${config.home.homeDirectory}/data/personal/doom.d";
+  doomConfiguration = "${config.home.homeDirectory}/.doom.d";
   doomConfigurationUrl = "git@github.com:fstaffa/dotdoom.git";
-in {
-  home.packages = with pkgs;
+in
+{
+  home.packages =
+    with pkgs;
     [
       python3 # treemacs
       (aspellWithDicts (ds: with ds; [ en ]))
@@ -43,14 +52,10 @@ in {
       html-tidy
 
       exercism
-    ] ++ (if pkgs.stdenv.isDarwin then [ ] else [ emacs30-pgtk ]);
+    ]
+    ++ (if pkgs.stdenv.isDarwin then [ ] else [ emacs30-pgtk ]);
 
   home.file = {
-    ".emacs.d".source = inputs.chemacs2;
-    ".config/chemacs/profiles.el".text = ''
-      (("default" . ((user-emacs-directory . "${doomDir}")
-             (env . (("DOOMDIR" . "${doomConfiguration}"))))))
-    '';
     ".authinfo.gpg".source = ./.authinfo.gpg;
   };
 
@@ -64,8 +69,6 @@ in {
   '';
 
   programs.zsh.initContent = ''
-    export TERMINFO_DIRS="${doomDir}.local/straight/repos/emacs-eat/terminfo:$TERMINFO_DIRS"
-    export DOOMDIR='${doomConfiguration}'
     export PATH="$PATH:${doomDir}/bin"
     export VISUAL='emacsclient -c -t'
     export EDITOR='emacsclient -c -t'
