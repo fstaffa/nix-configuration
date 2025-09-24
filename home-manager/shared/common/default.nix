@@ -22,7 +22,7 @@
     #coreutils-prefixed
     dockfmt
     # doom emacs grip-mode for markdown preview
-    python311Packages.grip
+    # python311Packages.grip
     pandoc
 
     terraform

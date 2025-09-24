@@ -13,10 +13,10 @@ test.nixos:
 test.homemanager:
 	home-manager build --flake "."
 
-test.update: update test.nixos test.homemanager
+test.update: update test.homemanager test.nixos
 	echo "All tests passed successfully."
 
-apply: switch.linux
+switch.linux:
 	sudo nixos-rebuild switch --flake "."
 	home-manager switch --flake "."
 
