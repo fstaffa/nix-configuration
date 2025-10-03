@@ -49,6 +49,8 @@
     cobra-cli
 
     nixd
+
+    eas-cli
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";

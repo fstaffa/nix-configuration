@@ -8,7 +8,6 @@
 {
   imports = [
     ./flatpak.nix
-    ./squeezelite.nix
   ];
 
   # Enable the X11 windowing system.
@@ -72,12 +71,15 @@
     };
   };
 
-  #synthcing firewall
   networking.firewall.allowedTCPPorts = [
+    #synthcing firewall
     8384
     22000
+    # expo go
+    19323
   ];
   networking.firewall.allowedUDPPorts = [
+    #synthcing firewall
     22000
     21027
   ];
