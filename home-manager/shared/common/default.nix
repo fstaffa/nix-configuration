@@ -51,6 +51,9 @@
     nixd
 
     eas-cli
+
+    claude-code
+    claude-monitor
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";
