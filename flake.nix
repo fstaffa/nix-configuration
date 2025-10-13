@@ -61,6 +61,18 @@
         }
       );
 
+      # Custom packages
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
+        import ./packages { inherit pkgs system; }
+      );
+
       # This instantiates nixpkgs for each system listed above
       # Allowing you to add overlays and configure it (e.g. allowUnfree)
       # Our configurations will use these instances
