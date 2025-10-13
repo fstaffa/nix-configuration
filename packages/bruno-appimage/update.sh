@@ -7,7 +7,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 VERSIONS_FILE="$SCRIPT_DIR/versions.json"
 
 echo "Fetching latest Bruno release from GitHub..."
-LATEST_VERSION=$(curl -s https://api.github.com/repos/usebruno/bruno/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+if [ -n "${GITHUB_TOKEN:-}" ]; then
+    LATEST_VERSION=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/usebruno/bruno/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+else
+    LATEST_VERSION=$(curl -s https://api.github.com/repos/usebruno/bruno/releases/latest | jq -r '.tag_name' | sed 's/^v//')
+fi
 
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Could not fetch latest version"
