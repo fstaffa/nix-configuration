@@ -93,6 +93,8 @@
               #   src = streamcontroller;
               # });
             })
+            # Add custom packages overlay
+            (final: prev: packages.${system})
           ];
 
           # NOTE: Using `nixpkgs.config` in your NixOS config won't work

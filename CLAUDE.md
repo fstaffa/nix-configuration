@@ -111,6 +111,13 @@ The flake automatically discovers all subdirectories in `packages/` and makes th
 
 Platform-specific packages should use `meta.platforms` to restrict which systems they support (e.g., `platforms = [ "x86_64-linux" ];` for Linux-only packages).
 
+#### Modifying Packages
+**IMPORTANT**: After making any changes to packages (editing existing packages or adding new ones), always verify that the package builds successfully:
+```sh
+nix build .#<package-name>
+```
+This ensures the package definition is valid and all dependencies are correctly specified.
+
 ## Configuration Patterns
 
 When modifying configurations:

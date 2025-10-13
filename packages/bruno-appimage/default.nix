@@ -7,11 +7,13 @@
 
 let
   pname = "bruno-appimage";
-  version = "2.12.0";
+  versions = lib.importJSON ./versions.json;
+  platformData = versions.${stdenv.hostPlatform.system};
+  version = platformData.version;
 
   src = fetchurl {
     url = "https://github.com/usebruno/bruno/releases/download/v${version}/bruno_${version}_x86_64_linux.AppImage";
-    hash = "sha256-BqAlKsZwFldKE0jRP5L7Wa+MgSGkfiDpAtWRjp66zxU=";
+    hash = platformData.hash;
   };
 
   appimageContents = appimageTools.extractType2 { inherit pname version src; };

@@ -15,7 +15,7 @@
     jetbrains.webstorm
     jetbrains.rider
     vscode-fhs
-    bruno
+    bruno-appimage
     bruno-cli
 
     # video
