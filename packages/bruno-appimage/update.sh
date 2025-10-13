@@ -1,9 +1,9 @@
 #!/usr/bin/env nix-shell
 #! nix-shell -i bash -p curl jq nix
 
-set -euo pipefail
+set -eu
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 VERSIONS_FILE="$SCRIPT_DIR/versions.json"
 
 echo "Fetching latest Bruno release from GitHub..."
