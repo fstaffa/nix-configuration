@@ -1,0 +1,43 @@
+name: Periodic check and update of dependencies
+on:
+  push:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+jobs:
+  refresh-overlay:
+    name: Refresh ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: ['bruno-appimage']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+      - name: Check Nix flake Nixpkgs inputs
+        uses: DeterminateSystems/flake-checker-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Configure Git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Update inputs
+        run: |
+          cd packages/${{ matrix.package }}
+          sh update.sh
+
+      - name: Test build
+        run: |
+          nix build ".#${{ matrix.package }}"
+
+      - name: Push commit with updated inputs
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+        run: |
+          git diff --quiet || git commit -a -m "updated ${{ matrix.package }}"
+          git push
