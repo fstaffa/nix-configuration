@@ -49,6 +49,7 @@
     cobra-cli
 
     nixd
+    nixos-anywhere
 
     eas-cli
 

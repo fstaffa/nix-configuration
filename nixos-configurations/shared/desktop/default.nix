@@ -93,7 +93,7 @@
   security.polkit.enable = true;
 
   services.ollama = {
-    enable = true;
+    enable = false;
     acceleration = "rocm";
     rocmOverrideGfx = "12.0.1";
   };
