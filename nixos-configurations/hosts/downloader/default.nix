@@ -1,7 +1,20 @@
-{ config, lib, pkgs, ... }:
-
+{ pkgs, lib, ... }:
 {
-  imports = [ ../../shared/ssh-server ];
+  imports = [
+    ./hardware-configuration.nix
+    ./disko-config.nix
+    ../../shared/ssh-server
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_6_12;
+
+  # Networking configuration
+  networking.hostName = "downloader";
+  networking.useDHCP = lib.mkDefault true;
+
+  # Enable QEMU guest agent for Proxmox integration
+  services.qemuGuest.enable = true;
+
+  # System state version
+  system.stateVersion = "24.05";
 }

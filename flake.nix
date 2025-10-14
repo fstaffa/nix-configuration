@@ -22,6 +22,10 @@
     # Add streamcontroller repository
     streamcontroller.url = "github:StreamController/StreamController/be88bad807d66c3595f19f778bf92904951919e8";
     streamcontroller.flake = false;
+
+    # Disko for declarative disk partitioning
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -34,6 +38,7 @@
       personal-packages,
       emacsNext-src,
       streamcontroller,
+      disko,
       ...
     }@inputs:
     let
@@ -149,6 +154,13 @@
         iguana = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [ ./nixos-configurations/hosts/iguana ];
+        };
+        downloader = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            disko.nixosModules.disko
+            ./nixos-configurations/hosts/downloader
+          ];
         };
       };
 
