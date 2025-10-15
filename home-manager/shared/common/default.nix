@@ -47,6 +47,7 @@
     gotests
     golangci-lint
     cobra-cli
+    glab
 
     nixd
     nixos-anywhere
