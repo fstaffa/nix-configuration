@@ -6,7 +6,10 @@
 }:
 
 {
-  imports = [ ./ssh.nix ];
+  imports = [
+    ./ssh.nix
+    ../../modules/agent-os
+  ];
   home.packages = with pkgs; [
     tokei
     chezmoi
@@ -211,5 +214,8 @@
 
       };
       home-manager.enable = true;
+      agent-os = {
+        enable = true;
+      };
     };
 }
