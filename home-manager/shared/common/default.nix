@@ -51,6 +51,7 @@
     golangci-lint
     cobra-cli
     glab
+    gh
 
     nixd
     nixos-anywhere
