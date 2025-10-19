@@ -60,6 +60,7 @@
 
     claude-code
     claude-monitor
+    opencode
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";

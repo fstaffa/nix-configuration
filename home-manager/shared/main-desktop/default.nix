@@ -22,8 +22,6 @@
     obs-studio
     v4l-utils
 
-    postman
-
     streamcontroller
     kdotool
 
