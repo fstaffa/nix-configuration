@@ -115,108 +115,88 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+  config =
+    let
+      # Build a merged agent-os directory in the Nix store
+      # This combines the base package with user-defined overrides
+      mergedAgentOs = pkgs.runCommand "agent-os-merged" { } ''
+        # Start with a copy of the base package
+        cp -r ${cfg.package}/share/agent-os $out
+        chmod -R u+w $out
 
-    # Activation script to clean up conflicting profile directories before linking
-    home.activation.cleanAgentOsProfiles = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
-      # Check each profile directory that might conflict
-      ${lib.concatStringsSep "\n" (
-        lib.mapAttrsToList (profileName: _: ''
-          profile_path="${config.home.homeDirectory}/agent-os/profiles/${profileName}"
-          if [ -e "$profile_path" ]; then
-            if [ -L "$profile_path" ]; then
-              # Profile is a symlink, remove it entirely
-              $DRY_RUN_CMD rm "$profile_path"
-            else
-              # Profile is a regular directory, check subdirectories
-              for dir in standards product specs; do
-                path="$profile_path/$dir"
-                if [ -L "$path" ]; then
-                  # Subdirectory is a symlink, just unlink it
-                  $DRY_RUN_CMD rm "$path"
-                elif [ -e "$path" ]; then
-                  # Subdirectory is regular, make writable and remove
-                  $DRY_RUN_CMD chmod -R u+w "$path" 2>/dev/null || true
-                  $DRY_RUN_CMD rm -rf "$path"
-                fi
-              done
-            fi
-          fi
-        '') cfg.profiles
-      )}
-    '';
+        # Replace config.yml with user configuration
+        cp ${configYaml} $out/config.yml
 
-    home.file = {
-      # Install the agent-os data directory
-      "agent-os/config.yml".source = configYaml;
+        ${lib.concatStringsSep "\n" (
+          lib.mapAttrsToList (profileName: profile: ''
+            # Handle profile: ${profileName}
+            profile_dir="$out/profiles/${profileName}"
 
-      # Symlink scripts (read-only is fine)
-      "agent-os/scripts".source = "${cfg.package}/share/agent-os/scripts";
-      "agent-os/CHANGELOG.md".source = "${cfg.package}/share/agent-os/CHANGELOG.md";
-      "agent-os/LICENSE".source = "${cfg.package}/share/agent-os/LICENSE";
-      "agent-os/README.md".source = "${cfg.package}/share/agent-os/README.md";
-    }
-    // (
-      # Generate profile files from Nix configuration
-      lib.foldl' (
-        acc: profileName:
-        let
-          profile = cfg.profiles.${profileName};
+            # Create profile directories if they don't exist
+            mkdir -p "$profile_dir"/{standards,product,specs}
 
-          # Helper to create directory content, optionally merging with package defaults
-          mkProfileDir =
-            dirName: files: mergeWithDefault:
-            if files == { } && !mergeWithDefault then
-              { }
-            else
-              {
-                "agent-os/profiles/${profileName}/${dirName}".source = pkgs.runCommand "agent-os-${profileName}-${dirName}" { } ''
-                  mkdir -p $out
-                  ${lib.optionalString mergeWithDefault ''
-                    # Copy default content from package if it exists
-                    if [ -d "${cfg.package}/share/agent-os/profiles/${profileName}/${dirName}" ]; then
-                      cp -r "${cfg.package}/share/agent-os/profiles/${profileName}/${dirName}"/* $out/ || true
-                      chmod -R u+w $out
-                    fi
-                  ''}
-                  ${lib.concatStringsSep "\n" (
-                    lib.mapAttrsToList (name: content: ''
-                      # Create parent directories for nested paths
-                      mkdir -p $out/$(dirname ${lib.escapeShellArg name})
-                      cat > $out/${lib.escapeShellArg name} <<'EOF'
-                      ${content}
-                      EOF
-                    '') files
-                  )}
-                '';
-              };
+            ${lib.concatStringsSep "\n" (
+              lib.mapAttrsToList (name: content: ''
+                # Add/override: standards/${name}
+                mkdir -p "$profile_dir/standards/$(dirname ${lib.escapeShellArg name})"
+                cat > "$profile_dir/standards/${lib.escapeShellArg name}" <<'EOF'
+                ${content}
+                EOF
+              '') profile.standards
+            )}
 
-          # If profile is empty, use the default from the package
-          useDefault = profile.standards == { } && profile.product == { } && profile.specs == { };
-          # Check if we need to merge with defaults (default profile with custom content)
-          mergeWithDefault = profileName == "default" && !useDefault;
-        in
-        if useDefault && profileName == "default" then
-          acc
-          // {
-            "agent-os/profiles/default".source = "${cfg.package}/share/agent-os/profiles/default";
-          }
-        else
-          acc
-          // (mkProfileDir "standards" profile.standards mergeWithDefault)
-          // (mkProfileDir "product" profile.product mergeWithDefault)
-          // (mkProfileDir "specs" profile.specs mergeWithDefault)
-      ) { } (lib.attrNames cfg.profiles)
-    );
+            ${lib.concatStringsSep "\n" (
+              lib.mapAttrsToList (name: content: ''
+                # Add/override: product/${name}
+                mkdir -p "$profile_dir/product/$(dirname ${lib.escapeShellArg name})"
+                cat > "$profile_dir/product/${lib.escapeShellArg name}" <<'EOF'
+                ${content}
+                EOF
+              '') profile.product
+            )}
 
-    # Add shell aliases for convenience
-    programs.bash.shellAliases = mkIf config.programs.bash.enable {
-      agent-os = "~/agent-os/scripts/project-install.sh";
+            ${lib.concatStringsSep "\n" (
+              lib.mapAttrsToList (name: content: ''
+                # Add/override: specs/${name}
+                mkdir -p "$profile_dir/specs/$(dirname ${lib.escapeShellArg name})"
+                cat > "$profile_dir/specs/${lib.escapeShellArg name}" <<'EOF'
+                ${content}
+                EOF
+              '') profile.specs
+            )}
+          '') cfg.profiles
+        )}
+
+        # Patch all scripts to use this merged directory
+        find $out/scripts -name "*.sh" -type f -exec sed -i \
+          "s|BASE_DIR=\"/nix/store/[^/]*/share/agent-os\"|BASE_DIR=\"$out\"|g" {} \;
+      '';
+
+      # Create wrapper scripts that use the merged store path
+      wrappedAgentOs = pkgs.runCommand "agent-os-wrapped" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
+        mkdir -p $out/bin
+
+        # Create wrappers for all scripts
+        for script in ${mergedAgentOs}/scripts/*.sh; do
+          scriptName=$(basename "$script" .sh)
+          makeWrapper "$script" "$out/bin/agent-os-$scriptName" \
+            --prefix PATH : ${lib.makeBinPath cfg.package.buildInputs}
+        done
+
+        # Create a main 'agent-os' command that points to project-install
+        ln -s $out/bin/agent-os-project-install $out/bin/agent-os
+      '';
+    in
+    mkIf cfg.enable {
+      home.packages = [ wrappedAgentOs ];
+
+      # Add shell aliases for convenience
+      programs.bash.shellAliases = mkIf config.programs.bash.enable {
+        agent-os = "agent-os-project-install";
+      };
+
+      programs.zsh.shellAliases = mkIf config.programs.zsh.enable {
+        agent-os = "agent-os-project-install";
+      };
     };
-
-    programs.zsh.shellAliases = mkIf config.programs.zsh.enable {
-      agent-os = "~/agent-os/scripts/project-install.sh";
-    };
-  };
 }

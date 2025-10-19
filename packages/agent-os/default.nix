@@ -39,8 +39,17 @@ stdenvNoCC.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
+    # Create the artifacts folder and copy all files from git repo
     mkdir -p $out/share/agent-os
     cp -r . $out/share/agent-os/
+
+    # Patch all shell scripts to reference the Nix store path instead of ~/agent-os
+    find $out/share/agent-os/scripts -name "*.sh" -type f -exec sed -i \
+      "s|BASE_DIR=\"\$HOME/agent-os\"|BASE_DIR=\"$out/share/agent-os\"|g" {} \;
+
+    # Patch hardcoded references to ~/agent-os in messages and error handling
+    find $out/share/agent-os/scripts -name "*.sh" -type f -exec sed -i \
+      "s|~/agent-os|$out/share/agent-os|g" {} \;
 
     # Create wrapper scripts for the main scripts
     mkdir -p $out/bin
@@ -49,9 +58,6 @@ stdenvNoCC.mkDerivation rec {
       makeWrapper $out/share/agent-os/scripts/$(basename "$script") $out/bin/agent-os-$scriptName \
         --prefix PATH : ${lib.makeBinPath buildInputs}
     done
-
-    # Create a convenience symlink
-    ln -s $out/share/agent-os $out/share/agent-os-data
 
     runHook postInstall
   '';
