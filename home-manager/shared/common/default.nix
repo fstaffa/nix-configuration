@@ -60,6 +60,7 @@
 
     claude-code
     claude-monitor
+    socat
     opencode
   ];
 

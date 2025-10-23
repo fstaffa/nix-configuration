@@ -27,6 +27,7 @@
 
     davinci-resolve-studio
 
+    bubblewrap
     quickemu
   ];
 

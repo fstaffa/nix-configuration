@@ -20,6 +20,7 @@ in
     personal-packages.stskeygen
     pkgs.docker-compose
     pkgs.postgresql.pg_config
+    pkgs.postgresql
   ];
 
   home.file = {

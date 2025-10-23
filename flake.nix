@@ -3,6 +3,7 @@
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs";
@@ -34,6 +35,7 @@
       home-manager,
       darwin,
       nixpkgs,
+      nixpkgs-master,
       emacs-overlay,
       personal-packages,
       emacsNext-src,
@@ -84,6 +86,12 @@
       # Your flake will also let you access your package set through nix build, shell, run, etc.
       legacyPackages = forAllSystems (
         system:
+        let
+          pkgs-master = import nixpkgs-master {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
         import inputs.nixpkgs {
           inherit system;
           # This adds our overlays to pkgs
@@ -92,11 +100,8 @@
               burpsuite = prev.burpsuite.override (old: {
                 proEdition = true;
               });
-              # streamcontroller = let rev = streamcontroller.rev;
-              # in prev.streamcontroller.overrideAttrs (old: {
-              #   inherit rev;
-              #   src = streamcontroller;
-              # });
+              # Override claude-code to use version from nixpkgs master
+              claude-code = pkgs-master.claude-code;
             })
             # Add custom packages overlay
             (final: prev: packages.${system})
