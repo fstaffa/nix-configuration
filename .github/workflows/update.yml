@@ -38,8 +38,27 @@ jobs:
         run: |
           nix build ".#${{ matrix.package }}"
 
-      - name: Push commit with updated inputs
+      - name: Create Pull Request with updated inputs
         if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git diff --quiet || git commit -a -m "updated ${{ matrix.package }}"
-          git push
+          if git diff --quiet; then
+            echo "No changes detected"
+            exit 0
+          fi
+
+          BRANCH_NAME="update-${{ matrix.package }}-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH_NAME"
+          git commit -a -m "Update ${{ matrix.package }} to latest version"
+          git push -u origin "$BRANCH_NAME"
+
+          gh pr create \
+            --title "Update ${{ matrix.package }} to latest version" \
+            --body "Automated update of ${{ matrix.package }} package to the latest version.
+
+          This PR was automatically created by the periodic update workflow.
+
+          Please review the changes and merge if the build passes." \
+            --base master \
+            --head "$BRANCH_NAME"
