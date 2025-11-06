@@ -62,6 +62,7 @@
     claude-monitor
     socat
     opencode
+    github-copilot-cli
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";

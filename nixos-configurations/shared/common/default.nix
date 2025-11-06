@@ -11,12 +11,16 @@
   boot.loader.grub.copyKernels = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.zfsSupport = true;
+  boot.zfs.package = pkgs.zfs_unstable;
   boot.loader.grub.devices = [ "/dev/nvme0n1" ];
   boot.initrd.supportedFilesystems = [ "zfs" ];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_16;
+  boot.kernelPackages = pkgs.linuxPackages_6_17;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   nix.gc = {
     automatic = true;
@@ -52,5 +56,7 @@
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
 
-  programs.zsh = { enable = true; };
+  programs.zsh = {
+    enable = true;
+  };
 }

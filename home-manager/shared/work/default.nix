@@ -371,6 +371,12 @@ in
           folder = "bruno-collections";
         };
       };
+      fluent-bit-logging = {
+        repository = {
+          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/infrastructure/fluent-bit-logging.git";
+          folder = "fluent-bit-logging";
+        };
+      };
     };
   };
 }
