@@ -1,6 +1,6 @@
 {
   "x86_64-linux": {
-    "version": "2.13.2",
-    "hash": "sha256-1SMQKG8vgx29ZO70ZKU8xHrwuerk087oJe4PGYEfsUc="
+    "version": "2.14.0",
+    "hash": "sha256-pkiS85cAqBcdNHd/cmRE44Di4zv0VB2nguCM/xNO+lQ="
   }
 }
