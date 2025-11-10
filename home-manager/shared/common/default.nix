@@ -59,10 +59,10 @@
     eas-cli
 
     claude-code
-    claude-monitor
     socat
     opencode
     github-copilot-cli
+    goose-cli
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";
@@ -138,8 +138,7 @@
         in
         {
           enable = true;
-          delta.enable = true;
-          extraConfig = {
+          settings = {
             pull.ff = "only";
             fetch.prune = "true";
             core.editor = "vim";
@@ -167,6 +166,11 @@
           ];
 
         };
+
+      delta = {
+        enable = true;
+        enableGitIntegration = true;
+      };
 
       zsh = {
         enable = true;

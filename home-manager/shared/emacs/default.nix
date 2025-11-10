@@ -36,7 +36,7 @@ in
       # needed for vterm
       emacs.pkgs.vterm
 
-      nodejs
+      nodejs_24
       # Typescript
       nodePackages.typescript
       nodePackages.typescript-language-server

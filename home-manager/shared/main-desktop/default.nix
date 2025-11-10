@@ -29,6 +29,8 @@
 
     bubblewrap
     quickemu
+
+    bambu-studio
   ];
 
   services.syncthing.enable = true;
