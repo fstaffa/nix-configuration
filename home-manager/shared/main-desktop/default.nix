@@ -30,7 +30,7 @@
     bubblewrap
     quickemu
 
-    bambu-studio
+    bambu-studio-appimage
   ];
 
   services.syncthing.enable = true;
@@ -42,5 +42,4 @@
       pkgs.kdePackages.plasma-browser-integration
     ];
   };
-
 }
