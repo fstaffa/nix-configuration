@@ -1,0 +1,7 @@
+{
+  "x86_64-linux": {
+    "version": "02.03.01.51",
+    "ubuntu_version": "24.04_PR-8583",
+    "hash": "sha256-KA7P8VNROfSQReTfE7urHKzLtL+25eD1c90eVcWJIv0="
+  }
+}
