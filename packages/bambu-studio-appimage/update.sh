@@ -8,13 +8,17 @@ VERSIONS_FILE="$SCRIPT_DIR/versions.json"
 
 echo "Fetching latest Bambu Studio release from GitHub..."
 if [ -n "${GITHUB_TOKEN:-}" ]; then
-    LATEST_RELEASE=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/bambulab/BambuStudio/releases/latest)
+    AUTH_HEADER="-H Authorization: Bearer $GITHUB_TOKEN"
 else
-    LATEST_RELEASE=$(curl -s https://api.github.com/repos/bambulab/BambuStudio/releases/latest)
+    AUTH_HEADER=""
 fi
 
-# Use --raw-output and pipe through sed to handle potential control characters
-LATEST_VERSION=$(echo "$LATEST_RELEASE" | jq -r '.tag_name // empty' | sed 's/^v//')
+# Fetch only tag_name to avoid JSON parsing issues with description
+LATEST_VERSION=$(curl -s $AUTH_HEADER "https://api.github.com/repos/bambulab/BambuStudio/releases/latest" \
+    | grep '"tag_name":' \
+    | head -n 1 \
+    | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/' \
+    | sed 's/^v//')
 
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Could not fetch latest version"
@@ -34,8 +38,12 @@ fi
 
 echo "Updating to version $LATEST_VERSION..."
 
-# Find the Ubuntu 24.04 AppImage asset
-ASSET_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[]? | select(.name | test("ubuntu.*24\\.04.*\\.AppImage$")) | .browser_download_url' | head -n1)
+# Fetch assets list - avoid parsing full JSON, just extract browser_download_url values
+ASSET_URL=$(curl -s $AUTH_HEADER "https://api.github.com/repos/bambulab/BambuStudio/releases/latest" \
+    | grep '"browser_download_url":' \
+    | grep 'ubuntu.*24\.04.*\.AppImage"' \
+    | head -n 1 \
+    | sed 's/.*"browser_download_url": *"\([^"]*\)".*/\1/')
 
 if [ -z "$ASSET_URL" ]; then
     echo "Error: Could not find Ubuntu 24.04 AppImage in release assets"
