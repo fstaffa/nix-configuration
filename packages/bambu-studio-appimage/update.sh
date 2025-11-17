@@ -13,7 +13,8 @@ else
     LATEST_RELEASE=$(curl -s https://api.github.com/repos/bambulab/BambuStudio/releases/latest)
 fi
 
-LATEST_VERSION=$(echo "$LATEST_RELEASE" | jq -r '.tag_name' | sed 's/^v//')
+# Use --raw-output and pipe through sed to handle potential control characters
+LATEST_VERSION=$(echo "$LATEST_RELEASE" | jq -r '.tag_name // empty' | sed 's/^v//')
 
 if [ -z "$LATEST_VERSION" ]; then
     echo "Error: Could not fetch latest version"
@@ -34,7 +35,7 @@ fi
 echo "Updating to version $LATEST_VERSION..."
 
 # Find the Ubuntu 24.04 AppImage asset
-ASSET_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[] | select(.name | test("ubuntu.*24\\.04.*\\.AppImage$")) | .browser_download_url' | head -n1)
+ASSET_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[]? | select(.name | test("ubuntu.*24\\.04.*\\.AppImage$")) | .browser_download_url' | head -n1)
 
 if [ -z "$ASSET_URL" ]; then
     echo "Error: Could not find Ubuntu 24.04 AppImage in release assets"
