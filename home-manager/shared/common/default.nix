@@ -29,7 +29,7 @@
     pandoc
 
     terraform
-    dotnet-sdk_9
+    dotnet-sdk_10
     csharpier
     omnisharp-roslyn
 
@@ -65,7 +65,7 @@
     goose-cli
   ];
 
-  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_9}";
+  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_10}";
   # fix for ghost characters in zsh https://github.com/ohmyzsh/ohmyzsh/issues/6985#issuecomment-412055789
   home.sessionVariables.LC_CTYPE = "en_US.UTF-8";
   home.sessionVariables.LANG = "en_US.UTF-8";
