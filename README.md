@@ -36,6 +36,8 @@ on macos
 open ~/.local/share/fonts
 ```
 
+open Font Book and drag the fonts inside it
+
 # Install macos
 
 ```sh
@@ -52,6 +54,8 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 /System/Library/Filesystems/apfs.fs/Contents/Resources/apfs.util -t
 
 ./result/sw/bin/darwin-rebuild switch --flake ".#raptor"
+
+nix run nix-darwin -- switch --flake .#raptor
 ```
 
 ## Download apps

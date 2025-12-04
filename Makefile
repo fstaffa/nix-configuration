@@ -20,4 +20,8 @@ switch.linux:
 	sudo nixos-rebuild switch --flake "."
 	home-manager switch --flake "."
 
+switch.macos:
+	home-manager switch --flake "."
+	sudo darwin-rebuild switch --flake "."
+
 # end

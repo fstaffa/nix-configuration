@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -16,7 +21,10 @@
     stateVersion = "22.05";
   };
 
-  home.packages = with pkgs; [ coreutils fnm ];
+  home.packages = with pkgs; [
+    coreutils
+    fnm
+  ];
 
   programs.gpg-personal = {
     enable = true;
@@ -27,10 +35,13 @@
   };
 
   # add vscode to the path
-  home.sessionPath =
-    [ "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ];
+  home.sessionPath = [
+    "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+    "${config.home.homeDirectory}/.rd/bin"
+  ];
   programs.zsh = {
     initContent = lib.mkBefore ''
+
       if command -v fnm &> /dev/null
       then
         eval "$(fnm env --use-on-cd)"

@@ -194,6 +194,7 @@
           if [[ ! ''${ZIM_HOME}/init.zsh -nt ''${ZDOTDIR:-''${HOME}}/.zimrc ]]; then
             source ''${ZIM_HOME}/zimfw.zsh init -q
           fi
+          [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
 
           # bat as manpage
           export MANPAGER="sh -c 'col -bx | bat -l man -p'"
