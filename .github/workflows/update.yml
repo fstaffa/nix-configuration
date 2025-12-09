@@ -34,6 +34,13 @@ jobs:
           cd packages/${{ matrix.package }}
           sh update.sh
 
+      - name: Get updated version
+        id: version
+        run: |
+          cd packages/${{ matrix.package }}
+          VERSION=$(jq -r '.["x86_64-linux"].version' versions.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Test build
         run: |
           nix build ".#${{ matrix.package }}"
@@ -50,12 +57,12 @@ jobs:
 
           BRANCH_NAME="update-${{ matrix.package }}-$(date +%Y%m%d-%H%M%S)"
           git checkout -b "$BRANCH_NAME"
-          git commit -a -m "Update ${{ matrix.package }} to latest version"
+          git commit -a -m "Update ${{ matrix.package }} to ${{ steps.version.outputs.version }}"
           git push -u origin "$BRANCH_NAME"
 
           gh pr create \
-            --title "Update ${{ matrix.package }} to latest version" \
-            --body "Automated update of ${{ matrix.package }} package to the latest version.
+            --title "Update ${{ matrix.package }} to ${{ steps.version.outputs.version }}" \
+            --body "Automated update of ${{ matrix.package }} package to version ${{ steps.version.outputs.version }}.
 
           This PR was automatically created by the periodic update workflow.
 
