@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     # Applications
-    brave
     burpsuite
     slack
     vlc
@@ -42,4 +41,13 @@
       pkgs.kdePackages.plasma-browser-integration
     ];
   };
+
+  programs.chromium = {
+    enable = true;
+    package = pkgs.brave;
+    commandLineArgs = [
+      "--disable-features=WaylandWpColorManagerV1"
+    ];
+  };
+
 }

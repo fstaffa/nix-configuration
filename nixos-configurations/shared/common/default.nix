@@ -51,6 +51,14 @@
     LC_TIME = "en_DK.UTF-8";
   };
 
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-gtk
+    ];
+  };
+
   nixpkgs.config.allowUnfree = true;
 
   users.defaultUserShell = pkgs.zsh;
