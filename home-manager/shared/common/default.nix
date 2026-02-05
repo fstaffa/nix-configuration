@@ -31,7 +31,6 @@
     terraform
     dotnet-sdk_10
     csharpier
-    csharp-ls
 
     argocd
     kubectl
@@ -62,7 +61,6 @@
     socat
     opencode
     github-copilot-cli
-    goose-cli
   ];
 
   home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_10}";
