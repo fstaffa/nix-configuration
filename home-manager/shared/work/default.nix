@@ -135,6 +135,9 @@ in
           stg = {
             host = "shipcalc-stg.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
           };
+          workspace = {
+            host = "shipcalc-copy-fstaffa.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
+          };
         };
       };
       configuration-service = {
@@ -270,7 +273,7 @@ in
           repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/praguematic/boxman-service.git";
           folder = "boxman-service";
         };
-        type = "praguematic";
+        type = "planning";
         rds = {
           basePort = 45432;
           prd = {
