@@ -1,6 +1,6 @@
 zmodule zsh-users/zsh-completions --fpath src
-zmodule completion
 zmodule environment
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 zmodule MichaelAquilina/zsh-you-should-use
+zmodule completion

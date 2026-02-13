@@ -11,7 +11,7 @@
   boot.loader.grub.copyKernels = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.zfsSupport = true;
-  boot.zfs.package = pkgs.zfs_unstable;
+  boot.zfs.package = pkgs.zfs;
   boot.loader.grub.devices = [ "/dev/nvme0n1" ];
   boot.initrd.supportedFilesystems = [ "zfs" ];
 
@@ -52,7 +52,8 @@
   };
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    type = "fcitx5";
+    enable = true;
     fcitx5.addons = with pkgs; [
       fcitx5-mozc
       fcitx5-gtk
@@ -71,5 +72,6 @@
 
   programs.zsh = {
     enable = true;
+    enableCompletion = false;
   };
 }

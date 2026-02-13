@@ -168,6 +168,7 @@
       zsh = {
         enable = true;
         dotDir = "${config.xdg.configHome}/zsh";
+        enableCompletion = false;
         envExtra = ''
           ZDOTDIR=~/.config/zsh
                 XDG_CACHE_HOME=~/.cache'';
