@@ -35,11 +35,11 @@ in
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-097dae85a58c975ce";
+          hostname = "i-01df3b9cc95f8cc58";
           availabilityZone = "eu-west-1a";
         };
         hosts = {
-          gitlab-runner-labe = "i-0ab21a62632485716";
+          gitlab-runner-labe = "i-078ae4fcfd4fa9dff";
         };
       };
     };
