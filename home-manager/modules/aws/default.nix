@@ -59,6 +59,19 @@ in {
             hostname = value.bastion.hostname;
           } // commonValues;
         };
+        directInstanceProxyCommand = ''
+          sh -c "INSTANCE=\$(echo %n | sed 's/^${name}-//'); aws ec2-instance-connect send-ssh-public-key --profile ${usedProfile} --instance-os-user ec2-user --ssh-public-key file://${sshKey} --instance-id \$INSTANCE;''
+          + ''
+            aws ssm start-session --profile ${usedProfile} --target \$INSTANCE --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+        directInstances = {
+          name = "${name}-i-*";
+          value = {
+            host = "${name}-i-*";
+            identityFile = sshKey;
+            user = "ec2-user";
+            proxyCommand = directInstanceProxyCommand;
+          };
+        };
         hosts = mapAttrsToList (name: value: {
           name = name;
           value = {
@@ -66,7 +79,7 @@ in {
             hostname = value;
           } // commonValues;
         }) value.hosts;
-      in hosts ++ [ bastion ]);
+      in hosts ++ [ bastion directInstances ]);
     bastions =
       listToAttrs (flatten (mapAttrsToList convertAccount cfg.accounts));
   in mkIf cfg.enable {

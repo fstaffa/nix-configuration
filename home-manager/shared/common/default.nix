@@ -63,7 +63,8 @@
     github-copilot-cli
   ];
 
-  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_10}";
+  home.sessionPath = [ "$HOME/.dotnet/tools" ];
+  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
   # fix for ghost characters in zsh https://github.com/ohmyzsh/ohmyzsh/issues/6985#issuecomment-412055789
   home.sessionVariables.LC_CTYPE = "en_US.UTF-8";
   home.sessionVariables.LANG = "en_US.UTF-8";
