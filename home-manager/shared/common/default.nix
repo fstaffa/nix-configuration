@@ -57,7 +57,7 @@
 
     eas-cli
 
-    claude-code
+    claude-code-bin
     socat
     opencode
     github-copilot-cli
