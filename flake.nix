@@ -3,7 +3,7 @@
   inputs = {
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
+    nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
     emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs";
@@ -35,7 +35,7 @@
       home-manager,
       darwin,
       nixpkgs,
-      nixpkgs-master,
+      nixpkgs-unstable-small,
       emacs-overlay,
       personal-packages,
       emacsNext-src,
@@ -87,7 +87,7 @@
       legacyPackages = forAllSystems (
         system:
         let
-          pkgs-master = import nixpkgs-master {
+          pkgs-unstable-small = import nixpkgs-unstable-small {
             inherit system;
             config.allowUnfree = true;
           };
@@ -100,8 +100,28 @@
               burpsuite = prev.burpsuite.override (old: {
                 proEdition = true;
               });
-              # Override claude-code to use version from nixpkgs master
-              claude-code = pkgs-master.claude-code;
+
+              # Packages from unstable-small for frequent updates
+              # These are CLI tools with few dependencies that benefit from faster updates
+              claude-code = pkgs-unstable-small.claude-code;
+              ripgrep = pkgs-unstable-small.ripgrep;
+              gh = pkgs-unstable-small.gh;
+              glab = pkgs-unstable-small.glab;
+              gopls = pkgs-unstable-small.gopls;
+              nixd = pkgs-unstable-small.nixd;
+              golangci-lint = pkgs-unstable-small.golangci-lint;
+              shellcheck = pkgs-unstable-small.shellcheck;
+              shfmt = pkgs-unstable-small.shfmt;
+              tokei = pkgs-unstable-small.tokei;
+
+              # Kubernetes and DevOps tools
+              kubectl = pkgs-unstable-small.kubectl;
+              kubernetes-helm = pkgs-unstable-small.kubernetes-helm;
+              argocd = pkgs-unstable-small.argocd;
+              kustomize = pkgs-unstable-small.kustomize;
+              talosctl = pkgs-unstable-small.talosctl;
+              omnictl = pkgs-unstable-small.omnictl;
+              terraform = pkgs-unstable-small.terraform;
             })
             # Add custom packages overlay
             (final: prev: packages.${system})

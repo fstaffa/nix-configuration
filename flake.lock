@@ -135,18 +135,18 @@
         "type": "github"
       }
     },
-    "nixpkgs-master": {
+    "nixpkgs-unstable-small": {
       "locked": {
-        "lastModified": 1771477963,
-        "narHash": "sha256-Y/LbvCw0GqGL6q0QIbZHC7sr6YcPvZneSEH1IDqH7U0=",
+        "lastModified": 1772064736,
+        "narHash": "sha256-xwL+opBKxhoIVlg/jjv1yghwKI+MZQLWyo/YWNXKOck=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5afc938c45c03e1d0d3a5c74c71bd09e9d0b0387",
+        "rev": "89b61a4c827bf12b223642f59fcc0753efd528cb",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "master",
+        "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -182,7 +182,7 @@
         "emacsNext-src": "emacsNext-src",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-master": "nixpkgs-master",
+        "nixpkgs-unstable-small": "nixpkgs-unstable-small",
         "personal-packages": "personal-packages",
         "streamcontroller": "streamcontroller"
       }
