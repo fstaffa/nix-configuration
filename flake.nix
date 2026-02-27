@@ -104,6 +104,7 @@
               # Packages from unstable-small for frequent updates
               # These are CLI tools with few dependencies that benefit from faster updates
               claude-code = pkgs-unstable-small.claude-code;
+              claude-code-bin = pkgs-unstable-small.claude-code-bin;
               ripgrep = pkgs-unstable-small.ripgrep;
               gh = pkgs-unstable-small.gh;
               glab = pkgs-unstable-small.glab;
