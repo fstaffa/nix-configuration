@@ -9,6 +9,7 @@
   imports = [
     ./ssh.nix
     ../../modules/agent-os
+    ../../modules/claude
   ];
   home.packages = with pkgs; [
     tokei
@@ -34,6 +35,8 @@
 
     argocd
     kubectl
+    kubeseal
+    skopeo
     kubernetes-helm
     kustomize
     kubelogin-oidc
@@ -64,10 +67,16 @@
   ];
 
   home.sessionPath = [ "$HOME/.dotnet/tools" ];
-  home.sessionVariables.DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
   # fix for ghost characters in zsh https://github.com/ohmyzsh/ohmyzsh/issues/6985#issuecomment-412055789
-  home.sessionVariables.LC_CTYPE = "en_US.UTF-8";
-  home.sessionVariables.LANG = "en_US.UTF-8";
+  home.sessionVariables = {
+    DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
+    LC_CTYPE = "en_US.UTF-8";
+    LANG = "en_US.UTF-8";
+  } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    # Use nix cacert bundle so Go programs (e.g. glab) can verify TLS in sandbox
+    # without needing access to the macOS keychain
+    SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+  };
 
   home.file = {
     "${config.xdg.configHome}/chezmoi/chezmoi.toml".source = ./chezmoi.toml;
