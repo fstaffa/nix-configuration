@@ -1,5 +1,6 @@
 {
   "model": "opusplan",
+  "alwaysThinkingEnabled": true,
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false,
@@ -29,7 +30,15 @@
       "Bash(uniq *)",
       "Bash(find *)",
       "Bash(ls *)",
-      "Bash(glab *)"
+      "Bash(glab *)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch"
     ]
   }
 }
