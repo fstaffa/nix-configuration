@@ -13,7 +13,10 @@
   };
   nix.enable = true;
 
-  security.pki.certificateFiles = [ ../../../common/certificates/ca.pem ];
+  security.pki.certificateFiles = [
+    ../../../common/certificates/ca.pem
+    ../../../common/certificates/home-arpa-ca.crt
+  ];
 
   security.pam.services.sudo_local.touchIdAuth = true;
 

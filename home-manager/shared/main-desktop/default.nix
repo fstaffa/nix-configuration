@@ -40,6 +40,9 @@
     nativeMessagingHosts = [
       pkgs.kdePackages.plasma-browser-integration
     ];
+    policies = {
+      Certificates.ImportEnterpriseRoots = true;
+    };
   };
 
   programs.chromium = {

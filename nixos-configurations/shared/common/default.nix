@@ -34,7 +34,10 @@
   # Set your time zone.
   time.timeZone = "Europe/Prague";
 
-  security.pki.certificateFiles = [ ../../../common/certificates/ca.pem ];
+  security.pki.certificateFiles = [
+    ../../../common/certificates/ca.pem
+    ../../../common/certificates/home-arpa-ca.crt
+  ];
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
