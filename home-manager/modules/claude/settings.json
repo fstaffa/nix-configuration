@@ -3,6 +3,7 @@
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false,
+    "excludedCommands": ["git commit"],
     "network": {
       "allowedDomains": ["gitlab.com"]
     }
@@ -10,6 +11,10 @@
   "attribution": {
     "commit": "",
     "pr": ""
+  },
+  "enabledPlugins": {
+    "csharp-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "permissions": {
     "allow": [
