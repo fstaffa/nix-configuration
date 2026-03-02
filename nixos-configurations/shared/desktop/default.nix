@@ -8,8 +8,15 @@
 {
   imports = [
     ./flatpak.nix
+    ./hyprland.nix
     ./plasma.nix
   ];
+
+  # Display manager — shared across all desktop sessions
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;

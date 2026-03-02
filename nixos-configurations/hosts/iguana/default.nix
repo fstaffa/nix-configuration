@@ -17,6 +17,7 @@
   networking.hostName = "iguana";
 
   myDesktop.plasma.enable = true;
+  myDesktop.hyprland.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

@@ -8,6 +8,7 @@
     ../../shared/terminal
     ../../shared/alacritty
     ../../shared/ghostty
+    ../../shared/hyprland
     ../../shared/main-desktop
     ../../shared/plasma
     ../../modules/gpg-personal
@@ -20,6 +21,7 @@
   };
 
   myDesktop.plasma.enable = true;
+  myDesktop.hyprland.enable = true;
 
   programs.gpg-personal = {
     enable = true;
