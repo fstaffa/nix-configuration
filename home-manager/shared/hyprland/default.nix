@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 {
   options.myDesktop.hyprland.enable = lib.mkEnableOption "Hyprland home-manager integration";
 
@@ -6,7 +11,8 @@
     home.packages = with pkgs; [
       wofi
       mako
-      waybar
+      steam
+      emacs
     ];
 
     # Steam's CEF GPU subprocess crashes with SIGSEGV on AMD under Hyprland.
@@ -26,6 +32,55 @@
       Version=1.5
     '';
 
+    programs.waybar = {
+      enable = true;
+      settings = {
+        mainBar = {
+          layer = "top";
+          position = "top";
+          height = 32;
+
+          modules-left = [ "hyprland/workspaces" ];
+          modules-center = [ ];
+          modules-right = [ "clock" ];
+
+          "hyprland/workspaces" = {
+            format = "{id}";
+            on-click = "activate";
+          };
+
+          clock = {
+            format = "{:%H:%M}";
+            format-alt = "{:%Y-%m-%d %H:%M}";
+            tooltip-format = "<big>{:%B %Y}</big>\n<tt>{calendar}</tt>";
+          };
+        };
+      };
+
+      style = ''
+        * {
+          font-family: "JetBrainsMono Nerd Font", monospace;
+          font-size: 13px;
+        }
+        window#waybar {
+          background: rgba(26, 27, 38, 0.9);
+          color: #cdd6f4;
+        }
+        #workspaces button {
+          padding: 0 8px;
+          color: #6c7086;
+        }
+        #workspaces button.active {
+          color: #89b4fa;
+          border-bottom: 2px solid #89b4fa;
+        }
+        #clock {
+          padding: 0 12px;
+          color: #cdd6f4;
+        }
+      '';
+    };
+
     wayland.windowManager.hyprland = {
       enable = true;
       # Use the system-provided package from NixOS programs.hyprland.enable
@@ -38,6 +93,22 @@
           workspace = 9 silent
           float = yes
         }
+
+        windowrule {
+          name = slack-special
+          match:class = ^Slack$
+          workspace = special:slack silent
+        }
+
+        # System submap — enter with $mod+ESC
+        bind = $mod, escape, submap, system
+        submap = system
+        bind = , L, exec, loginctl lock-session
+        bind = , R, exec, systemctl reboot
+        bind = , S, exec, systemctl suspend
+        bind = , Q, exit
+        bind = , escape, submap, reset
+        submap = reset
       '';
 
       settings = {
@@ -47,6 +118,17 @@
           # Fallback: any other monitor at preferred resolution, 1x scale
           ",preferred,auto,1"
         ];
+
+        general = {
+          border_size = 3;
+          "col.active_border" = "rgba(89b4faee)"; # blue accent
+          "col.inactive_border" = "rgba(45475aaa)"; # muted grey
+        };
+
+        decoration = {
+          dim_inactive = true;
+          dim_strength = 0.25;
+        };
 
         "$mod" = "SUPER";
         "$terminal" = "ghostty";
@@ -61,6 +143,11 @@
           "QT_QPA_PLATFORM,wayland"
           # GDK: prefer Wayland, fall back to X11 (Steam/CEF need the fallback)
           "GDK_BACKEND,wayland,x11,*"
+          # Prevent Java/Swing (DataGrip, etc.) from double-scaling on HiDPI.
+          # Without this, Java reads the 2x XWayland DPI and scales itself up on top
+          # of the compositor scale, resulting in 4x total size.
+          "_JAVA_AWT_WM_NONREPARENTING,1"
+          "_JAVA_OPTIONS,-Dsun.java2d.uiScale=1.0"
           # SDL: intentionally NOT forced to wayland — Steam's CEF GPU subprocess uses
           # GLX (X11 OpenGL) and crashes when SDL forces the Wayland path
         ];
@@ -68,18 +155,29 @@
         exec-once = [
           "waybar"
           "mako"
+          "slack"
         ];
 
         debug.disable_logs = false;
 
         bind = [
           "$mod, Return, exec, $terminal"
-          "$mod, D, exec, $launcher"
+          "$mod, Space, exec, $launcher"
           "$mod, Q, killactive"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
           "$mod, K, movefocus, u"
           "$mod, J, movefocus, d"
+          "$mod, T, togglefloating"
+          "$mod, S, togglespecialworkspace, slack"
+          "$mod SHIFT, H, movewindow, l"
+          "$mod SHIFT, L, movewindow, r"
+          "$mod SHIFT, K, movewindow, u"
+          "$mod SHIFT, J, movewindow, d"
+          "$mod CTRL, H, resizeactive, -20 0"
+          "$mod CTRL, L, resizeactive, 20 0"
+          "$mod CTRL, K, resizeactive, 0 -20"
+          "$mod CTRL, J, resizeactive, 0 20"
           "$mod, 1, workspace, 1"
           "$mod, 2, workspace, 2"
           "$mod, 3, workspace, 3"
@@ -89,6 +187,8 @@
           "$mod, 7, workspace, 7"
           "$mod, 8, workspace, 8"
           "$mod, 9, workspace, 9"
+          # Toggle between dwindle and master layout
+          "$mod ALT, L, exec, bash -c 'if hyprctl getoption general:layout | grep -q dwindle; then hyprctl keyword general:layout master; else hyprctl keyword general:layout dwindle; fi'"
           "$mod SHIFT, 1, movetoworkspace, 1"
           "$mod SHIFT, 2, movetoworkspace, 2"
           "$mod SHIFT, 3, movetoworkspace, 3"
