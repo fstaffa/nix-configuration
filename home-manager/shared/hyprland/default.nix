@@ -11,8 +11,8 @@
     home.packages = with pkgs; [
       wofi
       mako
-      steam
-      emacs
+      grimblast
+      satty
     ];
 
     # Steam's CEF GPU subprocess crashes with SIGSEGV on AMD under Hyprland.
@@ -98,6 +98,13 @@
           name = slack-special
           match:class = ^Slack$
           workspace = special:slack silent
+        }
+
+        windowrule {
+          name = satty-float-fullscreen
+          match:class = ^com\.gabm\.satty$
+          float = yes
+          maximize = yes
         }
 
         # System submap — enter with $mod+ESC
@@ -198,6 +205,10 @@
           "$mod SHIFT, 7, movetoworkspace, 7"
           "$mod SHIFT, 8, movetoworkspace, 8"
           "$mod SHIFT, 9, movetoworkspace, 9"
+          # Screenshots
+          ", Print, exec, grimblast copysave screen"
+          "$mod, Print, exec, grimblast save active - | satty --filename -"
+          "$mod SHIFT, Print, exec, grimblast save area - | satty --filename -"
         ];
       };
     };
