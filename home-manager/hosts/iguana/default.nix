@@ -9,6 +9,7 @@
     ../../shared/alacritty
     ../../shared/ghostty
     ../../shared/main-desktop
+    ../../shared/plasma
     ../../modules/gpg-personal
   ];
 
@@ -17,6 +18,8 @@
     homeDirectory = "/home/mathematician314";
     stateVersion = "22.05";
   };
+
+  myDesktop.plasma.enable = true;
 
   programs.gpg-personal = {
     enable = true;

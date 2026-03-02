@@ -8,6 +8,7 @@
 {
   imports = [
     ./flatpak.nix
+    ./plasma.nix
   ];
 
   # Enable the X11 windowing system.

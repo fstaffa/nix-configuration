@@ -22,7 +22,6 @@
     v4l-utils
 
     streamcontroller
-    kdotool
 
     davinci-resolve-studio
 
@@ -37,9 +36,6 @@
 
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = [
-      pkgs.kdePackages.plasma-browser-integration
-    ];
     policies = {
       Certificates.ImportEnterpriseRoots = true;
     };
