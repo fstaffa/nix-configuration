@@ -16,9 +16,91 @@
       wl-clipboard
       wlsunset
       hyprshutdown
+      hyprpolkitagent
+      playerctl
+      pamixer
+      pavucontrol
     ];
 
+    home.pointerCursor = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = 24;
+      gtk.enable = true;
+    };
+
     services.swaync.enable = true;
+
+    services.hypridle = {
+      enable = true;
+      settings = {
+        general = {
+          lock_cmd = "pidof hyprlock || hyprlock"; # handles loginctl lock-session
+          before_sleep_cmd = "loginctl lock-session"; # lock before suspend
+          after_sleep_cmd = "hyprctl dispatch dpms on"; # wake display after resume
+          # Intentionally no idle timeout for locking — screen locks only on explicit command
+          # ($mod+Escape → L) or before sleep.
+        };
+        listener = [
+          {
+            timeout = 600; # 10 minutes — turn off display only, no lock
+            on-timeout = "hyprctl dispatch dpms off";
+            on-resume = "hyprctl dispatch dpms on";
+          }
+        ];
+      };
+    };
+
+    programs.hyprlock = {
+      enable = true;
+      settings = {
+        general = {
+          disable_loading_bar = true;
+          hide_cursor = true;
+        };
+        background = [
+          {
+            path = "screenshot";
+            blur_passes = 3;
+            blur_size = 8;
+            color = "rgba(1e1e2eff)";
+          }
+        ];
+        input-field = [
+          {
+            size = "300, 50";
+            position = "0, -80";
+            halign = "center";
+            valign = "center";
+            outer_color = "rgba(89b4faee)";
+            inner_color = "rgba(1e1e2eff)";
+            font_color = "rgba(cdd6f4ff)";
+            placeholder_text = "Password...";
+            fail_color = "rgba(f38ba8ee)";
+            check_color = "rgba(a6e3a1ee)";
+          }
+        ];
+        label = [
+          {
+            text = "$TIME";
+            font_size = 64;
+            font_family = "JetBrainsMono Nerd Font";
+            color = "rgba(cdd6f4ff)";
+            position = "0, 80";
+            halign = "center";
+            valign = "center";
+          }
+        ];
+      };
+    };
+
+    services.hyprpaper = {
+      enable = true;
+      settings = {
+        preload = [ "color:0x1e1e2e" ];
+        wallpaper = [ ",color:0x1e1e2e" ];
+      };
+    };
 
     # Steam's CEF GPU subprocess crashes with SIGSEGV on AMD under Hyprland.
     # --disable-gpu disables GPU acceleration in Steam's web renderer (UI only,
@@ -47,11 +129,39 @@
 
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ ];
-          modules-right = [ "tray" "custom/notification" "clock" ];
+          modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" "custom/notification" "clock" ];
 
           "hyprland/workspaces" = {
             format = "{id}";
             on-click = "activate";
+          };
+
+          pulseaudio = {
+            format = "󰕾 {volume}%";
+            format-muted = "󰝟 muted";
+            on-click = "pamixer -t";
+            on-click-right = "pavucontrol";
+            tooltip-format = "{desc} — {volume}%";
+          };
+
+          network = {
+            format-ethernet = "󰈀 {ipaddr}";
+            format-wifi = "󰤨 {essid}";
+            format-disconnected = "󰤭 disconnected";
+            tooltip-format = "{ifname}: {ipaddr}/{cidr}";
+            interval = 5;
+          };
+
+          cpu = {
+            format = "󰻠 {usage}%";
+            interval = 5;
+            tooltip = false;
+          };
+
+          memory = {
+            format = "󰍛 {percentage}%";
+            interval = 5;
+            tooltip-format = "{used:0.1f}G / {total:0.1f}G";
           };
 
           "custom/notification" = {
@@ -99,6 +209,25 @@
         #clock {
           padding: 0 12px;
           color: #cdd6f4;
+        }
+        #pulseaudio {
+          padding: 0 10px;
+          color: #f9e2af;
+        }
+        #pulseaudio.muted {
+          color: #6c7086;
+        }
+        #network {
+          padding: 0 10px;
+          color: #a6e3a1;
+        }
+        #cpu {
+          padding: 0 10px;
+          color: #89b4fa;
+        }
+        #memory {
+          padding: 0 10px;
+          color: #cba6f7;
         }
       '';
     };
@@ -232,6 +361,14 @@
           new_status = "master";
         };
 
+        input = {
+          kb_layout = "us,cz";
+          repeat_rate = 50;
+          repeat_delay = 300;
+          sensitivity = 0;
+          accel_profile = "flat";
+        };
+
         "$mod" = "SUPER";
         "$terminal" = "ghostty";
         "$launcher" = "wofi --show drun";
@@ -252,6 +389,8 @@
           "_JAVA_OPTIONS,-Dsun.java2d.uiScale=1.0"
           # SDL: intentionally NOT forced to wayland — Steam's CEF GPU subprocess uses
           # GLX (X11 OpenGL) and crashes when SDL forces the Wayland path
+          "XCURSOR_SIZE,24"
+          "XCURSOR_THEME,Adwaita"
         ];
 
         exec-once = [
@@ -261,8 +400,10 @@
           "steam"
           "emacs"
           "wl-paste --watch cliphist store"
+          "wl-paste --primary --watch wl-copy"
           "[workspace special:terminal silent] ghostty"
           "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
+          "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
         ];
 
         debug.disable_logs = false;
@@ -272,6 +413,7 @@
           "$mod, E, focuswindow, class:emacs"
           "$mod, Space, exec, $launcher"
           "$mod, Q, killactive"
+          "$mod, D, exec, dolphin"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
           "$mod, K, movefocus, u"
@@ -307,6 +449,8 @@
           "$mod SHIFT, 7, movetoworkspace, 7"
           "$mod SHIFT, 8, movetoworkspace, 8"
           "$mod SHIFT, 9, movetoworkspace, 9"
+          # Keyboard layout toggle (us ↔ cz)
+          "$mod, grave, exec, hyprctl switchxkblayout all next"
           # Notification center
           "$mod, N, exec, swaync-client -t"
           # Clipboard history
@@ -315,6 +459,18 @@
           ", Print, exec, grimblast copysave screen"
           "$mod, Print, exec, grimblast save active - | satty --filename - --copy-command wl-copy"
           "$mod SHIFT, Print, exec, grimblast save area - | satty --filename - --copy-command wl-copy"
+        ];
+
+        bindl = [
+          ", XF86AudioMute, exec, pamixer -t"
+          ", XF86AudioPlay, exec, playerctl play-pause"
+          ", XF86AudioPrev, exec, playerctl previous"
+          ", XF86AudioNext, exec, playerctl next"
+        ];
+
+        binde = [
+          ", XF86AudioRaiseVolume, exec, pamixer -i 5"
+          ", XF86AudioLowerVolume, exec, pamixer -d 5"
         ];
 
         bindm = [
