@@ -4,12 +4,62 @@
   config,
   ...
 }:
+let
+  screenrecGif = pkgs.writeShellApplication {
+    name = "screenrec-gif";
+    runtimeInputs = with pkgs; [
+      wl-screenrec
+      slurp
+      ffmpeg
+      gifsicle
+      libnotify
+    ];
+    text = ''
+      PID_FILE="/tmp/wl-screenrec.pid"
+      TMP_PATH_FILE="/tmp/wl-screenrec.tmppath"
+
+      if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
+        # Stop: signal recorder — background subshell waits and converts
+        kill -INT "$(cat "$PID_FILE")"
+        exit 0
+      fi
+
+      REGION="$(slurp)" || exit 1
+
+      OUTPUT_DIR="$HOME/Videos/recordings"
+      OUTPUT="$OUTPUT_DIR/rec_$(date +%Y%m%d_%H%M%S).gif"
+      TMP_MP4="/tmp/screenrec-$(date +%s).mp4"
+      mkdir -p "$OUTPUT_DIR"
+      echo "$TMP_MP4" > "$TMP_PATH_FILE"
+
+      notify-send "Screen Recorder" "Recording started — press \$mod+R to stop"
+
+      {
+        wl-screenrec -g "$REGION" -f "$TMP_MP4" &
+        echo $! > "$PID_FILE"
+        wait "$(cat "$PID_FILE")" 2>/dev/null || true
+        rm -f "$PID_FILE" "$TMP_PATH_FILE"
+
+        notify-send "Screen Recorder" "Converting to GIF..."
+
+        RAW_GIF="''${TMP_MP4%.mp4}-raw.gif"
+        ffmpeg -i "$TMP_MP4" \
+          -filter_complex "fps=15,scale=1280:-1:flags=lanczos,split[s0][s1];[s0]palettegen=stats_mode=diff[p];[s1][p]paletteuse=dither=floyd_steinberg" \
+          "$RAW_GIF" -y 2>/dev/null
+        gifsicle -O3 --lossy=65 -o "$OUTPUT" "$RAW_GIF"
+        rm -f "$TMP_MP4" "$RAW_GIF"
+        notify-send "Screen Recorder" "GIF saved: $(basename "$OUTPUT")"
+      } &>/dev/null &
+      disown
+    '';
+  };
+in
 {
   options.myDesktop.hyprland.enable = lib.mkEnableOption "Hyprland home-manager integration";
 
   config = lib.mkIf config.myDesktop.hyprland.enable {
     home.packages = with pkgs; [
-      wofi
+      rofi-power-menu
       grimblast
       satty
       cliphist
@@ -20,6 +70,7 @@
       playerctl
       pamixer
       pavucontrol
+      screenrecGif
     ];
 
     home.pointerCursor = {
@@ -100,6 +151,72 @@
         preload = [ "color:0x1e1e2e" ];
         wallpaper = [ ",color:0x1e1e2e" ];
       };
+    };
+
+    programs.rofi = {
+      enable = true;
+      font = "JetBrainsMono Nerd Font 14";
+      terminal = "ghostty";
+      plugins = with pkgs; [
+        rofi-calc
+        rofi-emoji
+      ];
+      extraConfig = {
+        show-icons = true;
+        icon-theme = "Adwaita";
+        modi = "drun,calc,emoji,run";
+        display-drun = " Apps";
+        display-run = " Run";
+        display-calc = " Calc";
+        display-emoji = " Emoji";
+        drun-display-format = "{name}";
+      };
+      theme =
+        let
+          inherit (config.lib.formats.rasi) mkLiteral;
+        in
+        {
+          "*" = {
+            bg = mkLiteral "rgba(30, 30, 46, 0.80)";
+            bg-sel = mkLiteral "#313244";
+            fg = mkLiteral "#cdd6f4";
+            fg-accent = mkLiteral "#89b4fa";
+            fg-muted = mkLiteral "#6c7086";
+            fg-urgent = mkLiteral "#f38ba8";
+            background-color = mkLiteral "@bg";
+            text-color = mkLiteral "@fg";
+            border-color = mkLiteral "@fg-accent";
+          };
+          "window" = {
+            width = mkLiteral "600px";
+            border = mkLiteral "2px solid";
+            border-radius = mkLiteral "8px";
+            padding = mkLiteral "8px";
+          };
+          "element selected" = {
+            background-color = mkLiteral "@bg-sel";
+            text-color = mkLiteral "@fg-accent";
+          };
+          "element-text" = {
+            background-color = mkLiteral "transparent";
+            text-color = mkLiteral "inherit";
+          };
+          "inputbar" = {
+            padding = mkLiteral "8px";
+            border-radius = mkLiteral "4px";
+          };
+          "prompt" = {
+            text-color = mkLiteral "@fg-accent";
+          };
+          "entry" = {
+            placeholder = "Search...";
+            placeholder-color = mkLiteral "@fg-muted";
+          };
+          "listview" = {
+            lines = 8;
+            padding = mkLiteral "4px 0";
+          };
+        };
     };
 
     # Steam's CEF GPU subprocess crashes with SIGSEGV on AMD under Hyprland.
@@ -252,6 +369,12 @@
         }
 
         windowrule {
+          name = brave-special
+          match:class = ^brave-browser$
+          workspace = special:brave silent
+        }
+
+        windowrule {
           name = satty-float-fullscreen
           match:class = ^com\.gabm\.satty$
           float = yes
@@ -273,16 +396,6 @@
           pin = yes
         }
 
-        # System submap — enter with $mod+ESC
-        bind = $mod, escape, submap, system
-        submap = system
-        bind = , L, exec, loginctl lock-session
-        bind = , R, exec, hyprshutdown --post-cmd "systemctl reboot"
-        bind = , P, exec, hyprshutdown --post-cmd "systemctl poweroff"
-        bind = , S, exec, systemctl suspend
-        bind = , Q, exec, hyprshutdown
-        bind = , escape, submap, reset
-        submap = reset
       '';
 
       settings = {
@@ -371,7 +484,7 @@
 
         "$mod" = "SUPER";
         "$terminal" = "ghostty";
-        "$launcher" = "wofi --show drun";
+        "$launcher" = "rofi -show drun";
 
         env = [
           # Enable Wayland backend for NixOS-packaged Chromium/Electron apps
@@ -402,6 +515,7 @@
           "wl-paste --watch cliphist store"
           "wl-paste --primary --watch wl-copy"
           "[workspace special:terminal silent] ghostty"
+          "[workspace special:brave silent] brave"
           "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
           "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
         ];
@@ -412,7 +526,7 @@
           "$mod, Return, exec, $terminal"
           "$mod, E, focuswindow, class:emacs"
           "$mod, Space, exec, $launcher"
-          "$mod, Q, killactive"
+          "$mod SHIFT, Q, killactive"
           "$mod, D, exec, dolphin"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
@@ -421,6 +535,7 @@
           "$mod, F, togglefloating"
           "$mod, T, togglespecialworkspace, terminal"
           "$mod, S, togglespecialworkspace, slack"
+          "$mod, B, togglespecialworkspace, brave"
           "$mod SHIFT, H, movewindow, l"
           "$mod SHIFT, L, movewindow, r"
           "$mod SHIFT, K, movewindow, u"
@@ -454,11 +569,15 @@
           # Notification center
           "$mod, N, exec, swaync-client -t"
           # Clipboard history
-          "$mod, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+          "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+          # System power menu
+          "$mod, escape, exec, rofi -show p -modi p:rofi-power-menu"
           # Screenshots
           ", Print, exec, grimblast copysave screen"
           "$mod, Print, exec, grimblast save active - | satty --filename - --copy-command wl-copy"
           "$mod SHIFT, Print, exec, grimblast save area - | satty --filename - --copy-command wl-copy"
+          # Screen recording → GIF (toggle: first press starts, second press stops + converts)
+          "$mod, R, exec, screenrec-gif"
         ];
 
         bindl = [
