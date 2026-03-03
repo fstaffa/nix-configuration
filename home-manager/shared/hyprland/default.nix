@@ -10,10 +10,15 @@
   config = lib.mkIf config.myDesktop.hyprland.enable {
     home.packages = with pkgs; [
       wofi
-      mako
       grimblast
       satty
+      cliphist
+      wl-clipboard
+      wlsunset
+      hyprshutdown
     ];
+
+    services.swaync.enable = true;
 
     # Steam's CEF GPU subprocess crashes with SIGSEGV on AMD under Hyprland.
     # --disable-gpu disables GPU acceleration in Steam's web renderer (UI only,
@@ -42,11 +47,28 @@
 
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ ];
-          modules-right = [ "clock" ];
+          modules-right = [ "tray" "custom/notification" "clock" ];
 
           "hyprland/workspaces" = {
             format = "{id}";
             on-click = "activate";
+          };
+
+          "custom/notification" = {
+            tooltip = false;
+            format = "{} {icon}";
+            format-icons = {
+              notification = "󰂚";
+              none = "󰂜";
+              dnd-notification = "󰂛";
+              dnd-none = "󰂛";
+            };
+            return-type = "json";
+            exec-if = "which swaync-client";
+            exec = "swaync-client -swb";
+            on-click = "swaync-client -t -sw";
+            on-click-right = "swaync-client -d -sw";
+            escape = true;
           };
 
           clock = {
@@ -90,7 +112,7 @@
         windowrule {
           name = steam-workspace
           match:class = ^steam$
-          workspace = 9 silent
+          workspace = 5 silent
           float = yes
         }
 
@@ -107,13 +129,29 @@
           maximize = yes
         }
 
+        windowrule {
+          name = mpv-float
+          match:class = ^mpv$
+          float = yes
+          size = 960 540
+          center = yes
+        }
+
+        windowrule {
+          name = pip-float
+          match:title = ^Picture.in.Picture$
+          float = yes
+          pin = yes
+        }
+
         # System submap — enter with $mod+ESC
         bind = $mod, escape, submap, system
         submap = system
         bind = , L, exec, loginctl lock-session
-        bind = , R, exec, systemctl reboot
+        bind = , R, exec, hyprshutdown --post-cmd "systemctl reboot"
+        bind = , P, exec, hyprshutdown --post-cmd "systemctl poweroff"
         bind = , S, exec, systemctl suspend
-        bind = , Q, exit
+        bind = , Q, exec, hyprshutdown
         bind = , escape, submap, reset
         submap = reset
       '';
@@ -128,6 +166,8 @@
 
         general = {
           border_size = 3;
+          gaps_in = 3;
+          gaps_out = 6;
           "col.active_border" = "rgba(89b4faee)"; # blue accent
           "col.inactive_border" = "rgba(45475aaa)"; # muted grey
         };
@@ -135,6 +175,61 @@
         decoration = {
           dim_inactive = true;
           dim_strength = 0.25;
+          blur = {
+            enabled = true;
+            size = 8;
+            passes = 2;
+            new_optimizations = true;
+            noise = 0.0117;
+            contrast = 0.8917;
+            brightness = 0.8172;
+            vibrancy = 0.1696;
+            vibrancy_darkness = 0.0;
+          };
+        };
+
+        animations = {
+          enabled = true;
+          bezier = [
+            "easeOutQuint,0.23,1,0.32,1"
+            "easeInOutCubic,0.65,0.05,0.35,0.95"
+            "linear,0,0,1,1"
+            "almostLinear,0.5,0.5,0.75,1.0"
+            "quick,0.15,0,0.1,1"
+          ];
+          animation = [
+            "global, 1, 10, default"
+            "border, 1, 5.39, easeOutQuint"
+            "windows, 1, 4.79, easeOutQuint"
+            "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
+            "windowsOut, 1, 1.49, linear, popin 87%"
+            "fadeIn, 1, 1.73, almostLinear"
+            "fadeOut, 1, 1.46, almostLinear"
+            "fade, 1, 3.03, quick"
+            "layers, 1, 3.81, easeOutQuint"
+            "layersIn, 1, 4, easeOutQuint, fade"
+            "layersOut, 1, 1.5, linear, fade"
+            "fadeLayersIn, 1, 1.79, almostLinear"
+            "fadeLayersOut, 1, 1.39, almostLinear"
+            "workspaces, 1, 1.94, almostLinear, slide"
+            "workspacesIn, 1, 1.21, almostLinear, slide"
+            "workspacesOut, 1, 1.94, almostLinear, slide"
+          ];
+        };
+
+        misc = {
+          vfr = true;
+          mouse_move_enables_dpms = true;
+          disable_hyprland_logo = true;
+        };
+
+        dwindle = {
+          pseudotile = true;
+          preserve_split = true;
+        };
+
+        master = {
+          new_status = "master";
         };
 
         "$mod" = "SUPER";
@@ -161,21 +256,28 @@
 
         exec-once = [
           "waybar"
-          "mako"
+          "swaync"
           "slack"
+          "steam"
+          "emacs"
+          "wl-paste --watch cliphist store"
+          "[workspace special:terminal silent] ghostty"
+          "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
         ];
 
         debug.disable_logs = false;
 
         bind = [
           "$mod, Return, exec, $terminal"
+          "$mod, E, focuswindow, class:emacs"
           "$mod, Space, exec, $launcher"
           "$mod, Q, killactive"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
           "$mod, K, movefocus, u"
           "$mod, J, movefocus, d"
-          "$mod, T, togglefloating"
+          "$mod, F, togglefloating"
+          "$mod, T, togglespecialworkspace, terminal"
           "$mod, S, togglespecialworkspace, slack"
           "$mod SHIFT, H, movewindow, l"
           "$mod SHIFT, L, movewindow, r"
@@ -205,10 +307,19 @@
           "$mod SHIFT, 7, movetoworkspace, 7"
           "$mod SHIFT, 8, movetoworkspace, 8"
           "$mod SHIFT, 9, movetoworkspace, 9"
+          # Notification center
+          "$mod, N, exec, swaync-client -t"
+          # Clipboard history
+          "$mod, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
           # Screenshots
           ", Print, exec, grimblast copysave screen"
-          "$mod, Print, exec, grimblast save active - | satty --filename -"
-          "$mod SHIFT, Print, exec, grimblast save area - | satty --filename -"
+          "$mod, Print, exec, grimblast save active - | satty --filename - --copy-command wl-copy"
+          "$mod SHIFT, Print, exec, grimblast save area - | satty --filename - --copy-command wl-copy"
+        ];
+
+        bindm = [
+          "$mod, mouse:272, movewindow"
+          "$mod, mouse:273, resizewindow"
         ];
       };
     };
