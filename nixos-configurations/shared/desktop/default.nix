@@ -9,6 +9,7 @@
   imports = [
     ./flatpak.nix
     ./hyprland.nix
+    ./opensnitch.nix
     ./plasma.nix
   ];
 
@@ -54,13 +55,6 @@
     };
   };
 
-  services.opensnitch = {
-    enable = false;
-    settings = {
-      DefaultAction = "deny";
-      DefaultDuration = "15m";
-    };
-  };
 
   # ergodox
   services.udev.packages = with pkgs; [ zsa-udev-rules ];

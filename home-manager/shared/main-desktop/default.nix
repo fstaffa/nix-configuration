@@ -32,8 +32,6 @@
   ];
 
   services.syncthing.enable = true;
-  services.opensnitch-ui.enable = true;
-
   programs.firefox = {
     enable = true;
     policies = {
