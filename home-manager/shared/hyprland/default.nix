@@ -5,6 +5,8 @@
   ...
 }:
 let
+  terminal = "alacritty";
+
   screenrecGif = pkgs.writeShellApplication {
     name = "screenrec-gif";
     runtimeInputs = with pkgs; [
@@ -156,7 +158,7 @@ in
     programs.rofi = {
       enable = true;
       font = "JetBrainsMono Nerd Font 14";
-      terminal = "ghostty";
+      terminal = terminal;
       plugins = with pkgs; [
         rofi-calc
         rofi-emoji
@@ -396,6 +398,16 @@ in
           pin = yes
         }
 
+        # Resize submap — enter with $mod+Z, exit with Escape or Return
+        submap = resize
+        binde = , H, resizeactive, -20 0
+        binde = , L, resizeactive, 20 0
+        binde = , K, resizeactive, 0 -20
+        binde = , J, resizeactive, 0 20
+        bind = , escape, submap, reset
+        bind = , return, submap, reset
+        submap = reset
+
       '';
 
       settings = {
@@ -483,7 +495,7 @@ in
         };
 
         "$mod" = "SUPER";
-        "$terminal" = "ghostty";
+        "$terminal" = terminal;
         "$launcher" = "rofi -show drun";
 
         env = [
@@ -514,7 +526,7 @@ in
           "emacs"
           "wl-paste --watch cliphist store"
           "wl-paste --primary --watch wl-copy"
-          "[workspace special:terminal silent] ghostty"
+          "[workspace special:terminal silent] ${terminal}"
           "[workspace special:brave silent] brave"
           "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
           "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
@@ -566,6 +578,8 @@ in
           "$mod SHIFT, 9, movetoworkspace, 9"
           # Keyboard layout toggle (us ↔ cz)
           "$mod, grave, exec, hyprctl switchxkblayout all next"
+          # Window picker (fuzzy search by title/class across all workspaces)
+          "$mod, W, exec, rofi -show window"
           # Notification center
           "$mod, N, exec, swaync-client -t"
           # Clipboard history
@@ -578,6 +592,13 @@ in
           "$mod SHIFT, Print, exec, grimblast save area - | satty --filename - --copy-command wl-copy"
           # Screen recording → GIF (toggle: first press starts, second press stops + converts)
           "$mod, R, exec, screenrec-gif"
+          # Fullscreen / maximize
+          "$mod, M, fullscreen, 1"
+          "$mod SHIFT, M, fullscreen, 0"
+          # Swap current window with master (makes it the big pane)
+          "$mod CTRL, M, layoutmsg, swapwithmaster"
+          # Enter resize submap
+          "$mod, Z, submap, resize"
         ];
 
         bindl = [
