@@ -72,6 +72,7 @@
     DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
     LC_CTYPE = "en_US.UTF-8";
     LANG = "en_US.UTF-8";
+    COLORFGBG = "0;15";
   } // lib.optionalAttrs pkgs.stdenv.isDarwin {
     # Use nix cacert bundle so Go programs (e.g. glab) can verify TLS in sandbox
     # without needing access to the macOS keychain
