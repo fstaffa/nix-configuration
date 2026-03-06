@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
@@ -8,22 +8,21 @@
 
   services.syncthing.enable = true;
 
-  home.packages = with pkgs; [
-    slack
-    vlc
+  home.packages =
+    with pkgs;
+    [
+      slack
+      vlc
 
-    keymapp
+      keymapp
 
-    # Development
-    jetbrains.datagrip
-    jetbrains.webstorm
-    jetbrains.rider
-    vscode-fhs
-    bruno-appimage
-    bruno-cli
+      # Development
+      vscode-fhs
+      bruno-cli
 
-    burpsuite
-
-    bubblewrap
-  ];
+      bubblewrap
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isx86_64 [
+      bruno-appimage
+    ];
 }

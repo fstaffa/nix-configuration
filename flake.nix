@@ -165,6 +165,19 @@
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/macbook-work ];
         };
+        "mathematician314@raptor-vm" = home-manager.lib.homeManagerConfiguration {
+          pkgs = legacyPackages.x86_64-linux;
+          extraSpecialArgs = {
+            inherit inputs;
+            personal-packages = personal-packages.packages.x86_64-linux;
+            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-pgtk.overrideAttrs (_: {
+              name = "emacs31";
+              version = "31.0-${inputs.emacsNext-src.shortRev}";
+              src = inputs.emacsNext-src;
+            });
+          };
+          modules = [ ./home-manager/hosts/raptor-vm ];
+        };
       };
 
       nixosConfigurations = {
@@ -186,6 +199,13 @@
           modules = [
             disko.nixosModules.disko
             ./nixos-configurations/hosts/downloader
+          ];
+        };
+        raptor-vm = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            disko.nixosModules.disko
+            ./nixos-configurations/hosts/raptor-vm
           ];
         };
       };

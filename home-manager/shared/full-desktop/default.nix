@@ -7,6 +7,12 @@
   ];
 
   home.packages = with pkgs; [
+    # Development
+    jetbrains.datagrip
+    jetbrains.webstorm
+    jetbrains.rider
+    burpsuite
+
     # video
     obs-studio
     v4l-utils
