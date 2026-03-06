@@ -1,17 +1,24 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
-    ../../shared/common
+    ../../shared/base-terminal
+    ../../shared/terminal
+    ../../modules/gpg-personal
+    ../../shared/developer-terminal
     ../../shared/work
     ../../shared/emacs
-    ../../shared/terminal
+    ../../shared/base-desktop
     ../../shared/alacritty
     ../../shared/ghostty
     ../../shared/hyprland
-    ../../shared/main-desktop
     ../../shared/plasma
-    ../../modules/gpg-personal
+    ../../shared/main-desktop
   ];
 
   home = {

@@ -61,6 +61,13 @@ in
 
   config = lib.mkIf config.myDesktop.hyprland.enable {
     home.packages = with pkgs; [
+      xarchiver
+      thunar
+      thunar-volman
+      thunar-archive-plugin
+      xfconf  # settings persistence for Thunar outside XFCE
+      gvfs    # trash, remote mounts, MTP (D-Bus activated)
+      tumbler # thumbnail previews (D-Bus activated)
       rofi-power-menu
       grimblast
       satty
@@ -83,6 +90,7 @@ in
     };
 
     services.swaync.enable = true;
+
 
     services.hypridle = {
       enable = true;
@@ -539,7 +547,7 @@ in
           "$mod, E, focuswindow, class:emacs"
           "$mod, Space, exec, $launcher"
           "$mod SHIFT, Q, killactive"
-          "$mod, D, exec, dolphin"
+          "$mod, D, exec, thunar"
           "$mod, H, movefocus, l"
           "$mod, L, movefocus, r"
           "$mod, K, movefocus, u"

@@ -8,8 +8,9 @@
 {
   imports = [
     ../../modules/gpg-personal
-    ../../shared/common
+    ../../shared/base-terminal
     ../../shared/terminal
+    ../../shared/developer-terminal
     ../../shared/ghostty
     ../../shared/work
     ../../shared/emacs

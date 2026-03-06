@@ -63,6 +63,15 @@ in
   ];
 
   programs.zsh.initContent = ''
+    function set_aws_keys {
+      export AWS_ACCESS_KEY_ID=$1
+      export AWS_SECRET_ACCESS_KEY=$2
+      if [[ $# > 2 ]]
+      then
+        export AWS_SESSION_TOKEN=$3
+      fi
+    }
+
     # work files
     source "${workZshPath}"
     if [ -f "${workZshSecrets}" ]; then
