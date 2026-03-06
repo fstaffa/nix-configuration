@@ -11,6 +11,8 @@
     ./hyprland.nix
     ./opensnitch.nix
     ./plasma.nix
+    ./developer.nix
+    ./full.nix
   ];
 
   # Display manager — shared across all desktop sessions
@@ -38,11 +40,6 @@
     variant = "";
   };
 
-  programs.steam = {
-    enable = true;
-    gamescopeSession.enable = true;
-  };
-  programs.gamescope.enable = true;
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [ ];
@@ -74,39 +71,5 @@
     };
   };
 
-  networking.firewall.allowedTCPPorts = [
-    #synthcing firewall
-    8384
-    22000
-    # expo go
-    19323
-  ];
-  networking.firewall.allowedUDPPorts = [
-    #synthcing firewall
-    22000
-    21027
-  ];
-
-  # obs virtual camera
-  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-  boot.kernelModules = [ "v4l2loopback" ];
-  boot.extraModprobeConfig = ''
-    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-  '';
   security.polkit.enable = true;
-
-  services.ollama = {
-    enable = false;
-    package = [ pkgs.ollama-rocm ];
-    rocmOverrideGfx = "12.0.1";
-  };
-  services.open-webui = {
-    enable = false;
-    port = 11200;
-  };
-
-  environment.systemPackages = with pkgs; [
-    rocmPackages.amdsmi
-    vulkan-tools
-  ];
 }

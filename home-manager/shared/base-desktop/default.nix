@@ -1,7 +1,9 @@
 { pkgs, ... }:
 
 {
-  services.syncthing.enable = true;
+  imports = [
+    ../hyprland
+  ];
 
   programs.firefox = {
     enable = true;

@@ -24,6 +24,16 @@
     golangci-lint
     cobra-cli
 
+    rustc
+    cargo
+    rustfmt
+    clippy
+    rust-analyzer
+    cargo-edit
+    cargo-watch
+    cargo-nextest
+    cargo-audit
+
     terraform
     kubectl
     kubeseal

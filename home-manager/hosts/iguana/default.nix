@@ -13,12 +13,11 @@
     ../../shared/developer-terminal
     ../../shared/work
     ../../shared/emacs
-    ../../shared/base-desktop
     ../../shared/alacritty
     ../../shared/ghostty
-    ../../shared/hyprland
+    ./hyprland.nix
     ../../shared/plasma
-    ../../shared/main-desktop
+    ../../shared/full-desktop
   ];
 
   home = {
@@ -28,7 +27,6 @@
   };
 
   myDesktop.plasma.enable = true;
-  myDesktop.hyprland.enable = true;
 
   programs.gpg-personal = {
     enable = true;
