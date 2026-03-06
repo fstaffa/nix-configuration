@@ -76,7 +76,6 @@ nix fmt
 - **vm-test**: Test VM (x86_64, NixOS)
 - **base-server-iso**: Server installation ISO
 - **downloader**: Server configuration
-- **iguana-manjaro**: Home Manager on non-NixOS Manjaro system
 
 ## Special Considerations
 
