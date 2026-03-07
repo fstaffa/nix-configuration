@@ -488,7 +488,6 @@ in
         "waybar"
         "swaync"
         "wl-paste --watch cliphist store"
-        "wl-paste --primary --watch wl-copy"
         "[workspace special:terminal silent] ${terminal}"
         "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
         "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
