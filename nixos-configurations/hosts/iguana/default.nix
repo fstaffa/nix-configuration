@@ -22,6 +22,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Load snd-usb-audio in initrd so it's ready before USB mic is enumerated at ~3s (race condition fix)
+  boot.initrd.kernelModules = [ "snd-usb-audio" ];
+
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.extraPackages = with pkgs; [ rocmPackages.clr.icd ];
