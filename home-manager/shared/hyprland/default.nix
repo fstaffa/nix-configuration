@@ -61,8 +61,8 @@ in
     thunar
     thunar-volman
     thunar-archive-plugin
-    xfconf  # settings persistence for Thunar outside XFCE
-    gvfs    # trash, remote mounts, MTP (D-Bus activated)
+    xfconf # settings persistence for Thunar outside XFCE
+    gvfs # trash, remote mounts, MTP (D-Bus activated)
     tumbler # thumbnail previews (D-Bus activated)
     rofi-power-menu
     grimblast
@@ -234,7 +234,15 @@ in
 
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ ];
-        modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" "custom/notification" "clock" ];
+        modules-right = [
+          "pulseaudio"
+          "network"
+          "cpu"
+          "memory"
+          "tray"
+          "custom/notification"
+          "clock"
+        ];
 
         "hyprland/workspaces" = {
           format = "{id}";
