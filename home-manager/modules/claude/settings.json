@@ -14,6 +14,7 @@
     "pr": ""
   },
   "enabledPlugins": {
+    "skill-creator@claude-plugins-official": true,
     "csharp-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true
   },
