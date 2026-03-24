@@ -59,6 +59,7 @@ in
 
     git = {
       enable = true;
+      signing.format = "openpgp";
       settings = {
         pull.ff = "only";
         fetch.prune = "true";
