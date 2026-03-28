@@ -16,13 +16,18 @@ function aws-sapidus {
     _stskeygen_helper sapidus
 }
 
-AWS_PROFILE="logisticsquotingplanning@admin"
+export AWS_PROFILE="logisticsquotingplanning@admin"
+export ANTHROPIC_DEFAULT_OPUS_MODEL='eu.anthropic.claude-opus-4-6-v1[1m]'
+export ANTHROPIC_DEFAULT_SONNET_MODEL='eu.anthropic.claude-sonnet-4-6[1m]'
+export ANTHROPIC_DEFAULT_HAIKU_MODEL='eu.anthropic.claude-haiku-4-5-20251001-v1:0'
+export CLAUDE_CODE_USE_BEDROCK=1
+export AWS_REGION=eu-west-1
 
 function bastion_key {
     SSH_KEY_FILE=~/.ssh/bastion_connect
     rm $SSH_KEY_FILE*
     ssh-keygen -t rsa -b 2048 -f $SSH_KEY_FILE -q -N ""
-    instance_id=`aws ec2 describe-instances --filter Name=tag:Name,Values=Bastion Name=instance-state-name,Values=running --query 'Reservations[*].Instances[*].{Instance:InstanceId}' --output text`
+    instance_id=$(aws ec2 describe-instances --filter Name=tag:Name,Values=Bastion Name=instance-state-name,Values=running --query 'Reservations[*].Instances[*].{Instance:InstanceId}' --output text)
     echo $instance_id
     aws ec2-instance-connect send-ssh-public-key --region eu-west-1 --instance-os-user ec2-user --ssh-public-key file://$SSH_KEY_FILE.pub --availability-zone eu-west-1a --instance-id $instance_id
 }
@@ -46,8 +51,8 @@ function docker-login-planning {
 
 function docker-build {
     docker build \
-      --build-arg ctArtifactoryUrl=$CT_ARTIFACTORY_URL \
-      --build-arg ctArtifactoryUser=$CT_ARTIFACTORY_USER \
-      --build-arg ctArtifactoryApiKey=$CT_ARTIFACTORY_API_KEY \
-      -f ./Dockerfile
+        --build-arg ctArtifactoryUrl=$CT_ARTIFACTORY_URL \
+        --build-arg ctArtifactoryUser=$CT_ARTIFACTORY_USER \
+        --build-arg ctArtifactoryApiKey=$CT_ARTIFACTORY_API_KEY \
+        -f ./Dockerfile
 }
