@@ -1,5 +1,15 @@
 {
+  "statusLine": {
+    "type": "command",
+    "command": "~/.local/bin/claude-statusline"
+  },
   "model": "opusplan",
+  "env": {
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "eu.anthropic.claude-opus-4-6-v1[1m]",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "eu.anthropic.claude-sonnet-4-6[1m]",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "CLAUDE_CODE_USE_BEDROCK": "1"
+  },
   "alwaysThinkingEnabled": true,
   "sandbox": {
     "enabled": true,
@@ -16,7 +26,11 @@
   "enabledPlugins": {
     "skill-creator@claude-plugins-official": true,
     "csharp-lsp@claude-plugins-official": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "create-mr@labe-claude": true,
+    "gitlab-ticket@labe-claude": true,
+    "service-documenter@labe-claude": true,
+    "write-epic@labe-claude": true
   },
   "permissions": {
     "allow": [

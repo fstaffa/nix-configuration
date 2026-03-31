@@ -17,10 +17,6 @@ function aws-sapidus {
 }
 
 export AWS_PROFILE="logisticsquotingplanning@admin"
-export ANTHROPIC_DEFAULT_OPUS_MODEL='eu.anthropic.claude-opus-4-6-v1[1m]'
-export ANTHROPIC_DEFAULT_SONNET_MODEL='eu.anthropic.claude-sonnet-4-6[1m]'
-export ANTHROPIC_DEFAULT_HAIKU_MODEL='eu.anthropic.claude-haiku-4-5-20251001-v1:0'
-export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=eu-west-1
 
 function bastion_key {

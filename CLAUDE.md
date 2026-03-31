@@ -117,6 +117,17 @@ nix build .#<package-name>
 ```
 This ensures the package definition is valid and all dependencies are correctly specified.
 
+## Claude Code Configuration
+
+Claude Code settings are managed via home-manager, not edited directly. The configuration lives at:
+
+- `home-manager/modules/claude/settings.json` — main settings (deployed to `~/.claude/settings.json`)
+- `home-manager/modules/claude/statusline.sh` — status line script (deployed to `~/.local/bin/claude-statusline`)
+- `home-manager/modules/claude/agents/` — custom agent definitions
+- `home-manager/modules/claude/output-styles/` — output style definitions
+
+To apply changes: `home-manager switch --flake "."` (or `make switch.linux` on iguana).
+
 ## Configuration Patterns
 
 When modifying configurations:
