@@ -16,6 +16,10 @@ in
       source = ./statusline.sh;
       executable = true;
     };
+    ".local/bin/claude-hook-block-gh-api-writes" = {
+      source = ./hooks/block-gh-api-writes.sh;
+      executable = true;
+    };
   } // lib.mapAttrs' (name: _: {
     name = ".claude/agents/${name}";
     value.source = agentsDir + "/${name}";
