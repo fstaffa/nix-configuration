@@ -38,10 +38,10 @@ in
 
       nodejs_24
       # Typescript
-      nodePackages.typescript
-      nodePackages.typescript-language-server
+      typescript
+      typescript-language-server
 
-      nodePackages.prettier
+      prettier
 
       # needed for lsp-mode
       unzip

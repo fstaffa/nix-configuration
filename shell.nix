@@ -10,6 +10,6 @@ pkgs.mkShell {
     git
     nixfmt
     nixd
-    nodePackages_latest.vscode-langservers-extracted
+    vscode-langservers-extracted
   ];
 }
