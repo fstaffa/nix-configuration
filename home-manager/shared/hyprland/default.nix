@@ -499,6 +499,7 @@ in
         "[workspace special:terminal silent] ${terminal}"
         "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
         "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
+        "firefox"
       ];
 
       debug.disable_logs = false;
@@ -541,6 +542,8 @@ in
         "$mod SHIFT, 7, movetoworkspace, 7"
         "$mod SHIFT, 8, movetoworkspace, 8"
         "$mod SHIFT, 9, movetoworkspace, 9"
+        "$mod SHIFT, S, movetospecialworkspace, slack"
+        "$mod SHIFT, B, movetospecialworkspace, brave"
         "$mod, grave, exec, hyprctl switchxkblayout all next"
         "$mod, W, exec, rofi -show window"
         "$mod, N, exec, swaync-client -t"
