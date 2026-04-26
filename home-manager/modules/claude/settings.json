@@ -14,7 +14,7 @@
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false,
-    "excludedCommands": ["git commit"],
+    "excludedCommands": ["git commit", "git fetch", "git push"],
     "network": {
       "allowedDomains": ["gitlab.com"]
     }
