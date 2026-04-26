@@ -31,7 +31,9 @@
     "create-mr@labe-claude": true,
     "gitlab-ticket@labe-claude": true,
     "service-documenter@labe-claude": true,
-    "write-epic@labe-claude": true
+    "write-epic@labe-claude": true,
+    "apply-mr-review@labe-claude": true,
+    "create-support-ticket@labe-claude": true
   },
   "hooks": {
     "PreToolUse": [

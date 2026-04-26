@@ -14,16 +14,6 @@
     dotnet-sdk_10
     csharpier
 
-    go
-    gopls
-    gotools
-    gore
-    goreleaser
-    gomodifytags
-    gotests
-    golangci-lint
-    cobra-cli
-
     rustc
     cargo
     rustfmt

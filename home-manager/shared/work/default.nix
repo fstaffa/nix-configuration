@@ -35,7 +35,7 @@ in
         createAdminProfile = true;
         region = "eu-west-1";
         bastion = {
-          hostname = "i-01df3b9cc95f8cc58";
+          hostname = "i-008db41b02b2f3923";
           availabilityZone = "eu-west-1a";
         };
         hosts = {
