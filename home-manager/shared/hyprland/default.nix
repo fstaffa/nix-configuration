@@ -64,6 +64,7 @@ in
     xfconf # settings persistence for Thunar outside XFCE
     gvfs # trash, remote mounts, MTP (D-Bus activated)
     tumbler # thumbnail previews (D-Bus activated)
+    libnotify
     rofi-power-menu
     grimblast
     satty

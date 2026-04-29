@@ -15,6 +15,10 @@
         startup_mode = "Maximized";
         decorations = "None";
       };
+      bell = {
+        animation = "EaseOutExpo";
+        duration = 100;
+      };
       mouse.hide_when_typing = true;
       cursor.style = {
         shape = "Block";

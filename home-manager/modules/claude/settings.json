@@ -11,14 +11,23 @@
     "CLAUDE_CODE_USE_BEDROCK": "1"
   },
   "alwaysThinkingEnabled": true,
+  "showClearContextOnPlanAccept": true,
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false,
-    "excludedCommands": ["git commit", "git fetch", "git push"],
+    "excludedCommands": ["git commit", "git fetch", "git push", "gh"],
     "network": {
-      "allowedDomains": ["gitlab.com"]
+      "allowedDomains": [
+        "gitlab.com",
+        "github.com",
+        "nixos.org",
+        "cache.nixos.org",
+        "raw.githubusercontent.com",
+        "registry.npmjs.org"
+      ]
     }
   },
+  "preferredNotifChannel": "terminal_bell",
   "attribution": {
     "commit": "",
     "pr": ""
@@ -36,6 +45,16 @@
     "create-support-ticket@labe-claude": true
   },
   "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send 'Claude Code' 'Needs your attention'"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",
@@ -49,6 +68,7 @@
     ]
   },
   "permissions": {
+    "defaultMode": "plan",
     "allow": [
       "Bash(grep *)",
       "Bash(awk *)",
@@ -62,6 +82,10 @@
       "Bash(find *)",
       "Bash(ls *)",
       "Bash(glab *)",
+      "Bash(git status:*)",
+      "Bash(git branch:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
       "Bash(git fetch:*)",
       "Bash(git checkout:*)",
       "Bash(git stash:*)",
