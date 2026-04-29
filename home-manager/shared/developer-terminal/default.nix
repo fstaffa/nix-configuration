@@ -41,7 +41,7 @@
     nixd
     nixos-anywhere
 
-    claude-code-bin
+    claude-code
     opencode
     github-copilot-cli
 

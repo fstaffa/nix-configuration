@@ -74,7 +74,7 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.claude-code-bin}/bin/claude";
+            data = "${lib.getBin pkgs.claude-code}/bin/claude";
           };
         };
         slack = {
