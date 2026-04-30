@@ -11,6 +11,7 @@ let
 in
 {
   home.file = {
+    ".claude/CLAUDE.md".source = ./CLAUDE.md;
     ".claude/settings.json".source = ./settings.json;
     ".local/bin/claude-statusline" = {
       source = ./statusline.sh;
