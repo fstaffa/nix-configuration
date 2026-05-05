@@ -15,7 +15,7 @@
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false,
-    "excludedCommands": ["git commit", "git fetch", "git push", "gh"],
+    "excludedCommands": ["git commit *", "git fetch *", "git push *", "gh *"],
     "network": {
       "allowedDomains": [
         "gitlab.com",
@@ -62,6 +62,10 @@
           {
             "type": "command",
             "command": "~/.local/bin/claude-hook-block-gh-api-writes"
+          },
+          {
+            "type": "command",
+            "command": "~/.local/bin/claude-hook-block-git-global-flags"
           }
         ]
       }
@@ -91,6 +95,10 @@
       "Bash(git stash:*)",
       "Bash(git add:*)",
       "Bash(git push:*)",
+      "Bash(git show:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(git remote:*)",
+      "Bash(git tag:*)",
       "Bash(gh pr list *)",
       "Bash(gh pr view *)",
       "Bash(gh pr diff *)",

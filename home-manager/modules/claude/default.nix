@@ -21,6 +21,10 @@ in
       source = ./hooks/block-gh-api-writes.sh;
       executable = true;
     };
+    ".local/bin/claude-hook-block-git-global-flags" = {
+      source = ./hooks/block-git-global-flags.sh;
+      executable = true;
+    };
   } // lib.mapAttrs' (name: _: {
     name = ".claude/agents/${name}";
     value.source = agentsDir + "/${name}";
