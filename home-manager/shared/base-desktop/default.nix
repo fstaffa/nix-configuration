@@ -10,6 +10,7 @@
     configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = {
       Certificates.ImportEnterpriseRoots = true;
+      DisablePrivateBrowsing = true;
     };
   };
 
