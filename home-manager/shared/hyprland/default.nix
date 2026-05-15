@@ -351,6 +351,7 @@ in
     # Use the system-provided package from NixOS programs.hyprland.enable
     package = null;
     portalPackage = null;
+    configType = "hyprlang";
     extraConfig = ''
       windowrule {
         name = satty-float-fullscreen

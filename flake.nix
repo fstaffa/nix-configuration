@@ -27,6 +27,8 @@
     # Disko for declarative disk partitioning
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    claude-code-nix.url = "github:sadjow/claude-code-nix";
   };
 
   outputs =
@@ -103,7 +105,7 @@
 
               # Packages from unstable-small for frequent updates
               # These are CLI tools with few dependencies that benefit from faster updates
-              claude-code = pkgs-unstable-small.claude-code;
+              claude-code = inputs.claude-code-nix.packages.${system}.default;
               ripgrep = pkgs-unstable-small.ripgrep;
               gh = pkgs-unstable-small.gh;
               glab = pkgs-unstable-small.glab;
