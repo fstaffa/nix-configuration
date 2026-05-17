@@ -485,9 +485,7 @@ in
         "QT_QPA_PLATFORM,wayland"
         # GDK: prefer Wayland, fall back to X11 (Steam/CEF need the fallback)
         "GDK_BACKEND,wayland,x11,*"
-        # Prevent Java/Swing (DataGrip, etc.) from double-scaling on HiDPI
         "_JAVA_AWT_WM_NONREPARENTING,1"
-        "_JAVA_OPTIONS,-Dsun.java2d.uiScale=1.0"
         # SDL: intentionally NOT forced to wayland — Steam's CEF GPU subprocess uses
         # GLX (X11 OpenGL) and crashes when SDL forces the Wayland path
         "XCURSOR_SIZE,24"
