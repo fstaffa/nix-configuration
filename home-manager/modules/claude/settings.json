@@ -3,18 +3,17 @@
     "type": "command",
     "command": "~/.local/bin/claude-statusline"
   },
-  "model": "opusplan",
+  "model": "opus",
   "env": {
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "eu.anthropic.claude-opus-4-6-v1[1m]",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "eu.anthropic.claude-opus-4-7[1m]",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "eu.anthropic.claude-sonnet-4-6[1m]",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "ANTHROPIC_SMALL_FAST_MODEL": "eu.anthropic.claude-sonnet-4-6[1m]",
     "CLAUDE_CODE_USE_BEDROCK": "1"
   },
-  "alwaysThinkingEnabled": true,
-  "showClearContextOnPlanAccept": true,
   "sandbox": {
     "enabled": true,
-    "autoAllowBashIfSandboxed": false,
+    "autoAllowBashIfSandboxed": true,
     "excludedCommands": ["git commit *", "git fetch *", "git push *", "gh *"],
     "network": {
       "allowedDomains": [
@@ -28,10 +27,6 @@
     }
   },
   "preferredNotifChannel": "terminal_bell",
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  },
   "enabledPlugins": {
     "skill-creator@claude-plugins-official": true,
     "csharp-lsp@claude-plugins-official": true,
