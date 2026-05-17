@@ -448,7 +448,6 @@ in
       };
 
       misc = {
-        vfr = true;
         mouse_move_enables_dpms = true;
         disable_hyprland_logo = true;
       };
@@ -458,7 +457,6 @@ in
       };
 
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
       };
 
