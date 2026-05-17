@@ -1,5 +1,8 @@
-{ config, ... }:
+{ config, lib, ... }:
 
+let
+  mkLuaInline = lib.generators.mkLuaInline;
+in
 {
   # Steam's CEF GPU subprocess crashes with SIGSEGV on AMD under Hyprland.
   # --disable-gpu disables GPU acceleration in Steam's web renderer (UI only,
@@ -16,21 +19,25 @@
     Version=1.5
   '';
 
-  wayland.windowManager.hyprland = {
-    extraConfig = ''
-      windowrule {
-        name = steam-workspace
-        match:class = ^steam$
-        workspace = 5 silent
-        float = yes
+  wayland.windowManager.hyprland.settings = {
+    on = [
+      {
+        _args = [
+          "hyprland.start"
+          (mkLuaInline ''function()
+            hl.exec_cmd("steam")
+          end'')
+        ];
       }
+    ];
 
-    '';
-
-    settings = {
-      exec-once = [
-        "steam"
-      ];
-    };
+    window_rule = [
+      {
+        name = "steam-workspace";
+        match.class = "^steam$";
+        workspace = "5 silent";
+        float = true;
+      }
+    ];
   };
 }

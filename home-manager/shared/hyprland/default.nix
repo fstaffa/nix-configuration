@@ -1,10 +1,12 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 let
   terminal = "alacritty";
+  mkLuaInline = lib.generators.mkLuaInline;
 
   screenrecGif = pkgs.writeShellApplication {
     name = "screenrec-gif";
@@ -351,227 +353,219 @@ in
     # Use the system-provided package from NixOS programs.hyprland.enable
     package = null;
     portalPackage = null;
-    configType = "hyprlang";
-    extraConfig = ''
-      windowrule {
-        name = satty-float-fullscreen
-        match:class = ^com\.gabm\.satty$
-        float = yes
-        maximize = yes
-      }
+    configType = "lua";
 
-      windowrule {
-        name = mpv-float
-        match:class = ^mpv$
-        float = yes
-        size = 960 540
-        center = yes
-      }
-
-      windowrule {
-        name = pip-float
-        match:title = ^Picture.in.Picture$
-        float = yes
-        pin = yes
-      }
-
-      # Resize submap — enter with $mod+Z, exit with Escape or Return
-      submap = resize
-      binde = , H, resizeactive, -20 0
-      binde = , L, resizeactive, 20 0
-      binde = , K, resizeactive, 0 -20
-      binde = , J, resizeactive, 0 20
-      bind = , escape, submap, reset
-      bind = , return, submap, reset
-      submap = reset
-
-    '';
+    submaps.resize = {
+      settings.bind = [
+        { _args = [ "H" (mkLuaInline ''hl.dsp.window.resize({ x = -20, y = 0, relative = true })'') { repeating = true; } ]; }
+        { _args = [ "L" (mkLuaInline ''hl.dsp.window.resize({ x = 20, y = 0, relative = true })'') { repeating = true; } ]; }
+        { _args = [ "K" (mkLuaInline ''hl.dsp.window.resize({ x = 0, y = -20, relative = true })'') { repeating = true; } ]; }
+        { _args = [ "J" (mkLuaInline ''hl.dsp.window.resize({ x = 0, y = 20, relative = true })'') { repeating = true; } ]; }
+        { _args = [ "escape" (mkLuaInline ''hl.dsp.submap("reset")'') ]; }
+        { _args = [ "Return" (mkLuaInline ''hl.dsp.submap("reset")'') ]; }
+      ];
+    };
 
     settings = {
       monitor = [
         # Fallback: any monitor at preferred resolution, 1x scale
         # Override in host config for machine-specific monitor layout
-        ",preferred,auto,1"
+        { output = ""; mode = "preferred"; position = "auto"; scale = 1; }
       ];
 
-      general = {
-        border_size = 3;
-        gaps_in = 3;
-        gaps_out = 6;
-        "col.active_border" = "rgba(89b4faee)";
-        "col.inactive_border" = "rgba(45475aaa)";
-      };
-
-      decoration = {
-        dim_inactive = true;
-        dim_strength = 0.25;
-        blur = {
-          enabled = true;
-          size = 8;
-          passes = 2;
-          new_optimizations = true;
-          noise = 0.0117;
-          contrast = 0.8917;
-          brightness = 0.8172;
-          vibrancy = 0.1696;
-          vibrancy_darkness = 0.0;
+      config = {
+        general = {
+          border_size = 3;
+          gaps_in = 3;
+          gaps_out = 6;
+          "col.active_border" = "rgba(89b4faee)";
+          "col.inactive_border" = "rgba(45475aaa)";
         };
+
+        decoration = {
+          dim_inactive = true;
+          dim_strength = 0.25;
+          blur = {
+            enabled = true;
+            size = 8;
+            passes = 2;
+            new_optimizations = true;
+            noise = 0.0117;
+            contrast = 0.8917;
+            brightness = 0.8172;
+            vibrancy = 0.1696;
+            vibrancy_darkness = 0.0;
+          };
+        };
+
+        animations.enabled = true;
+
+        misc = {
+          mouse_move_enables_dpms = true;
+          disable_hyprland_logo = true;
+        };
+
+        ecosystem.no_update_news = true;
+
+        dwindle.preserve_split = true;
+
+        master.new_status = "master";
+
+        input = {
+          kb_layout = "us,cz";
+          repeat_rate = 50;
+          repeat_delay = 300;
+          sensitivity = 0;
+          accel_profile = "flat";
+        };
+
+        debug.disable_logs = false;
       };
 
-      animations = {
-        enabled = true;
-        bezier = [
-          "easeOutQuint,0.23,1,0.32,1"
-          "easeInOutCubic,0.65,0.05,0.35,0.95"
-          "linear,0,0,1,1"
-          "almostLinear,0.5,0.5,0.75,1.0"
-          "quick,0.15,0,0.1,1"
-        ];
-        animation = [
-          "global, 1, 10, default"
-          "border, 1, 5.39, easeOutQuint"
-          "windows, 1, 4.79, easeOutQuint"
-          "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
-          "windowsOut, 1, 1.49, linear, popin 87%"
-          "fadeIn, 1, 1.73, almostLinear"
-          "fadeOut, 1, 1.46, almostLinear"
-          "fade, 1, 3.03, quick"
-          "layers, 1, 3.81, easeOutQuint"
-          "layersIn, 1, 4, easeOutQuint, fade"
-          "layersOut, 1, 1.5, linear, fade"
-          "fadeLayersIn, 1, 1.79, almostLinear"
-          "fadeLayersOut, 1, 1.39, almostLinear"
-          "workspaces, 1, 1.94, almostLinear, slide"
-          "workspacesIn, 1, 1.21, almostLinear, slide"
-          "workspacesOut, 1, 1.94, almostLinear, slide"
-        ];
-      };
+      curve = [
+        { _args = [ "easeOutQuint" (mkLuaInline "{ type = \"bezier\", points = {{0.23,1},{0.32,1}} }") ]; }
+        { _args = [ "easeInOutCubic" (mkLuaInline "{ type = \"bezier\", points = {{0.65,0.05},{0.35,0.95}} }") ]; }
+        { _args = [ "linear" (mkLuaInline "{ type = \"bezier\", points = {{0,0},{1,1}} }") ]; }
+        { _args = [ "almostLinear" (mkLuaInline "{ type = \"bezier\", points = {{0.5,0.5},{0.75,1.0}} }") ]; }
+        { _args = [ "quick" (mkLuaInline "{ type = \"bezier\", points = {{0.15,0},{0.1,1}} }") ]; }
+      ];
 
-      misc = {
-        mouse_move_enables_dpms = true;
-        disable_hyprland_logo = true;
-      };
-
-      ecosystem = {
-        no_update_news = true;
-      };
-
-      dwindle = {
-        preserve_split = true;
-      };
-
-      master = {
-        new_status = "master";
-      };
-
-      input = {
-        kb_layout = "us,cz";
-        repeat_rate = 50;
-        repeat_delay = 300;
-        sensitivity = 0;
-        accel_profile = "flat";
-      };
-
-      "$mod" = "SUPER";
-      "$terminal" = terminal;
-      "$launcher" = "rofi -show drun";
+      animation = [
+        { leaf = "global"; enabled = true; speed = 10; bezier = "default"; }
+        { leaf = "border"; enabled = true; speed = 5.39; bezier = "easeOutQuint"; }
+        { leaf = "windows"; enabled = true; speed = 4.79; bezier = "easeOutQuint"; }
+        { leaf = "windowsIn"; enabled = true; speed = 4.1; bezier = "easeOutQuint"; style = "popin 87%"; }
+        { leaf = "windowsOut"; enabled = true; speed = 1.49; bezier = "linear"; style = "popin 87%"; }
+        { leaf = "fadeIn"; enabled = true; speed = 1.73; bezier = "almostLinear"; }
+        { leaf = "fadeOut"; enabled = true; speed = 1.46; bezier = "almostLinear"; }
+        { leaf = "fade"; enabled = true; speed = 3.03; bezier = "quick"; }
+        { leaf = "layers"; enabled = true; speed = 3.81; bezier = "easeOutQuint"; }
+        { leaf = "layersIn"; enabled = true; speed = 4; bezier = "easeOutQuint"; style = "fade"; }
+        { leaf = "layersOut"; enabled = true; speed = 1.5; bezier = "linear"; style = "fade"; }
+        { leaf = "fadeLayersIn"; enabled = true; speed = 1.79; bezier = "almostLinear"; }
+        { leaf = "fadeLayersOut"; enabled = true; speed = 1.39; bezier = "almostLinear"; }
+        { leaf = "workspaces"; enabled = true; speed = 1.94; bezier = "almostLinear"; style = "slide"; }
+        { leaf = "workspacesIn"; enabled = true; speed = 1.21; bezier = "almostLinear"; style = "slide"; }
+        { leaf = "workspacesOut"; enabled = true; speed = 1.94; bezier = "almostLinear"; style = "slide"; }
+      ];
 
       env = [
-        "NIXOS_OZONE_WL,1"
-        "XDG_SESSION_TYPE,wayland"
-        "XDG_CURRENT_DESKTOP,Hyprland"
-        "QT_QPA_PLATFORM,wayland"
+        { _args = [ "NIXOS_OZONE_WL" "1" ]; }
+        { _args = [ "XDG_SESSION_TYPE" "wayland" ]; }
+        { _args = [ "XDG_CURRENT_DESKTOP" "Hyprland" ]; }
+        { _args = [ "QT_QPA_PLATFORM" "wayland" ]; }
         # GDK: prefer Wayland, fall back to X11 (Steam/CEF need the fallback)
-        "GDK_BACKEND,wayland,x11,*"
-        "_JAVA_AWT_WM_NONREPARENTING,1"
+        { _args = [ "GDK_BACKEND" "wayland,x11,*" ]; }
+        { _args = [ "_JAVA_AWT_WM_NONREPARENTING" "1" ]; }
         # SDL: intentionally NOT forced to wayland — Steam's CEF GPU subprocess uses
         # GLX (X11 OpenGL) and crashes when SDL forces the Wayland path
-        "XCURSOR_SIZE,24"
-        "XCURSOR_THEME,Adwaita"
+        { _args = [ "XCURSOR_SIZE" "24" ]; }
+        { _args = [ "XCURSOR_THEME" "Adwaita" ]; }
       ];
 
-      exec-once = [
-        "waybar"
-        "swaync"
-        "wl-paste --watch cliphist store"
-        "[workspace special:terminal silent] ${terminal}"
-        "wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500"
-        "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent"
-        "firefox"
+      on = [
+        {
+          _args = [
+            "hyprland.start"
+            (mkLuaInline ''function()
+              hl.exec_cmd("waybar")
+              hl.exec_cmd("swaync")
+              hl.exec_cmd("wl-paste --watch cliphist store")
+              hl.exec_cmd("[workspace special:terminal silent] ${terminal}")
+              hl.exec_cmd("wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500")
+              hl.exec_cmd("${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent")
+              hl.exec_cmd("firefox")
+            end'')
+          ];
+        }
       ];
 
-      debug.disable_logs = false;
+      window_rule = [
+        {
+          name = "satty-float-fullscreen";
+          match.class = "^com\\.gabm\\.satty$";
+          float = true;
+          maximize = true;
+        }
+        {
+          name = "mpv-float";
+          match.class = "^mpv$";
+          float = true;
+          size = "960 540";
+          center = true;
+        }
+        {
+          name = "pip-float";
+          match.title = "^Picture.in.Picture$";
+          float = true;
+          pin = true;
+        }
+      ];
 
       bind = [
-        "$mod, Return, exec, $terminal"
-        "$mod, Space, exec, $launcher"
-        "$mod SHIFT, Q, killactive"
-        "$mod, D, exec, thunar"
-        "$mod, H, movefocus, l"
-        "$mod, L, movefocus, r"
-        "$mod, K, movefocus, u"
-        "$mod, J, movefocus, d"
-        "$mod, F, togglefloating"
-        "$mod, T, togglespecialworkspace, terminal"
-        "$mod SHIFT, H, movewindow, l"
-        "$mod SHIFT, L, movewindow, r"
-        "$mod SHIFT, K, movewindow, u"
-        "$mod SHIFT, J, movewindow, d"
-        "$mod CTRL, H, resizeactive, -20 0"
-        "$mod CTRL, L, resizeactive, 20 0"
-        "$mod CTRL, K, resizeactive, 0 -20"
-        "$mod CTRL, J, resizeactive, 0 20"
-        "$mod, 1, workspace, 1"
-        "$mod, 2, workspace, 2"
-        "$mod, 3, workspace, 3"
-        "$mod, 4, workspace, 4"
-        "$mod, 5, workspace, 5"
-        "$mod, 6, workspace, 6"
-        "$mod, 7, workspace, 7"
-        "$mod, 8, workspace, 8"
-        "$mod, 9, workspace, 9"
-        "$mod ALT, L, exec, bash -c 'if hyprctl getoption general:layout | grep -q dwindle; then hyprctl keyword general:layout master; else hyprctl keyword general:layout dwindle; fi'"
-        "$mod SHIFT, 1, movetoworkspace, 1"
-        "$mod SHIFT, 2, movetoworkspace, 2"
-        "$mod SHIFT, 3, movetoworkspace, 3"
-        "$mod SHIFT, 4, movetoworkspace, 4"
-        "$mod SHIFT, 5, movetoworkspace, 5"
-        "$mod SHIFT, 6, movetoworkspace, 6"
-        "$mod SHIFT, 7, movetoworkspace, 7"
-        "$mod SHIFT, 8, movetoworkspace, 8"
-        "$mod SHIFT, 9, movetoworkspace, 9"
-        "$mod SHIFT, S, movetoworkspace, special:slack"
-        "$mod SHIFT, B, movetoworkspace, special:brave"
-        "$mod, grave, exec, hyprctl switchxkblayout all next"
-        "$mod, W, exec, rofi -show window"
-        "$mod, N, exec, swaync-client -t"
-        "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-        "$mod, escape, exec, rofi -show p -modi p:rofi-power-menu"
-        ", Print, exec, grimblast copysave screen"
-        "$mod, Print, exec, grimblast save active - | satty --filename - --copy-command wl-copy"
-        "$mod SHIFT, Print, exec, grimblast save area - | satty --filename - --copy-command wl-copy"
-        "$mod, R, exec, screenrec-gif"
-        "$mod, M, fullscreen, 1"
-        "$mod SHIFT, M, fullscreen, 0"
-        "$mod CTRL, M, layoutmsg, swapwithmaster"
-        "$mod, Z, submap, resize"
-      ];
-
-      bindl = [
-        ", XF86AudioMute, exec, pamixer -t"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioPrev, exec, playerctl previous"
-        ", XF86AudioNext, exec, playerctl next"
-      ];
-
-      binde = [
-        ", XF86AudioRaiseVolume, exec, pamixer -i 5"
-        ", XF86AudioLowerVolume, exec, pamixer -d 5"
-      ];
-
-      bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
+        { _args = [ "SUPER + Return" (mkLuaInline ''hl.dsp.exec_cmd("${terminal}")'') ]; }
+        { _args = [ "SUPER + Space" (mkLuaInline ''hl.dsp.exec_cmd("rofi -show drun")'') ]; }
+        { _args = [ "SUPER + SHIFT + Q" (mkLuaInline "hl.dsp.window.kill()") ]; }
+        { _args = [ "SUPER + D" (mkLuaInline ''hl.dsp.exec_cmd("thunar")'') ]; }
+        { _args = [ "SUPER + H" (mkLuaInline ''hl.dsp.focus({ direction = "l" })'') ]; }
+        { _args = [ "SUPER + L" (mkLuaInline ''hl.dsp.focus({ direction = "r" })'') ]; }
+        { _args = [ "SUPER + K" (mkLuaInline ''hl.dsp.focus({ direction = "u" })'') ]; }
+        { _args = [ "SUPER + J" (mkLuaInline ''hl.dsp.focus({ direction = "d" })'') ]; }
+        { _args = [ "SUPER + F" (mkLuaInline ''hl.dsp.window.float({ action = "toggle" })'') ]; }
+        { _args = [ "SUPER + T" (mkLuaInline ''hl.dsp.workspace.toggle_special("terminal")'') ]; }
+        { _args = [ "SUPER + SHIFT + H" (mkLuaInline ''hl.dsp.window.move({ direction = "l" })'') ]; }
+        { _args = [ "SUPER + SHIFT + L" (mkLuaInline ''hl.dsp.window.move({ direction = "r" })'') ]; }
+        { _args = [ "SUPER + SHIFT + K" (mkLuaInline ''hl.dsp.window.move({ direction = "u" })'') ]; }
+        { _args = [ "SUPER + SHIFT + J" (mkLuaInline ''hl.dsp.window.move({ direction = "d" })'') ]; }
+        { _args = [ "SUPER + CTRL + H" (mkLuaInline ''hl.dsp.window.resize({ x = -20, y = 0, relative = true })'') ]; }
+        { _args = [ "SUPER + CTRL + L" (mkLuaInline ''hl.dsp.window.resize({ x = 20, y = 0, relative = true })'') ]; }
+        { _args = [ "SUPER + CTRL + K" (mkLuaInline ''hl.dsp.window.resize({ x = 0, y = -20, relative = true })'') ]; }
+        { _args = [ "SUPER + CTRL + J" (mkLuaInline ''hl.dsp.window.resize({ x = 0, y = 20, relative = true })'') ]; }
+        { _args = [ "SUPER + 1" (mkLuaInline ''hl.dsp.focus({ workspace = "1" })'') ]; }
+        { _args = [ "SUPER + 2" (mkLuaInline ''hl.dsp.focus({ workspace = "2" })'') ]; }
+        { _args = [ "SUPER + 3" (mkLuaInline ''hl.dsp.focus({ workspace = "3" })'') ]; }
+        { _args = [ "SUPER + 4" (mkLuaInline ''hl.dsp.focus({ workspace = "4" })'') ]; }
+        { _args = [ "SUPER + 5" (mkLuaInline ''hl.dsp.focus({ workspace = "5" })'') ]; }
+        { _args = [ "SUPER + 6" (mkLuaInline ''hl.dsp.focus({ workspace = "6" })'') ]; }
+        { _args = [ "SUPER + 7" (mkLuaInline ''hl.dsp.focus({ workspace = "7" })'') ]; }
+        { _args = [ "SUPER + 8" (mkLuaInline ''hl.dsp.focus({ workspace = "8" })'') ]; }
+        { _args = [ "SUPER + 9" (mkLuaInline ''hl.dsp.focus({ workspace = "9" })'') ]; }
+        { _args = [ "SUPER + ALT + L" (mkLuaInline ''hl.dsp.exec_cmd("bash -c 'if hyprctl getoption general:layout | grep -q dwindle; then hyprctl keyword general:layout master; else hyprctl keyword general:layout dwindle; fi'")'') ]; }
+        { _args = [ "SUPER + SHIFT + 1" (mkLuaInline ''hl.dsp.window.move({ workspace = "1" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 2" (mkLuaInline ''hl.dsp.window.move({ workspace = "2" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 3" (mkLuaInline ''hl.dsp.window.move({ workspace = "3" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 4" (mkLuaInline ''hl.dsp.window.move({ workspace = "4" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 5" (mkLuaInline ''hl.dsp.window.move({ workspace = "5" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 6" (mkLuaInline ''hl.dsp.window.move({ workspace = "6" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 7" (mkLuaInline ''hl.dsp.window.move({ workspace = "7" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 8" (mkLuaInline ''hl.dsp.window.move({ workspace = "8" })'') ]; }
+        { _args = [ "SUPER + SHIFT + 9" (mkLuaInline ''hl.dsp.window.move({ workspace = "9" })'') ]; }
+        { _args = [ "SUPER + SHIFT + S" (mkLuaInline ''hl.dsp.window.move({ workspace = "special:slack" })'') ]; }
+        { _args = [ "SUPER + SHIFT + B" (mkLuaInline ''hl.dsp.window.move({ workspace = "special:brave" })'') ]; }
+        { _args = [ "SUPER + grave" (mkLuaInline ''hl.dsp.exec_cmd("hyprctl switchxkblayout all next")'') ]; }
+        { _args = [ "SUPER + W" (mkLuaInline ''hl.dsp.exec_cmd("rofi -show window")'') ]; }
+        { _args = [ "SUPER + N" (mkLuaInline ''hl.dsp.exec_cmd("swaync-client -t")'') ]; }
+        { _args = [ "SUPER + V" (mkLuaInline ''hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy")'') ]; }
+        { _args = [ "SUPER + escape" (mkLuaInline ''hl.dsp.exec_cmd("rofi -show p -modi p:rofi-power-menu")'') ]; }
+        { _args = [ "Print" (mkLuaInline ''hl.dsp.exec_cmd("grimblast copysave screen")'') ]; }
+        { _args = [ "SUPER + Print" (mkLuaInline ''hl.dsp.exec_cmd("grimblast save active - | satty --filename - --copy-command wl-copy")'') ]; }
+        { _args = [ "SUPER + SHIFT + Print" (mkLuaInline ''hl.dsp.exec_cmd("grimblast save area - | satty --filename - --copy-command wl-copy")'') ]; }
+        { _args = [ "SUPER + R" (mkLuaInline ''hl.dsp.exec_cmd("screenrec-gif")'') ]; }
+        { _args = [ "SUPER + M" (mkLuaInline ''hl.dsp.window.fullscreen({ mode = 1 })'') ]; }
+        { _args = [ "SUPER + SHIFT + M" (mkLuaInline ''hl.dsp.window.fullscreen({ mode = 0 })'') ]; }
+        { _args = [ "SUPER + CTRL + M" (mkLuaInline ''hl.dsp.layout("swapwithmaster")'') ]; }
+        { _args = [ "SUPER + Z" (mkLuaInline ''hl.dsp.submap("resize")'') ]; }
+        # Media keys (locked = works with input inhibitor active)
+        { _args = [ "XF86AudioMute" (mkLuaInline ''hl.dsp.exec_cmd("pamixer -t")'') { locked = true; } ]; }
+        { _args = [ "XF86AudioPlay" (mkLuaInline ''hl.dsp.exec_cmd("playerctl play-pause")'') { locked = true; } ]; }
+        { _args = [ "XF86AudioPrev" (mkLuaInline ''hl.dsp.exec_cmd("playerctl previous")'') { locked = true; } ]; }
+        { _args = [ "XF86AudioNext" (mkLuaInline ''hl.dsp.exec_cmd("playerctl next")'') { locked = true; } ]; }
+        # Volume keys (repeating = hold to repeat)
+        { _args = [ "XF86AudioRaiseVolume" (mkLuaInline ''hl.dsp.exec_cmd("pamixer -i 5")'') { repeating = true; } ]; }
+        { _args = [ "XF86AudioLowerVolume" (mkLuaInline ''hl.dsp.exec_cmd("pamixer -d 5")'') { repeating = true; } ]; }
+        # Mouse binds
+        { _args = [ "SUPER + mouse:272" (mkLuaInline "hl.dsp.window.drag()") { mouse = true; } ]; }
+        { _args = [ "SUPER + mouse:273" (mkLuaInline "hl.dsp.window.resize()") { mouse = true; } ]; }
       ];
     };
   };
