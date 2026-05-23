@@ -72,4 +72,8 @@
   };
 
   security.polkit.enable = true;
+
+  environment.etc."brave/policies/managed/disable-incognito.json".text = builtins.toJSON {
+    IncognitoModeAvailability = 1;
+  };
 }

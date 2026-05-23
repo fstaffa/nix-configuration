@@ -48,15 +48,15 @@ in {
           + ''
             aws ssm start-session --profile ${usedProfile} --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
         commonValues = {
-          identityFile = sshKey;
-          user = "ec2-user";
-          inherit proxyCommand;
+          IdentityFile = sshKey;
+          User = "ec2-user";
+          ProxyCommand = proxyCommand;
         };
         bastion = {
           name = "bastion-${name}";
           value = {
-            host = "bastion-${name} rds-${name}*";
-            hostname = value.bastion.hostname;
+            header = "Host bastion-${name} rds-${name}*";
+            HostName = value.bastion.hostname;
           } // commonValues;
         };
         directInstanceProxyCommand = ''
@@ -66,17 +66,15 @@ in {
         directInstances = {
           name = "${name}-i-*";
           value = {
-            host = "${name}-i-*";
-            identityFile = sshKey;
-            user = "ec2-user";
-            proxyCommand = directInstanceProxyCommand;
+            IdentityFile = sshKey;
+            User = "ec2-user";
+            ProxyCommand = directInstanceProxyCommand;
           };
         };
         hosts = mapAttrsToList (name: value: {
           name = name;
           value = {
-            host = name;
-            hostname = value;
+            HostName = value;
           } // commonValues;
         }) value.hosts;
       in hosts ++ [ bastion directInstances ]);
@@ -85,7 +83,7 @@ in {
   in mkIf cfg.enable {
     home.packages = [ pkgs.awscli2 pkgs.ssm-session-manager-plugin ];
 
-    programs.ssh.matchBlocks = bastions;
+    programs.ssh.settings = bastions;
 
     home.file."${config.home.homeDirectory}/.aws/config".source =
       iniFormat.generate "aws-config" ((mapAttrs' (name: value: {

@@ -70,14 +70,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.ssh.matchBlocks =
+    programs.ssh.settings =
       (foldr (
         env: oldSet:
         (mapAttrs' (name: value: {
           name = "projects-${name}-${env}";
           value = hm.dag.entryBefore [ "rds-all" ] {
-            host = "rds-${value.type}-${name}-${env}";
-            localForwards = [
+            header = "Host rds-${value.type}-${name}-${env}";
+            LocalForward = [
               {
                 bind.port = value.rds.basePort + environments."${env}";
                 host.address = value.rds."${env}".host;
@@ -92,11 +92,9 @@ in
 
       {
         rds-all = {
-          host = "rds*";
-          user = "ec2-user";
-          extraOptions = {
-            RequestTTY = "no";
-          };
+          header = "Host rds*";
+          User = "ec2-user";
+          RequestTTY = "no";
         };
       };
 
