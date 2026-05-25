@@ -109,18 +109,6 @@ in
           };
         };
       };
-      calendars = {
-        type = "planning";
-        rds = {
-          basePort = 45432;
-          prd = {
-            host = "calendars-production.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
-          };
-          stg = {
-            host = "calendars-staging.caweq0ojnzgj.eu-west-1.rds.amazonaws.com";
-          };
-        };
-      };
       shipping-calculator = {
         repository = {
           repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/shipping-calculator.git";
@@ -186,12 +174,6 @@ in
           };
         };
       };
-      quoter-publisher = {
-        repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/Sapidus/Quoter-Publisher.git";
-          folder = "quoter-publisher";
-        };
-      };
       renovate-bot = {
         repository = {
           repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/renovate-bot.git";
@@ -210,22 +192,10 @@ in
           folder = "renovate-test-project-dotnet";
         };
       };
-      shippping-options = {
-        repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/shipping-options-service.git";
-          folder = "shippping-options";
-        };
-      };
       vltava-infrastructure = {
         repository = {
           repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/vltava-infrastructure.git";
           folder = "vltava-infrastructure";
-        };
-      };
-      packer = {
-        repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/packer-service.git";
-          folder = "packer";
         };
       };
       packer-config = {
@@ -320,16 +290,10 @@ in
           folder = "gitlab-configuration";
         };
       };
-      planning-v2 = {
+      labe-claude = {
         repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v2/tms/planning-v2.git";
-          folder = "planning-v2";
-        };
-      };
-      rate-zone-maps-migrator = {
-        repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/tools/ratezonemapsmigrator.git";
-          folder = "rate-zone-maps-migrator";
+          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/labe-claude.git";
+          folder = "labe-claude";
         };
       };
       react-platform-components = {
@@ -360,12 +324,6 @@ in
         repository = {
           repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/security/tms-security-checker.git";
           folder = "tms-security-checker";
-        };
-      };
-      transit-data-comparer = {
-        repository = {
-          repositoryUrl = "git@gitlab.com:Cimpress-Technology/fulfillment/logistics/logistics-v1/labe/tools/TransitDataComparer.git";
-          folder = "transit-data-comparer";
         };
       };
       bruno-collections = {
