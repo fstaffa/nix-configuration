@@ -156,9 +156,6 @@ in
         zle -N edit-command-line
         bindkey '^xe' edit-command-line
         bindkey '^x^e' edit-command-line
-
-        # nix
-        export XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.nix-profile/bin"
       '';
     };
 

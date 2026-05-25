@@ -13,6 +13,11 @@
   };
   nix.enable = true;
 
+  environment.systemPackages = with pkgs; [
+    ghostty-bin
+    emacs-macport
+  ];
+
   security.pki.certificateFiles = [
     ../../../common/certificates/ca.pem
     ../../../common/certificates/home-arpa-ca.crt
@@ -21,7 +26,6 @@
   security.pam.services.sudo_local.touchIdAuth = true;
 
   system.primaryUser = "fstaffa";
-  ids.gids.nixbld = 30000;
 
   system.defaults.dock.autohide = true;
   system.defaults.dock.autohide-time-modifier = 0.1;
