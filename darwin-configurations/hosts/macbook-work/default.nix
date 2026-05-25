@@ -57,6 +57,10 @@
   system.keyboard.enableKeyMapping = true;
   system.keyboard.remapCapsLockToControl = true;
 
+  # Completion is owned by zimfw (see home-manager/shared/base-terminal).
+  # Suppress nix-darwin's /etc/zshrc compinit so it doesn't run before zimfw's.
+  programs.zsh.enableGlobalCompInit = false;
+
   # smart keyboard
   system.defaults.NSGlobalDomain.NSAutomaticDashSubstitutionEnabled = false;
   system.defaults.NSGlobalDomain.NSAutomaticPeriodSubstitutionEnabled = false;
