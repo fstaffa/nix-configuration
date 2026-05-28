@@ -99,9 +99,9 @@
           # This adds our overlays to pkgs
           overlays = [
             (final: prev: {
-              burpsuite = prev.burpsuite.override (old: {
-                proEdition = true;
-              });
+              burpsuite = prev.burpsuite.override {
+                iconName = "pro";
+              };
 
               # Packages from unstable-small for frequent updates
               # These are CLI tools with few dependencies that benefit from faster updates
