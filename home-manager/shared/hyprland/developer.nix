@@ -10,7 +10,7 @@ in
         _args = [
           "hyprland.start"
           (mkLuaInline ''function()
-            hl.exec_cmd("slack")
+            hl.exec_cmd("[workspace special:slack silent] slack")
             hl.exec_cmd("emacs")
             hl.exec_cmd("[workspace special:brave silent] brave")
           end'')
@@ -21,7 +21,7 @@ in
     window_rule = [
       {
         name = "slack-special";
-        match.class = "^Slack$";
+        match.class = "^slack$";
         workspace = "special:slack silent";
       }
       {
