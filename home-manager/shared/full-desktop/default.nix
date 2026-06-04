@@ -6,6 +6,8 @@
     ../hyprland/full.nix
   ];
 
+  services.easyeffects.enable = true;
+
   home.packages = with pkgs; [
     # Development
     jetbrains.datagrip
