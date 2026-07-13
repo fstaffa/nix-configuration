@@ -8,6 +8,7 @@
 {
   imports = [
     ./flatpak.nix
+    ./fpv.nix
     ./hyprland.nix
     ./opensnitch.nix
     ./plasma.nix

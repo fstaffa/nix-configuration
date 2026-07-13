@@ -18,6 +18,7 @@
     ./hyprland.nix
     ../../shared/plasma
     ../../shared/full-desktop
+    ../../shared/fpv
   ];
 
   home = {

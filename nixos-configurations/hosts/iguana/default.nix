@@ -18,6 +18,7 @@
 
   myDesktop.plasma.enable = true;
   myDesktop.full.enable = true;
+  myDesktop.fpv.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
