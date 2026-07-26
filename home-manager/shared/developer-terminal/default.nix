@@ -58,6 +58,7 @@
   home.sessionPath = [ "$HOME/.dotnet/tools" ];
   home.sessionVariables = {
     DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
+    TZDIR = "${pkgs.tzdata}/share/zoneinfo";
   }
   // lib.optionalAttrs pkgs.stdenv.isDarwin {
     # Use nix cacert bundle so Go programs (e.g. glab) can verify TLS in sandbox

@@ -19,6 +19,7 @@
     package = pkgs.brave;
     commandLineArgs = [
       "--disable-features=WaylandWpColorManagerV1"
+      "--lang=ja"
     ];
   };
 }
