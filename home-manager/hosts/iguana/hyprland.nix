@@ -11,9 +11,24 @@
     { output = ""; mode = "preferred"; position = "auto"; scale = 1; }
   ];
 
-  # Mirrored monitors still count as real outputs for workspace assignment,
-  # so pin all workspaces to DP-6 to stop the DENON mirror from stealing one on startup.
-  wayland.windowManager.hyprland.settings.workspace_rule = [
-    { workspace = "r[1-9]"; monitor = "DP-6"; default = true; }
-  ];
+  # Mirrored monitors still count as real outputs for workspace assignment.
+  # r[1-9] range selectors only match workspaces that already exist, so they can't
+  # claim workspace "1" before it's created — Hyprland falls back to assigning it
+  # to whichever monitor was detected first (often the DENON receiver). Use explicit
+  # name-based rules instead, which apply persistently regardless of existence, and
+  # give the DENON output its own default workspace well outside 1-9 so it never
+  # grabs one of the real ones on startup.
+  wayland.windowManager.hyprland.settings.workspace_rule =
+    (map (n: {
+      workspace = toString n;
+      monitor = "DP-6";
+      default = true;
+    }) (builtins.genList (i: i + 1) 9))
+    ++ [
+      {
+        workspace = "20";
+        monitor = "desc:DENON Ltd. DENON-AVR";
+        default = true;
+      }
+    ];
 }

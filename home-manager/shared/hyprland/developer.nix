@@ -11,7 +11,7 @@ in
           "hyprland.start"
           (mkLuaInline ''function()
             hl.exec_cmd("[workspace special:slack silent] slack")
-            hl.exec_cmd("emacs")
+            hl.exec_cmd("[workspace 1 silent] emacs")
             hl.exec_cmd("[workspace special:brave silent] brave")
           end'')
         ];

@@ -246,6 +246,7 @@ in
           "tray"
           "custom/notification"
           "clock"
+          "clock#utc"
         ];
 
         "hyprland/workspaces" = {
@@ -299,8 +300,14 @@ in
         };
 
         clock = {
-          format = "{:%H:%M}";
-          format-alt = "{:%Y-%m-%d %H:%M}";
+          format = "{:%Y-%m-%d %H:%M}";
+          format-alt = "{:%H:%M}";
+          tooltip-format = "<big>{:%B %Y}</big>\n<tt>{calendar}</tt>";
+        };
+
+        "clock#utc" = {
+          timezone = "UTC";
+          format = "{:%Y-%m-%d %H:%M} UTC";
           tooltip-format = "<big>{:%B %Y}</big>\n<tt>{calendar}</tt>";
         };
       };
@@ -326,6 +333,9 @@ in
       #clock {
         padding: 0 12px;
         color: #cdd6f4;
+      }
+      #clock.utc {
+        color: #a6adc8;
       }
       #pulseaudio {
         padding: 0 10px;
@@ -475,7 +485,7 @@ in
               hl.exec_cmd("[workspace special:terminal silent] ${terminal}")
               hl.exec_cmd("wlsunset -l 50.08 -L 14.44 -T 6500 -t 3500")
               hl.exec_cmd("${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent")
-              hl.exec_cmd("firefox")
+              hl.exec_cmd("[workspace 1 silent] firefox")
             end'')
           ];
         }

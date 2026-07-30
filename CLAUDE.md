@@ -136,3 +136,13 @@ When modifying configurations:
 - Hardware-specific config in `hosts/<hostname>/hardware-configuration.nix`
 - System state versions are pinned per-host (don't change unless necessary)
 
+### Hyprland autostart apps must target an explicit workspace
+
+Every `hl.exec_cmd(...)` call in a `settings.on` startup handler (see
+`home-manager/shared/hyprland/*.nix`) must use the `[workspace <name> silent]`
+rule tag, e.g. `hl.exec_cmd("[workspace 1 silent] firefox")`. A bare
+`hl.exec_cmd("firefox")` launches onto whatever workspace is focused at
+startup — which can be a workspace bound to a non-rendering monitor (e.g. one
+mirroring another display), leaving the app running but invisible on any
+screen. Never add a new autostart app without this tag.
+
