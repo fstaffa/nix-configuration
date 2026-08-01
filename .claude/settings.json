@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(hyprctl monitors*)",
+      "Bash(journalctl*)",
+      "Bash(gh search issues*)",
+      "Bash(curl -s https://*)",
+      "Bash(make test.homemanager)",
+      "Bash(nix eval*)",
+      "Bash(nix build*)",
+      "Bash(hyprctl version*)",
+      "Bash(hyprctl workspaces*)",
+      "Bash(wpctl status*)",
+      "Bash(wpctl inspect*)",
+      "Bash(make test.nixos)",
+      "Bash(hyprctl getoption*)",
+      "Bash(hyprctl clients*)",
+      "Bash(pactl list*)",
+      "Bash(dmesg*)",
+      "Bash(nix-store -q*)",
+      "Bash(hyprctl systeminfo*)",
+      "Bash(nix run nixpkgs#nix-prefetch-github*)",
+      "Bash(coredumpctl list*)"
+    ]
+  }
+}
