@@ -26,5 +26,7 @@
     quickemu
 
     bambu-studio-appimage
+
+    prismlauncher
   ];
 }
