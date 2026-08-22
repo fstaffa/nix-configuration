@@ -16,7 +16,6 @@
     ../../shared/alacritty
     ../../shared/ghostty
     ./hyprland.nix
-    ../../shared/plasma
     ../../shared/full-desktop
     ../../shared/fpv
   ];
@@ -26,8 +25,6 @@
     homeDirectory = "/home/mathematician314";
     stateVersion = "22.05";
   };
-
-  myDesktop.plasma.enable = true;
 
   programs.gpg-personal = {
     enable = true;

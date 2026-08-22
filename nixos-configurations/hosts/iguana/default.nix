@@ -16,7 +16,6 @@
 
   networking.hostName = "iguana";
 
-  myDesktop.plasma.enable = true;
   myDesktop.full.enable = true;
   myDesktop.fpv.enable = true;
 

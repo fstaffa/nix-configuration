@@ -11,7 +11,6 @@
     ./fpv.nix
     ./hyprland.nix
     ./opensnitch.nix
-    ./plasma.nix
     ./developer.nix
     ./full.nix
   ];
