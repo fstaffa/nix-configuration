@@ -426,7 +426,7 @@ in
           kb_layout = "us,cz";
           repeat_rate = 50;
           repeat_delay = 300;
-          sensitivity = 0;
+          sensitivity = -0.3;
           accel_profile = "flat";
         };
 
