@@ -4,7 +4,7 @@ let
   cfg = config.programs.gpg-personal;
   yubikey4Ids = [ 4547547 ];
   macGpgSettings =
-    if pkgs.stdenv.isDarwin && (builtins.elem cfg.cardId yubikey4Ids) then {
+    if pkgs.stdenv.hostPlatform.isDarwin && (builtins.elem cfg.cardId yubikey4Ids) then {
       scdaemonSettings = {
         reader-port = "Yubico Yubikey";
         #debug-all = true;
@@ -34,7 +34,7 @@ in {
       }];
     } // macGpgSettings);
 
-    programs.zsh.profileExtra = if pkgs.stdenv.isDarwin then ''
+    programs.zsh.profileExtra = if pkgs.stdenv.hostPlatform.isDarwin then ''
       export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
     '' else
       "";

@@ -60,7 +60,7 @@
     DOTNET_ROOT = "${pkgs.dotnet-sdk_10}/share/dotnet";
     TZDIR = "${pkgs.tzdata}/share/zoneinfo";
   }
-  // lib.optionalAttrs pkgs.stdenv.isDarwin {
+  // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
     # Use nix cacert bundle so Go programs (e.g. glab) can verify TLS in sandbox
     # without needing access to the macOS keychain
     SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
