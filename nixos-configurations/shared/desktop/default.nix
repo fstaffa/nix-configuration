@@ -16,9 +16,13 @@
   ];
 
   # Display manager — shared across all desktop sessions
+  # SDDM's Wayland greeter (weston) crashes on boot on this AMD GPU/6K monitor
+  # combo (weston_drm_format_add_modifier assertion) — an active upstream bug
+  # (see NixOS/nixpkgs#496361, #534411). Use the stable X11 greeter instead;
+  # Hyprland (Wayland) still launches fine as the session after login.
   services.displayManager.sddm = {
     enable = true;
-    wayland.enable = true;
+    wayland.enable = false;
   };
 
   # Enable the X11 windowing system.
@@ -73,6 +77,5 @@
   security.polkit.enable = true;
 
   environment.etc."brave/policies/managed/disable-incognito.json".text = builtins.toJSON {
-    IncognitoModeAvailability = 1;
   };
 }
