@@ -64,6 +64,23 @@ in
               hl.monitor({ output = "HDMI-A-2", disabled = true })
               hl.timer(function()
                 hl.monitor({ output = "HDMI-A-2", disabled = false, mirror = "DP-6" })
+                -- waybar launches unconditionally on hyprland.start (see shared
+                -- config), which races DP-6's enumeration on boots where HDMI-A-2
+                -- (the AVR) comes up first — same underlying enumeration-order
+                -- issue as the mirror above. Its hyprland/workspaces module does
+                -- a one-time IPC sync on startup; if that happens before DP-6
+                -- (and its workspaces) exist, it never recovers and shows no
+                -- workspace buttons for the rest of the session. Restart it here,
+                -- once the monitor topology has actually settled, to force a
+                -- clean re-sync.
+                --
+                -- Match by full cmdline (`^waybar$`), not `pkill -x waybar`: Nix
+                -- wraps the real binary and renames its comm to `.waybar-wrapped`,
+                -- so `-x waybar` never matches anything — it silently no-ops and
+                -- leaves a second instance running instead of replacing the first.
+                -- The anchors also keep this from matching its own `bash -c` shell,
+                -- whose cmdline is this whole string, not literally "waybar".
+                hl.exec_cmd("bash -c 'pkill -f \"^waybar$\"; sleep 0.3; waybar'")
               end, { timeout = 500, type = "oneshot" })
             end, { timeout = 500, type = "oneshot" })
           end
