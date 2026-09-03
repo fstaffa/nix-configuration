@@ -59,7 +59,53 @@ in
           -- change, which behaves like a single plain `mirror = "DP-6"` call
           -- and silently fails the same way. hl.timer() forces a real delay
           -- so each call lands in its own frame.
-          local function apply_avr_mirror()
+          -- Hardened 2026-09-02: the AVR can also flap (CEC re-negotiation)
+          -- *after* the mirror was already correctly applied, mid-session —
+          -- not just during the initial boot-time enumeration race. When that
+          -- happens HDMI-A-2 re-enumerates as a fresh, unmirrored, independent
+          -- output with none of the fixes below applied, reproducing the same
+          -- wrong-workspace/invisible-app symptoms live. So this now also
+          -- reacts to HDMI-A-2 itself (re)appearing, not just DP-6. An
+          -- in-flight guard prevents two near-simultaneous triggers (e.g. both
+          -- monitors enumerating close together on a cold boot) from running
+          -- overlapping hl.timer chains against each other. print(...) calls
+          -- go to Hyprland's own log (hyprctl rollinglog /
+          -- $XDG_RUNTIME_DIR/hypr/<sig>/hyprland.log), NOT journalctl — Hyprland
+          -- is launched by sddm-helper outside systemd here, confirmed empty
+          -- `journalctl _COMM=Hyprland` output.
+          --
+          -- Deliberately NOT adding a periodic re-assert watchdog: the two
+          -- event-driven triggers (DP-6 added, HDMI-A-2 added) plus the
+          -- monitor.removed logging below cover every plausible flap pattern
+          -- (boot race, mid-session AVR flap, mid-session DP-6 drop/reconnect).
+          -- A timer-based watchdog would add continuous overhead and a third
+          -- independent trigger path to reason about for no additional
+          -- coverage — revisit only if hyprland.log ever shows the AVR
+          -- unmirrored without a corresponding add/remove event logged.
+          --
+          -- Bug found 2026-09-03: without a cooldown, this self-triggered
+          -- forever, even with zero real AVR flapping. hl.monitor() only
+          -- queues a rule change; Hyprland reconciles it one render frame
+          -- later, which fires a genuine monitor.added for HDMI-A-2's own
+          -- re-enable — but by then `applying` had already been reset to
+          -- false (synchronously, right after issuing that same hl.monitor()
+          -- call), so the guard didn't catch it and it kicked off a fresh
+          -- run. Confirmed in hyprland.log: 12 back-to-back cycles on one
+          -- boot, evenly spaced ~1s apart (matching this function's own two
+          -- 500ms timers), each showing "Applying monitor rule for HDMI-A-2"
+          -- (i.e. OUR disable call) immediately preceding "monitor.removed".
+          -- Fix: hold the guard for a short cooldown after "done" so that
+          -- delayed, self-generated event lands while still suppressed,
+          -- instead of releasing the guard the instant we issue the last
+          -- hl.monitor() call.
+          local applying = false
+          local function apply_avr_mirror(reason)
+            if applying then
+              print("apply_avr_mirror: already in progress, skipping duplicate trigger (" .. reason .. ")")
+              return
+            end
+            applying = true
+            print("apply_avr_mirror: starting (" .. reason .. ")")
             hl.timer(function()
               hl.monitor({ output = "HDMI-A-2", disabled = true })
               hl.timer(function()
@@ -81,18 +127,32 @@ in
                 -- The anchors also keep this from matching its own `bash -c` shell,
                 -- whose cmdline is this whole string, not literally "waybar".
                 hl.exec_cmd("bash -c 'pkill -f \"^waybar$\"; sleep 0.3; waybar'")
+                print("apply_avr_mirror: done (" .. reason .. ")")
+                -- Hold the guard a bit longer: the re-enable call just issued
+                -- above hasn't been reconciled by Hyprland yet (that happens
+                -- on the next frame), and its resulting monitor.added for
+                -- HDMI-A-2 must find `applying` still true or it retriggers
+                -- this whole function — see the 2026-09-03 note above.
+                hl.timer(function()
+                  applying = false
+                end, { timeout = 500, type = "oneshot" })
               end, { timeout = 500, type = "oneshot" })
             end, { timeout = 500, type = "oneshot" })
           end
 
           if hl.get_monitor("DP-6") ~= nil then
-            apply_avr_mirror()
+            apply_avr_mirror("DP-6 already present at hyprland.start")
           end
 
           hl.on("monitor.added", function(m)
-            if m.name == "DP-6" then
-              apply_avr_mirror()
+            print("monitor.added: " .. m.name)
+            if m.name == "DP-6" or m.name == "HDMI-A-2" then
+              apply_avr_mirror("monitor.added: " .. m.name)
             end
+          end)
+
+          hl.on("monitor.removed", function(m)
+            print("monitor.removed: " .. m.name)
           end)
         end'')
       ];
@@ -106,6 +166,12 @@ in
   # name-based rules instead, which apply persistently regardless of existence, and
   # give the DENON output its own default workspace well outside 1-9 so it never
   # grabs one of the real ones on startup.
+  # special:terminal/slack/brave are the special workspaces autostart apps
+  # use (see shared/hyprland/default.nix and developer.nix exec_cmd calls) —
+  # pinned to DP-6 for the same reason as workspaces 1-9 below: without this,
+  # they can be created on HDMI-A-2 during the boot race window and become
+  # invisible once the mirror is applied (mirrored monitors don't own
+  # independent workspaces).
   wayland.windowManager.hyprland.settings.workspace_rule =
     (map (n: {
       workspace = toString n;
@@ -113,6 +179,21 @@ in
       default = true;
     }) (builtins.genList (i: i + 1) 9))
     ++ [
+      {
+        workspace = "special:terminal";
+        monitor = "DP-6";
+        default = true;
+      }
+      {
+        workspace = "special:slack";
+        monitor = "DP-6";
+        default = true;
+      }
+      {
+        workspace = "special:brave";
+        monitor = "DP-6";
+        default = true;
+      }
       {
         workspace = "20";
         monitor = "desc:DENON Ltd. DENON-AVR";

@@ -53,19 +53,42 @@
   # actually present on the discrete GPU (card1, confirmed live via
   # `hyprctl monitors` -> DP-6). See home-manager/hosts/iguana/hyprland.nix
   # for the analogous Hyprland-side fix for the same underlying race.
+  # Hardened 2026-09-02: the loose "not DENON" match could be satisfied by
+  # any unrelated connected device, and success/timeout were indistinguishable
+  # in the journal (always exit 0). Now matches positively on the Dell's EDID
+  # model string, logs every outcome, and retries the whole unit once (via a
+  # /run-resident attempt counter) before giving up — so a slow MST link gets
+  # a second 10s window instead of guaranteeing a broken session on the first
+  # miss, while still never risking the unit landing in `failed` state
+  # (bounded independently of systemd's own StartLimitBurst).
   systemd.services.display-manager.serviceConfig.ExecStartPre = [
     (pkgs.writeShellScript "wait-for-real-monitor" ''
+      state=/run/wait-for-real-monitor.attempt
+      attempt=$(( $(cat "$state" 2>/dev/null || echo 0) + 1 ))
+      echo "$attempt" > "$state"
+      max_attempts=2   # ~10s each => ~20s worst-case added boot time; bump if this keeps recurring
+
       for i in $(seq 1 100); do
         data=$(${pkgs.drm_info}/bin/drm_info -j /dev/dri/card1 2>/dev/null \
           | ${pkgs.jq}/bin/jq -r '.["/dev/dri/card1"].connectors[] | select(.status==1) | .properties.EDID.data // empty')
         while IFS= read -r b64; do
-          if [ -n "$b64" ] && ! echo "$b64" | base64 -d 2>/dev/null | grep -aq DENON; then
+          if [ -n "$b64" ] && echo "$b64" | base64 -d 2>/dev/null | grep -aq "U3224KBA"; then
+            echo "wait-for-real-monitor: [attempt $attempt/$max_attempts] found Dell U3224KBA EDID after $((i * 100))ms" >&2
+            rm -f "$state"
             exit 0
           fi
         done <<< "$data"
         sleep 0.1
       done
-      exit 0
+
+      if [ "$attempt" -lt "$max_attempts" ]; then
+        echo "wait-for-real-monitor: [attempt $attempt/$max_attempts] TIMEOUT after 10s, no Dell U3224KBA EDID seen — retrying display-manager.service" >&2
+        exit 1
+      else
+        echo "wait-for-real-monitor: [attempt $attempt/$max_attempts] TIMEOUT after 10s on final attempt — giving up, starting SDDM anyway (session may render on the wrong output)" >&2
+        rm -f "$state"
+        exit 0
+      fi
     '')
   ];
 
