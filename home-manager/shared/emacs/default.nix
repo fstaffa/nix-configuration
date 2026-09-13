@@ -53,7 +53,7 @@ in
 
       exercism
     ]
-    ++ (if pkgs.stdenv.hostPlatform.isDarwin then [ ] else [ emacs30-pgtk ]);
+    ++ (if pkgs.stdenv.hostPlatform.isDarwin then [ ] else [ emacs31-pgtk ]);
 
   home.file = {
     ".authinfo.gpg".source = ./.authinfo.gpg;

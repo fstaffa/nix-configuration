@@ -142,7 +142,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-pgtk.overrideAttrs (_: {
+            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-git-pgtk.overrideAttrs (_: {
               name = "emacs31";
               version = "31.0-${inputs.emacsNext-src.shortRev}";
               src = inputs.emacsNext-src;
@@ -157,7 +157,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
-            emacs31-pgtk = emacs-overlay.packages.aarch64-darwin.emacs-pgtk.overrideAttrs (_: {
+            emacs31-pgtk = emacs-overlay.packages.aarch64-darwin.emacs-git-pgtk.overrideAttrs (_: {
               name = "emacs31";
               version = "31.0-${inputs.emacsNext-src.shortRev}";
               src = inputs.emacsNext-src;
@@ -171,7 +171,7 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-pgtk.overrideAttrs (_: {
+            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-git-pgtk.overrideAttrs (_: {
               name = "emacs31";
               version = "31.0-${inputs.emacsNext-src.shortRev}";
               src = inputs.emacsNext-src;
