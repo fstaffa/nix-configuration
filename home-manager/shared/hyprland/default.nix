@@ -164,13 +164,13 @@ in
 
   programs.rofi = {
     enable = true;
-    font = "JetBrainsMono Nerd Font 14";
-    terminal = terminal;
     plugins = with pkgs; [
       rofi-calc
       rofi-emoji
     ];
-    extraConfig = {
+    settings = {
+      font = "JetBrainsMono Nerd Font 14";
+      terminal = terminal;
       show-icons = true;
       icon-theme = "Adwaita";
       modi = "drun,calc,emoji,run";

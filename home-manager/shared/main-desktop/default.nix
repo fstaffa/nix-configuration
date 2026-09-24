@@ -23,8 +23,6 @@
 
     streamcontroller
 
-    davinci-resolve-studio
-
     bubblewrap
     quickemu
 

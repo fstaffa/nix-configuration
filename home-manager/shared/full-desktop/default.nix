@@ -21,8 +21,6 @@
 
     streamcontroller
 
-    davinci-resolve-studio
-
     quickemu
 
     bambu-studio-appimage
