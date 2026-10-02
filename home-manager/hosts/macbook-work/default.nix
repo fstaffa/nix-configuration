@@ -22,6 +22,13 @@
     stateVersion = "22.05";
   };
 
+  # The system-level nix.gc only cleans root's profiles; this prunes the
+  # user's home-manager / nix profile generations.
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 14d";
+  };
+
   home.packages = with pkgs; [
     coreutils
     fnm

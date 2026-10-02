@@ -9,7 +9,11 @@
       Hour = 0;
       Minute = 0;
     };
-    options = "--delete-older-than 30d";
+    options = "--delete-older-than 14d";
+  };
+  nix.settings = {
+    min-free = 10 * 1024 * 1024 * 1024;
+    max-free = 30 * 1024 * 1024 * 1024;
   };
   nix.optimise.automatic = true;
   nix.enable = true;

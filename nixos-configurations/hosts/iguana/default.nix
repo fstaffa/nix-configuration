@@ -16,6 +16,24 @@
 
   networking.hostName = "iguana";
 
+  # nh replaces the shared nix.gc: it also prunes user (home-manager / nix
+  # profile) generations and stale .direnv / result gcroots.
+  nix.gc.automatic = lib.mkForce false;
+  programs.nh = {
+    enable = true;
+    flake = "/home/mathematician314/data/personal/nix-configuration";
+    clean = {
+      enable = true;
+      dates = "weekly";
+      extraArgs = "--keep 5 --keep-since 14d";
+    };
+  };
+  nix.optimise.automatic = true;
+  nix.settings = {
+    min-free = 20 * 1024 * 1024 * 1024;
+    max-free = 60 * 1024 * 1024 * 1024;
+  };
+
   myDesktop.full.enable = true;
   myDesktop.fpv.enable = true;
 
