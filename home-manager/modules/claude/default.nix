@@ -1,58 +1,80 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
+  cfg = config.programs.claude;
+
   agentsDir = ./agents;
   agentFiles = builtins.readDir agentsDir;
   mdFiles = lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".md" name) agentFiles;
 
   outputStylesDir = ./output-styles;
   outputStyleFiles = builtins.readDir outputStylesDir;
-  outputStyleMdFiles = lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".md" name) outputStyleFiles;
+  outputStyleMdFiles = lib.filterAttrs (
+    name: type: type == "regular" && lib.hasSuffix ".md" name
+  ) outputStyleFiles;
+
+  claudeMd =
+    builtins.readFile ./CLAUDE.md
+    + lib.optionalString (cfg.extraInstructions != "") ("\n" + cfg.extraInstructions);
 in
 {
-  home.file = {
-    ".claude/CLAUDE.md".source = ./CLAUDE.md;
-    ".claude/settings.json".source = ./settings.json;
-    ".local/bin/claude-statusline" = {
-      source = ./statusline.sh;
-      executable = true;
-    };
-    ".local/bin/claude-hook-block-gh-api-writes" = {
-      source = ./hooks/block-gh-api-writes.sh;
-      executable = true;
-    };
-    ".local/bin/claude-hook-block-git-global-flags" = {
-      source = ./hooks/block-git-global-flags.sh;
-      executable = true;
-    };
-  } // lib.mapAttrs' (name: _: {
-    name = ".claude/agents/${name}";
-    value.source = agentsDir + "/${name}";
-  }) mdFiles
-  // lib.mapAttrs' (name: _: {
-    name = ".claude/output-styles/${name}";
-    value.source = outputStylesDir + "/${name}";
-  }) outputStyleMdFiles;
+  options.programs.claude.extraInstructions = lib.mkOption {
+    type = lib.types.lines;
+    default = "";
+    description = "Machine-specific Markdown appended to the shared global CLAUDE.md.";
+  };
 
-  home.activation.registerLabeClaudeMarketplace = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    MARKETPLACE_FILE="$HOME/.claude/plugins/known_marketplaces.json"
-    mkdir -p "$(dirname "$MARKETPLACE_FILE")"
-    if [ ! -f "$MARKETPLACE_FILE" ]; then
-      echo '{}' > "$MARKETPLACE_FILE"
-    fi
-    ${pkgs.jq}/bin/jq --arg path "$HOME/data/cimpress/labe-claude" '
-      if has("labe-claude") then . else
-        . + {
-          "labe-claude": {
-            "source": {
-              "source": "directory",
-              "path": $path
-            },
-            "installLocation": $path,
-            "lastUpdated": "1970-01-01T00:00:00.000Z"
+  config = {
+    home.file = {
+      ".claude/CLAUDE.md".text = claudeMd;
+      ".claude/settings.json".source = ./settings.json;
+      ".local/bin/claude-statusline" = {
+        source = ./statusline.sh;
+        executable = true;
+      };
+      ".local/bin/claude-hook-block-gh-api-writes" = {
+        source = ./hooks/block-gh-api-writes.sh;
+        executable = true;
+      };
+      ".local/bin/claude-hook-block-git-global-flags" = {
+        source = ./hooks/block-git-global-flags.sh;
+        executable = true;
+      };
+    }
+    // lib.mapAttrs' (name: _: {
+      name = ".claude/agents/${name}";
+      value.source = agentsDir + "/${name}";
+    }) mdFiles
+    // lib.mapAttrs' (name: _: {
+      name = ".claude/output-styles/${name}";
+      value.source = outputStylesDir + "/${name}";
+    }) outputStyleMdFiles;
+
+    home.activation.registerLabeClaudeMarketplace = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      MARKETPLACE_FILE="$HOME/.claude/plugins/known_marketplaces.json"
+      mkdir -p "$(dirname "$MARKETPLACE_FILE")"
+      if [ ! -f "$MARKETPLACE_FILE" ]; then
+        echo '{}' > "$MARKETPLACE_FILE"
+      fi
+      ${pkgs.jq}/bin/jq --arg path "$HOME/data/cimpress/labe-claude" '
+        if has("labe-claude") then . else
+          . + {
+            "labe-claude": {
+              "source": {
+                "source": "directory",
+                "path": $path
+              },
+              "installLocation": $path,
+              "lastUpdated": "1970-01-01T00:00:00.000Z"
+            }
           }
-        }
-      end
-    ' "$MARKETPLACE_FILE" > "$MARKETPLACE_FILE.tmp" && mv "$MARKETPLACE_FILE.tmp" "$MARKETPLACE_FILE"
-  '';
+        end
+      ' "$MARKETPLACE_FILE" > "$MARKETPLACE_FILE.tmp" && mv "$MARKETPLACE_FILE.tmp" "$MARKETPLACE_FILE"
+    '';
+  };
 }

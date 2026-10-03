@@ -42,6 +42,21 @@
     #cardId = 4256693;
   };
 
+  programs.claude.extraInstructions = ''
+    ## Machine
+
+    This machine (raptor) is a Cimpress work MacBook running macOS via nix-darwin.
+
+    - Don't suggest `brew install` for CLI tools — ad-hoc tools go through
+      `nix shell nixpkgs#<pkg>` or get added to this flake. GUI apps are
+      reasonably installed via `brew cask`.
+    - Go binaries (e.g. `glab`) need `SSL_CERT_FILE` pointed at nix's cacert
+      bundle instead of the macOS keychain for TLS to work in the sandbox.
+    - Claude Code runs sandboxed here (macOS Seatbelt) — some paths or
+      network destinations that exist on this machine will still be denied
+      if they're outside the sandbox allowlist for the session.
+  '';
+
   # add vscode to the path
   home.sessionPath = [
     "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
