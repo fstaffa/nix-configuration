@@ -25,7 +25,7 @@ in
         _args = [
           "hyprland.start"
           (mkLuaInline ''function()
-            hl.exec_cmd("steam")
+            hl.exec_cmd("[workspace 5 silent] steam")
           end'')
         ];
       }

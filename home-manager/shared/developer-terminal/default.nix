@@ -42,8 +42,6 @@
     nixos-anywhere
 
     claude-code
-    opencode
-    github-copilot-cli
 
     eas-cli
 

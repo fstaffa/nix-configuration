@@ -88,16 +88,9 @@ fi
 # End Nix
 ```
 
-## Doom emacs + vterm
+## Doom emacs + ghostel
 
-There is a problem building vterm with nix gcc, following operations need to be done to build it correctly:
-
-``` sh
-export CC=clang CXX=clang++
-doom sync && doom build
-```
-
-then open vterm in emacs and it will compile
+The terminal is ghostel (libghostty). Its native module is a prebuilt binary that is downloaded on first use, so no compiler setup is needed.
 
 
 # Linux with zfs

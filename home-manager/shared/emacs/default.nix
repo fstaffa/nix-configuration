@@ -27,14 +27,7 @@ in
 
       # needed for emacs-sqllite
       gcc
-      # vterm
-      cmake
       gnumake
-      libtool
-      glibtool # needed on macos, which uses glibtool instead of libtool
-
-      # needed for vterm
-      emacs.pkgs.vterm
 
       nodejs_24
       # Typescript

@@ -14,17 +14,20 @@ The flake structure follows a three-tier architecture:
    - `nixos-configurations/` - NixOS system configurations
    - `darwin-configurations/` - macOS (nix-darwin) system configurations
    - `home-manager/` - Home Manager user environment configurations
+   - `common/` - Files shared across platforms (e.g. `certificates/`)
 
 2. **Host-specific vs shared modules**: Each platform directory contains:
    - `hosts/` - Per-machine configurations that import from shared modules
-   - `shared/` - Reusable modules (e.g., common, desktop, terminal, work)
-   - `modules/` - Custom NixOS/home-manager modules (home-manager only)
+   - `shared/` - Reusable modules. NixOS: `common`, `desktop`, `proxmox-guest`, `ssh-server`, `vm`, `vm-host`. Home-manager: `base-terminal`, `developer-terminal`, `base-desktop`, `developer-desktop`, `full-desktop`, `main-desktop`, `hyprland`, `emacs`, `work`, etc.
+   - `modules/` - Custom home-manager modules (home-manager only): `agent-os`, `aws`, `claude`, `gpg-personal`, `openshell`, `project`
 
 3. **Flake outputs**: Defined in `flake.nix`:
-   - `homeConfigurations` - Home Manager profiles (mathematician314@iguana, fstaffa@raptor)
-   - `nixosConfigurations` - NixOS systems (iguana, vm-test, base-server-iso, downloader)
+   - `homeConfigurations` - Home Manager profiles (mathematician314@iguana, mathematician314@raptor-vm, fstaffa@raptor)
+   - `nixosConfigurations` - NixOS systems (iguana, vm-test, base-server-iso, downloader, raptor-vm)
    - `darwinConfigurations` - macOS systems (raptor)
    - `legacyPackages` - Package overlays (e.g., burpsuite pro edition)
+
+   Note: the `raptor` outputs (darwin and `fstaffa@raptor` home-manager) are backed by the `macbook-work` host directories.
 
 ## Key Commands
 
@@ -53,7 +56,10 @@ sudo nixos-rebuild switch --flake "."
 # Apply home-manager only
 home-manager switch --flake "."
 
-# Apply darwin (macOS) configuration
+# Apply both home-manager and darwin on macOS
+make switch.macos
+
+# Apply darwin (macOS) configuration only
 darwin-rebuild switch --flake ".#raptor"
 ```
 
@@ -71,8 +77,9 @@ nix fmt
 
 ## Hosts
 
-- **iguana**: Main Linux desktop (x86_64, NixOS with ZFS, Plasma 6, VM host)
-- **raptor**: Work MacBook (aarch64-darwin, macOS with nix-darwin)
+- **iguana**: Main Linux desktop (x86_64, NixOS with ZFS, Hyprland, VM host)
+- **raptor**: Work MacBook (aarch64-darwin, macOS with nix-darwin); host directories are named `macbook-work`
+- **raptor-vm**: Developer VM (x86_64, NixOS with disko, `myDesktop.developer`)
 - **vm-test**: Test VM (x86_64, NixOS)
 - **base-server-iso**: Server installation ISO
 - **downloader**: Server configuration
@@ -80,11 +87,7 @@ nix fmt
 ## Special Considerations
 
 ### Emacs
-Uses emacs-overlay with custom Emacs 31 builds from source. On macOS, vterm requires special compilation:
-```sh
-export CC=clang CXX=clang++
-doom sync && doom build
-```
+Uses emacs-overlay with custom Emacs 31 builds from source. The terminal is ghostel, whose native module is a prebuilt binary downloaded on first use (no vterm compilation needed). The Doom config, where ghostel is set up, lives in a separate repository, not here.
 
 ### ZFS Installation
 For systems like iguana, ZFS installation follows a custom script at `nixos-configurations/hosts/iguana/zfs-install.sh`. See README.md for full installation procedure.
@@ -93,7 +96,7 @@ For systems like iguana, ZFS installation follows a custom script at `nixos-conf
 The flake imports a personal package repository (`github:fstaffa/nix-packages`) passed as `extraSpecialArgs` to configurations.
 
 ### Custom CA Certificate
-Darwin and potentially other configurations trust a custom CA at `common/certificates/ca.pem`.
+The darwin host and all NixOS hosts (via `nixos-configurations/shared/common`) trust the custom CAs `common/certificates/ca.pem` and `common/certificates/home-arpa-ca.crt`.
 
 ### Custom Packages
 The `packages/` directory contains custom package definitions that are automatically discovered by `packages/default.nix`.
@@ -124,6 +127,8 @@ Claude Code settings are managed via home-manager, not edited directly. The conf
 - `home-manager/modules/claude/settings.json` — main settings (deployed to `~/.claude/settings.json`)
 - `home-manager/modules/claude/statusline.sh` — status line script (deployed to `~/.local/bin/claude-statusline`)
 - `home-manager/modules/claude/agents/` — custom agent definitions
+- `home-manager/modules/claude/hooks/` — PreToolUse hook scripts (block `git -C`-style global flags, block `gh api` writes)
+- `home-manager/modules/claude/CLAUDE.md` — Claude Code instructions deployed by the module
 - `home-manager/modules/claude/output-styles/` — output style definitions
 
 To apply changes: `home-manager switch --flake "."` (or `make switch.linux` on iguana).
@@ -138,11 +143,11 @@ When modifying configurations:
 
 ### Hyprland autostart apps must target an explicit workspace
 
-Every `hl.exec_cmd(...)` call in a `settings.on` startup handler (see
+Every `hl.exec_cmd(...)` call that launches a windowed app in a `settings.on` startup handler (see
 `home-manager/shared/hyprland/*.nix`) must use the `[workspace <name> silent]`
 rule tag, e.g. `hl.exec_cmd("[workspace 1 silent] firefox")`. A bare
 `hl.exec_cmd("firefox")` launches onto whatever workspace is focused at
 startup — which can be a workspace bound to a non-rendering monitor (e.g. one
 mirroring another display), leaving the app running but invisible on any
-screen. Never add a new autostart app without this tag.
+screen. Never add a new autostart app without this tag. Windowless background daemons (waybar, swaync, wl-paste, wlsunset, polkit agent) are exempt.
 
