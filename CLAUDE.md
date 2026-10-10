@@ -25,7 +25,7 @@ The flake structure follows a three-tier architecture:
    - `homeConfigurations` - Home Manager profiles (mathematician314@iguana, mathematician314@raptor-vm, fstaffa@raptor)
    - `nixosConfigurations` - NixOS systems (iguana, vm-test, base-server-iso, downloader, raptor-vm)
    - `darwinConfigurations` - macOS systems (raptor)
-   - `legacyPackages` - Package overlays (e.g., burpsuite pro edition)
+   - `legacyPackages` - Package overlays
 
    Note: the `raptor` outputs (darwin and `fstaffa@raptor` home-manager) are backed by the `macbook-work` host directories.
 

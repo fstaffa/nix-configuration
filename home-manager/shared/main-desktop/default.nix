@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     # Applications
-    burpsuite
     slack
     vlc
 

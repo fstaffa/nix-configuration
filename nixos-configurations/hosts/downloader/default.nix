@@ -15,11 +15,6 @@
   # Enable QEMU guest agent for Proxmox integration
   services.qemuGuest.enable = true;
 
-  # System packages
-  environment.systemPackages = with pkgs; [
-    tidal-dl-ng
-  ];
-
   # System state version
   system.stateVersion = "24.05";
 }

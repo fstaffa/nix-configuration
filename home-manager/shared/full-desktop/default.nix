@@ -13,7 +13,6 @@
     jetbrains.datagrip
     jetbrains.webstorm
     jetbrains.rider
-    burpsuite
 
     # video
     obs-studio

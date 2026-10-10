@@ -103,13 +103,9 @@
           # This adds our overlays to pkgs
           overlays = [
             (final: prev: {
-              burpsuite = prev.burpsuite.override {
-                iconName = "pro";
-              };
-
+              claude-code = inputs.claude-code-nix.packages.${system}.default;
               # Packages from unstable-small for frequent updates
               # These are CLI tools with few dependencies that benefit from faster updates
-              claude-code = inputs.claude-code-nix.packages.${system}.default;
               ripgrep = pkgs-unstable-small.ripgrep;
               gh = pkgs-unstable-small.gh;
               glab = pkgs-unstable-small.glab;
