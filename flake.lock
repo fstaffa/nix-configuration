@@ -117,6 +117,24 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -220,7 +238,8 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable-small": "nixpkgs-unstable-small",
         "personal-packages": "personal-packages",
-        "streamcontroller": "streamcontroller"
+        "streamcontroller": "streamcontroller",
+        "voxtype": "voxtype"
       }
     },
     "streamcontroller": {
@@ -270,6 +289,21 @@
         "type": "github"
       }
     },
+    "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "terraform_0_13-nixpkgs": {
       "locked": {
         "lastModified": 1618859633,
@@ -299,6 +333,27 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "bf972dc380f36a3bf83db052380e55f0eaa7dcb6",
+        "type": "github"
+      }
+    },
+    "voxtype": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790474872,
+        "narHash": "sha256-DAleQSKMcYkqTcuKhi16ZOTuhL/1Y6lelivg2dNGElw=",
+        "owner": "peteonrails",
+        "repo": "voxtype",
+        "rev": "6d2fc6ddbf791ac00d6a54dc002664010c16b100",
+        "type": "github"
+      },
+      "original": {
+        "owner": "peteonrails",
+        "repo": "voxtype",
         "type": "github"
       }
     }

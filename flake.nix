@@ -29,6 +29,10 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     claude-code-nix.url = "github:sadjow/claude-code-nix";
+
+    # Push-to-talk voice-to-text (newer than nixpkgs, ships HM module + models)
+    voxtype.url = "github:peteonrails/voxtype";
+    voxtype.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

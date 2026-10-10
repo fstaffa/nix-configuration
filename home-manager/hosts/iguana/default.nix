@@ -16,6 +16,7 @@
     ../../shared/alacritty
     ../../shared/ghostty
     ./hyprland.nix
+    ./voxtype.nix
     ../../shared/full-desktop
     ../../shared/fpv
   ];
