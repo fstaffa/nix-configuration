@@ -91,6 +91,14 @@ in
 
   services.swaync.enable = true;
 
+  # Auto-mounts removable drives on plug-in (talks to udisks2)
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+    tray = "never";
+  };
+
   services.hypridle = {
     enable = true;
     settings = {
