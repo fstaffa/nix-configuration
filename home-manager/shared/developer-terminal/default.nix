@@ -42,6 +42,7 @@
     nixos-anywhere
 
     claude-code
+    ccusage
 
     eas-cli
 

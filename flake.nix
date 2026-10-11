@@ -28,7 +28,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    claude-code-nix.url = "github:sadjow/claude-code-nix";
+    llm-agents.url = "github:numtide/llm-agents.nix";
 
     # Push-to-talk voice-to-text (newer than nixpkgs, ships HM module + models)
     voxtype.url = "github:peteonrails/voxtype";
@@ -103,7 +103,9 @@
           # This adds our overlays to pkgs
           overlays = [
             (final: prev: {
-              claude-code = inputs.claude-code-nix.packages.${system}.default;
+              claude-code = inputs.llm-agents.packages.${system}.claude-code;
+              claude-agent-acp = inputs.llm-agents.packages.${system}.claude-agent-acp;
+              ccusage = inputs.llm-agents.packages.${system}.ccusage;
               # Packages from unstable-small for frequent updates
               # These are CLI tools with few dependencies that benefit from faster updates
               ripgrep = pkgs-unstable-small.ripgrep;
