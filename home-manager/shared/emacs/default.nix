@@ -45,6 +45,9 @@ in
       html-tidy
 
       exercism
+
+      # ACP server used by agent-shell
+      claude-agent-acp
     ]
     ++ (if pkgs.stdenv.hostPlatform.isDarwin then [ ] else [ emacs31-pgtk ]);
 
