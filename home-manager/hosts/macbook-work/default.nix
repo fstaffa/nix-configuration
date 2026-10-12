@@ -32,7 +32,10 @@
   home.packages = with pkgs; [
     coreutils
     fnm
+    llama-cpp
   ];
+
+  services.ollama.enable = true;
 
   programs.gpg-personal = {
     enable = true;
@@ -63,6 +66,9 @@
     "${config.home.homeDirectory}/.rd/bin"
   ];
   programs.zsh = {
+    profileExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+    '';
     initContent = lib.mkBefore ''
 
       if command -v fnm &> /dev/null

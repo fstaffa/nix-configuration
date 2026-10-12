@@ -56,6 +56,7 @@ printf 'run\tprivate/var/run\n' | sudo tee -a /etc/synthetic.conf
 ./result/sw/bin/darwin-rebuild switch --flake ".#raptor"
 
 nix run nix-darwin -- switch --flake .#raptor
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
 ## Download apps

@@ -19,6 +19,15 @@ function aws-sapidus {
 export AWS_PROFILE="logisticsquotingplanning@admin"
 export AWS_REGION=eu-west-1
 
+# Claude Code on Bedrock. Kept out of ~/.claude/settings.json because its "env" block
+# overrides the process environment and would make the backend impossible to switch
+# per session (Emacs agent-shell blanks these for subscription mode, see ~/.doom.d/agent.el).
+export CLAUDE_CODE_USE_BEDROCK=1
+export ANTHROPIC_DEFAULT_OPUS_MODEL="eu.anthropic.claude-opus-5-5"
+export ANTHROPIC_DEFAULT_SONNET_MODEL="global.anthropic.claude-sonnet-5-5"
+export ANTHROPIC_DEFAULT_HAIKU_MODEL="global.anthropic.claude-haiku-5-5"
+export ANTHROPIC_SMALL_FAST_MODEL="global.anthropic.claude-haiku-5-5"
+
 function bastion_key {
     SSH_KEY_FILE=~/.ssh/bastion_connect
     rm $SSH_KEY_FILE*
