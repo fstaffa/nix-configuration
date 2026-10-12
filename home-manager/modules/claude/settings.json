@@ -4,6 +4,11 @@
     "command": "~/.local/bin/claude-statusline"
   },
   "model": "sonnet",
+  "outputStyle": "Terse",
+  "promptSuggestionEnabled": false,
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
   "includeCoAuthoredBy": false,
   "sandbox": {
     "enabled": true,
