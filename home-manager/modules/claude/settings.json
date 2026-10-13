@@ -7,7 +7,8 @@
   "outputStyle": "Terse",
   "promptSuggestionEnabled": false,
   "env": {
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+    "AWS_PROFILE": "bedrock",
+    "AWS_REGION": "eu-west-1"
   },
   "includeCoAuthoredBy": false,
   "sandbox": {

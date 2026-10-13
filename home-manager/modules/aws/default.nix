@@ -8,6 +8,11 @@ let
 in {
   options.programs.aws = {
     enable = mkEnableOption "aws setup with bastions";
+    extraProfiles = mkOption {
+      type = types.attrsOf (types.attrsOf types.str);
+      default = { };
+      description = "Additional plain AWS profiles (name -> config keys), e.g. credential_process profiles.";
+    };
     accounts = mkOption {
       type = types.attrsOf (types.submodule {
         options = {
@@ -17,6 +22,10 @@ in {
             default = false;
           };
           region = mkOption { type = types.str; };
+          credentialProcess = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+          };
           bastion = mkOption {
             type = types.submodule {
               options = {
@@ -87,8 +96,14 @@ in {
 
     home.file."${config.home.homeDirectory}/.aws/config".source =
       iniFormat.generate "aws-config" ((mapAttrs' (name: value: {
+        name = "profile ${name}";
+        inherit value;
+      }) cfg.extraProfiles) // (mapAttrs' (name: value: {
         name = "profile ${value.profile}";
-        value = { region = value.region; };
+        value = { region = value.region; }
+          // optionalAttrs (value.credentialProcess != null) {
+            credential_process = value.credentialProcess;
+          };
       }) cfg.accounts) // (mapAttrs' (name: value: {
         name = if value.createAdminProfile then
           "profile ${value.profile}@admin"

@@ -29,11 +29,16 @@ in
 
   programs.aws = {
     enable = true;
+    extraProfiles.bedrock = {
+      region = "eu-west-1";
+      credential_process = "stskeygen --account fulfillment-bedrock --credential-process --role Labe+developers --duration 43200";
+    };
     accounts = {
       planning = {
         profile = "logisticsquotingplanning";
         createAdminProfile = true;
         region = "eu-west-1";
+        credentialProcess = "stskeygen --account logisticsquotingplanning --credential-process --duration 43200";
         bastion = {
           hostname = "i-008db41b02b2f3923";
           availabilityZone = "eu-west-1a";
