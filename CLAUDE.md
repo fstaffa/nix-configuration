@@ -64,7 +64,7 @@ darwin-rebuild switch --flake ".#raptor"
 ```
 
 ### Updating dependencies
-```sh
+``sh
 make update
 # or: nix flake update
 ```
