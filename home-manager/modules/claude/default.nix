@@ -18,6 +18,9 @@ let
     name: type: type == "regular" && lib.hasSuffix ".md" name
   ) outputStyleFiles;
 
+  skillsDir = ./skills;
+  skillDirs = lib.filterAttrs (_: type: type == "directory") (builtins.readDir skillsDir);
+
   claudeMd =
     builtins.readFile ./CLAUDE.md
     + lib.optionalString (cfg.extraInstructions != "") ("\n" + cfg.extraInstructions);
@@ -53,7 +56,11 @@ in
     // lib.mapAttrs' (name: _: {
       name = ".claude/output-styles/${name}";
       value.source = outputStylesDir + "/${name}";
-    }) outputStyleMdFiles;
+    }) outputStyleMdFiles
+    // lib.mapAttrs' (name: _: {
+      name = ".claude/skills/${name}";
+      value.source = skillsDir + "/${name}";
+    }) skillDirs;
 
     home.activation.registerLabeClaudeMarketplace = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       MARKETPLACE_FILE="$HOME/.claude/plugins/known_marketplaces.json"
