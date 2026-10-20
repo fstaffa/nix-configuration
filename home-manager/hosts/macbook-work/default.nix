@@ -33,6 +33,7 @@
     coreutils
     fnm
     llama-cpp
+    open-webui
   ];
 
   services.ollama.enable = true;

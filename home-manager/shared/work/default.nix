@@ -38,7 +38,6 @@ in
         profile = "logisticsquotingplanning";
         createAdminProfile = true;
         region = "eu-west-1";
-        credentialProcess = "stskeygen --account logisticsquotingplanning --credential-process --duration 43200";
         bastion = {
           hostname = "i-008db41b02b2f3923";
           availabilityZone = "eu-west-1a";
