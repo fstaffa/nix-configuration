@@ -18,7 +18,16 @@
     programs.gamescope.enable = true;
 
     # obs virtual camera
-    boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+    # nixpkgs kernel.dev now ships System.map, so the kernel's modules_install
+    # runs depmod; strip its index files so they don't collide with the
+    # kernel's own in the modules buildEnv. Drop once fixed upstream.
+    boot.extraModulePackages = [
+      (config.boot.kernelPackages.v4l2loopback.overrideAttrs (old: {
+        postInstall = (old.postInstall or "") + ''
+          rm -f $out/lib/modules/*/modules.*
+        '';
+      }))
+    ];
     boot.kernelModules = [ "v4l2loopback" ];
     boot.extraModprobeConfig = ''
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
