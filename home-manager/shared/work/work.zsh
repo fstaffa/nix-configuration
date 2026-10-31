@@ -28,6 +28,35 @@ export ANTHROPIC_DEFAULT_SONNET_MODEL="global.anthropic.claude-sonnet-5-5"
 export ANTHROPIC_DEFAULT_HAIKU_MODEL="global.anthropic.claude-haiku-5-5"
 export ANTHROPIC_SMALL_FAST_MODEL="global.anthropic.claude-haiku-5-5"
 
+# Interactive `claude` asks which backend to use; non-TTY callers get Bedrock.
+# Only shadows the binary in interactive zsh, so Emacs/scripts are unaffected.
+function claude-bedrock {
+    command claude "$@"
+}
+
+function claude-sub {
+    env -u CLAUDE_CODE_USE_BEDROCK \
+        -u ANTHROPIC_DEFAULT_OPUS_MODEL \
+        -u ANTHROPIC_DEFAULT_SONNET_MODEL \
+        -u ANTHROPIC_DEFAULT_HAIKU_MODEL \
+        -u ANTHROPIC_SMALL_FAST_MODEL \
+        claude "$@"
+}
+
+function claude {
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        claude-bedrock "$@"
+        return
+    fi
+    local choice
+    read -k 1 "choice?Claude backend: [B]edrock / [s]ubscription? "
+    echo
+    case $choice in
+        s|S) claude-sub "$@" ;;
+        *) claude-bedrock "$@" ;;
+    esac
+}
+
 function bastion_key {
     SSH_KEY_FILE=~/.ssh/bastion_connect
     rm $SSH_KEY_FILE*
