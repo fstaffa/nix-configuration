@@ -38,6 +38,8 @@
     "service-documenter@labe-claude": true,
     "write-epic@labe-claude": true,
     "apply-mr-review@labe-claude": true,
+    "update-dependencies@labe-claude": true,
+    "quick-review@labe-claude": true,
     "create-support-ticket@labe-claude": true
   },
   "hooks": {
