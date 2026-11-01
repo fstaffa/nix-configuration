@@ -12,6 +12,7 @@
     jetbrains.datagrip
     jetbrains.webstorm
     jetbrains.rider
+    jetbrains.clion
     vscode-fhs
     bruno-appimage
     bruno-cli

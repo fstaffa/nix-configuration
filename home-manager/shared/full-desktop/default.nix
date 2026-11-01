@@ -31,6 +31,7 @@ in
     jetbrains.datagrip
     jetbrains.webstorm
     jetbrains.rider
+    jetbrains.clion
 
     # video
     obs-studio
