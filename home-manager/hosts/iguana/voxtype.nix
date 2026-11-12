@@ -14,7 +14,14 @@ in
   programs.voxtype = {
     enable = true;
     # Vulkan build runs whisper.cpp on the RX 9070 XT.
-    package = inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.vulkan;
+    # sqlite: upstream flake doesn't list it, so linking -lsqlite3 fails; drop once fixed upstream.
+    package = inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.vulkan.overrideAttrs (old: {
+      paths = [
+        (inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.voxtype-vulkan-unwrapped.overrideAttrs (u: {
+          buildInputs = u.buildInputs ++ [ pkgs.sqlite ];
+        }))
+      ];
+    });
     model.name = "large-v3-turbo"; # multilingual (Czech + English)
     service.enable = true;
     settings = {

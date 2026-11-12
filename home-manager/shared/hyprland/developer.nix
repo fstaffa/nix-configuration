@@ -12,7 +12,7 @@ in
           (mkLuaInline ''function()
             hl.exec_cmd("[workspace special:slack silent] slack")
             hl.exec_cmd("[workspace 1 silent] emacs")
-            hl.exec_cmd("[workspace special:brave silent] brave")
+            hl.exec_cmd("[workspace special:brave silent] vivaldi")
           end'')
         ];
       }
@@ -26,7 +26,7 @@ in
       }
       {
         name = "brave-special";
-        match.class = "^brave-browser$";
+        match.class = "^vivaldi-stable$";
         workspace = "special:brave silent";
       }
     ];

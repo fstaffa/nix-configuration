@@ -76,6 +76,6 @@
 
   security.polkit.enable = true;
 
-  environment.etc."brave/policies/managed/disable-incognito.json".text = builtins.toJSON {
+  environment.etc."vivaldi/policies/managed/disable-incognito.json".text = builtins.toJSON {
   };
 }

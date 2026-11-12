@@ -16,10 +16,10 @@
 
   programs.chromium = {
     enable = true;
-    package = pkgs.brave;
+    package = pkgs.vivaldi;
     commandLineArgs = [
       "--disable-features=WaylandWpColorManagerV1"
-      "--lang=ja"
+      "--force-device-scale-factor=1"
     ];
   };
 }
