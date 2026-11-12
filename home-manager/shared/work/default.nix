@@ -43,7 +43,7 @@ in
           availabilityZone = "eu-west-1a";
         };
         hosts = {
-          gitlab-runner-labe = "i-078ae4fcfd4fa9dff";
+          gitlab-runner-labe = "i-087d274e7f78fe860";
         };
       };
     };
