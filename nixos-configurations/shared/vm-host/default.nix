@@ -22,6 +22,9 @@
     autoPrune.enable = true;
   };
 
+  # qemu user-mode emulation so docker can build/run linux/arm64 images
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # TODO: remove once https://github.com/NixOS/nixpkgs/pull/496839 lands
   # libvirt ships a service unit hardcoding /usr/bin/sh which doesn't exist on NixOS
   systemd.services.virt-secret-init-encryption.serviceConfig.ExecStart = [

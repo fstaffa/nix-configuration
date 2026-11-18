@@ -88,5 +88,6 @@ function docker-build {
         --build-arg ctArtifactoryUrl=$CT_ARTIFACTORY_URL \
         --build-arg ctArtifactoryUser=$CT_ARTIFACTORY_USER \
         --build-arg ctArtifactoryApiKey=$CT_ARTIFACTORY_API_KEY \
-        -f ./Dockerfile
+        -f ./Dockerfile \
+        "$@" .
 }
