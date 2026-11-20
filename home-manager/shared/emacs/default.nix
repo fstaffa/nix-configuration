@@ -29,7 +29,7 @@ in
       gcc
       gnumake
 
-      nodejs_24
+      nodejs_26
       # Typescript
       typescript
       typescript-language-server
