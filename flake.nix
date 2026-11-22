@@ -4,17 +4,11 @@
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable-small.url = "github:NixOS/nixpkgs/nixos-unstable-small";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs";
 
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     personal-packages.url = "github:fstaffa/nix-packages";
     personal-packages.inputs.nixpkgs.follows = "nixpkgs";
-
-    emacsNext-src.url = "github:emacs-mirror/emacs";
-    emacsNext-src.flake = false;
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/master";
@@ -42,9 +36,7 @@
       darwin,
       nixpkgs,
       nixpkgs-unstable-small,
-      emacs-overlay,
       personal-packages,
-      emacsNext-src,
       streamcontroller,
       disko,
       ...
@@ -144,11 +136,6 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-git-pgtk.overrideAttrs (_: {
-              name = "emacs31";
-              version = "31.0-${inputs.emacsNext-src.shortRev}";
-              src = inputs.emacsNext-src;
-            });
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/iguana ];
@@ -159,11 +146,6 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.aarch64-darwin;
-            emacs31-pgtk = emacs-overlay.packages.aarch64-darwin.emacs-git-pgtk.overrideAttrs (_: {
-              name = "emacs31";
-              version = "31.0-${inputs.emacsNext-src.shortRev}";
-              src = inputs.emacsNext-src;
-            });
           }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
           modules = [ ./home-manager/hosts/macbook-work ];
@@ -173,11 +155,6 @@
           extraSpecialArgs = {
             inherit inputs;
             personal-packages = personal-packages.packages.x86_64-linux;
-            emacs31-pgtk = emacs-overlay.packages.x86_64-linux.emacs-git-pgtk.overrideAttrs (_: {
-              name = "emacs31";
-              version = "31.0-${inputs.emacsNext-src.shortRev}";
-              src = inputs.emacsNext-src;
-            });
           };
           modules = [ ./home-manager/hosts/raptor-vm ];
         };

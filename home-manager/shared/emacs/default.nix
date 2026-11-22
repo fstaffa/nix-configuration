@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  emacs31-pgtk,
   inputs,
   ...
 }:
@@ -49,7 +48,7 @@ in
       # ACP server used by agent-shell
       claude-agent-acp
     ]
-    ++ (if pkgs.stdenv.hostPlatform.isDarwin then [ ] else [ emacs31-pgtk ]);
+    ++ (if pkgs.stdenv.hostPlatform.isDarwin then [ ] else [ pkgs.emacs-pgtk ]);
 
   home.file = {
     ".authinfo.gpg".source = ./.authinfo.gpg;
